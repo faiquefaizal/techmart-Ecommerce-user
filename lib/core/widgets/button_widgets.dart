@@ -43,3 +43,55 @@ class CustemButton extends StatelessWidget {
     );
   }
 }
+
+class CustemDropDown extends StatefulWidget {
+  String label;
+  List<DropdownMenuItem> items;
+  String? seletedValue;
+  CustemDropDown({
+    required this.label,
+    required this.items,
+    required this.seletedValue,
+  });
+
+  @override
+  State<CustemDropDown> createState() => _CustemDropDownState();
+}
+
+class _CustemDropDownState extends State<CustemDropDown> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 5),
+        Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w700)),
+        const SizedBox(height: 8),
+        DropdownButtonFormField(
+          value: widget.seletedValue,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(
+                color: const Color.fromARGB(255, 229, 229, 229),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.black),
+            ),
+          ),
+          hint: Text("Select your Gender"),
+          items: widget.items,
+          icon: Icon(Icons.arrow_drop_down_outlined),
+
+          onChanged: (value) {
+            setState(() {
+              widget.seletedValue = value;
+            });
+          },
+        ),
+      ],
+    );
+  }
+}

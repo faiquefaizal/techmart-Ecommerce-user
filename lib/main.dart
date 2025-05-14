@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/screens/login_screen.dart';
+import 'package:techmart/screens/privacy_policy.dart';
 import 'package:techmart/screens/sign_up_screen.dart';
 import 'package:techmart/screens/spash_screen.dart';
+import 'package:techmart/screens/terms_and_condition.dart';
 import 'package:techmart/screens/welcome_screen.dart';
 
 void main() {
@@ -48,6 +50,8 @@ class MyApp extends StatelessWidget {
         "welcome": (context) => WelcomeScreen(),
         "loginscreen": (context) => LoginScreen(),
         "SignUp": (context) => SignUpScreen(),
+        "privacyPolicy": (context) => PrivacyPolicyScreen(),
+        "termsandcondition": (context) => TermsAndConditionsPage(),
       },
     );
   }
