@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
 
 part 'auth_bloc_event.dart';
@@ -14,19 +17,32 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     on<Register>(_register);
   }
 
-  void _authcheck(AuthCheckEvent event, Emitter<AuthBlocState> emit) {
+  void _authcheck(AuthCheckEvent event, Emitter<AuthBlocState> emit) async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    final _isFirst = sharedpref.getBool("_isfirst") ?? false;
+    log("auth check created");
     try {
-      if (authService.checkUserLogedIn() == true) {
+      if (!_isFirst) {
+        await sharedpref.setBool("_isfirst", true);
+        log("welcome emit");
         emit(WelcomeState());
-      } else if (authService.checkUser()) {
+        return;
+      } else if (await authService.checkUser()) {
+        log("autheticated emit");
         emit(Authticated(authService.getUserId()!));
+      } else {
+        emit(UnAuthenticated());
       }
     } catch (e) {
+      log("errorauth");
       emit(ErrorAuth(e.toString()));
     }
   }
 
   void _login(LogininEvent event, Emitter<AuthBlocState> emit) async {
+    log("_loginAithcreated");
+
     emit(AuthBlocLoading());
     try {
       String? user = await authService.signInUser(
@@ -34,11 +50,14 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         password: event.password,
       );
       if (user != null) {
+        log("authiticatedstate");
         emit(Authticated(user));
       } else {
+        log("unauthicatedstate");
         emit(UnAuthenticated());
       }
     } catch (e) {
+      log("error");
       emit(ErrorAuth(e.toString()));
     }
   }

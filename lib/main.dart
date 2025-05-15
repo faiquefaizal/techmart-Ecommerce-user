@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/models/app_routes.dart';
-import 'package:techmart/features/authentication/bloc/auth_bloc_bloc.dart';
+import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 import 'package:techmart/features/authentication/screens/home_screen.dart';
 import 'package:techmart/features/authentication/screens/login_screen.dart';
 import 'package:techmart/features/authentication/screens/privacy_policy.dart';

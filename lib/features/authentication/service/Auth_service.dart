@@ -24,8 +24,10 @@ class AuthService {
     return true;
   }
 
-  bool checkUser() {
+  Future<bool> checkUser() async {
+    await Future.delayed(Duration(seconds: 2));
     User? logincheck = auth.currentUser;
+    log("$logincheck");
     if (logincheck != null) {
       return true;
     }
@@ -82,6 +84,15 @@ class AuthService {
         password: password,
       );
       return currentUser.user!.uid;
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  void signOut() async {
+    try {
+      await auth.signOut();
     } catch (e) {
       log(e.toString());
       rethrow;

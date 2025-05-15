@@ -1,4 +1,4 @@
-part of 'auth_bloc_bloc.dart';
+part of 'auth_bloc.dart';
 
 @immutable
 sealed class AuthBlocEvent {}
@@ -27,3 +27,5 @@ class Register extends AuthBlocEvent {
     required this.phone,
   });
 }
+
+class Logout extends AuthBlocEvent {}

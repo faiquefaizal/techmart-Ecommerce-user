@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/models/app_routes.dart';
-import 'package:techmart/features/authentication/bloc/auth_bloc_bloc.dart';
+import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 import 'package:techmart/features/authentication/screens/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -28,11 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
       body: BlocConsumer<AuthBlocBloc, AuthBlocState>(
         listener: (context, state) {
           if (state is WelcomeState) {
-            Navigator.of(context).pushNamed(AppRoutes.welcome);
+            Navigator.of(context).pushReplacementNamed(AppRoutes.welcome);
           } else if (state is Authticated) {
-            Navigator.of(context).pushNamed(AppRoutes.home);
+            Navigator.of(context).pushReplacementNamed(AppRoutes.home);
           } else if (state is UnAuthenticated) {
-            Navigator.of(context).pushNamed(AppRoutes.login);
+            Navigator.of(context).pushReplacementNamed(AppRoutes.login);
           } else if (state is ErrorAuth) {
             // log(state.error);
             ScaffoldMessenger.of(
