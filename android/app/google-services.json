@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1021568931129",
+    "project_id": "techmart-ecd96",
+    "storage_bucket": "techmart-ecd96.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021568931129:android:4d622e61e00c75e50e04e8",
+        "android_client_info": {
+          "package_name": "com.example.techmart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUVTguKYDn67F2itMhBK9gtsEw0TExKUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
