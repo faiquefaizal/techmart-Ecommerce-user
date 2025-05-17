@@ -114,8 +114,16 @@ class AuthService {
       await auth.signInWithCredential(Gcred);
 
       return auth.currentUser!.uid;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       log("google sign in error${e.toString()}");
+      rethrow;
+    }
+  }
+
+  void passWordReset(String email) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
       rethrow;
     }
   }

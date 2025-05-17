@@ -6,12 +6,13 @@ class CustemButton extends StatelessWidget {
   VoidCallback onpressed;
   Widget? child;
   Color color;
-
+  Color textcolor;
   CustemButton({
     required this.Label,
     required this.onpressed,
     this.child,
     this.color = Colors.black,
+    this.textcolor = Colors.white,
   });
 
   Widget build(BuildContext context) {
@@ -33,7 +34,7 @@ class CustemButton extends StatelessWidget {
             Text(
               Label,
               style: GoogleFonts.lato(
-                color: Colors.white,
+                color: textcolor,
 
                 fontSize: 25,
                 fontWeight: FontWeight.w400,
@@ -44,21 +45,23 @@ class CustemButton extends StatelessWidget {
   }
 }
 
-class CustemDropDown extends StatefulWidget {
+class CustemDropDown<T> extends StatefulWidget {
   String label;
-  List<DropdownMenuItem> items;
-  String? seletedValue;
+  List<DropdownMenuItem<T>> items;
+  T? seletedValue;
+  String? Function(T?)? validator;
   CustemDropDown({
     required this.label,
     required this.items,
     required this.seletedValue,
+    this.validator,
   });
 
   @override
-  State<CustemDropDown> createState() => _CustemDropDownState();
+  State<CustemDropDown<T>> createState() => _CustemDropDownState<T>();
 }
 
-class _CustemDropDownState extends State<CustemDropDown> {
+class _CustemDropDownState<T> extends State<CustemDropDown<T>> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -67,7 +70,8 @@ class _CustemDropDownState extends State<CustemDropDown> {
         SizedBox(height: 5),
         Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
-        DropdownButtonFormField(
+        DropdownButtonFormField<T>(
+          validator: widget.validator,
           value: widget.seletedValue,
           decoration: InputDecoration(
             border: OutlineInputBorder(

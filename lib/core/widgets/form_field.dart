@@ -7,12 +7,14 @@ class CustemTextFIeld extends StatefulWidget {
   final TextEditingController controller;
   final bool password;
   final bool readOnly;
+  String? Function(String?)? validator;
   CustemTextFIeld({
     required this.label,
     required this.hintText,
     required this.controller,
     this.password = false,
     this.readOnly = false,
+    this.validator,
   });
 
   @override
@@ -20,7 +22,14 @@ class CustemTextFIeld extends StatefulWidget {
 }
 
 class _CustemTextFIeldState extends State<CustemTextFIeld> {
-  bool _obscureText = false;
+  late bool _obscureText;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _obscureText = widget.password;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,12 +38,14 @@ class _CustemTextFIeldState extends State<CustemTextFIeld> {
         SizedBox(height: 5),
         Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
-        TextField(
+        TextFormField(
+          validator: widget.validator,
           readOnly: widget.readOnly,
           controller: widget.controller,
           obscureText: _obscureText,
 
           decoration: InputDecoration(
+            hintText: widget.hintText,
             filled: true,
             fillColor: const Color.fromARGB(255, 255, 253, 253),
             suffixIcon:
@@ -111,13 +122,15 @@ class DatePickerFormField extends StatelessWidget {
   final String label;
   final DateTime firstDate;
   final DateTime lastDate;
+  String? Function(String?)? validator;
 
-  const DatePickerFormField({
+  DatePickerFormField({
     super.key,
     required this.controller,
     required this.label,
     required this.firstDate,
     required this.lastDate,
+    this.validator,
   });
 
   @override
@@ -129,6 +142,7 @@ class DatePickerFormField extends StatelessWidget {
         Text(label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         TextFormField(
+          validator: validator,
           controller: controller,
           readOnly: true,
           style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -260,6 +274,8 @@ class PhoneNumberField extends StatelessWidget {
 
   final ValueChanged<String?> onCountryCodeChanged;
   final String label;
+
+  String? Function(String?)? validator;
   PhoneNumberField({
     super.key,
     required this.controller,
@@ -267,6 +283,7 @@ class PhoneNumberField extends StatelessWidget {
     required this.label,
     required this.onCountryCodeChanged,
     required this.hintText,
+    this.validator,
   });
 
   @override
@@ -306,12 +323,7 @@ class PhoneNumberField extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.black),
                   ),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  return null;
-                },
+                validator: validator,
               ),
             ),
           ],

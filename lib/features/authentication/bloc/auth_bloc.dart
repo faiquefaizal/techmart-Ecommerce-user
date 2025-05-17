@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
@@ -37,9 +38,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       } else {
         emit(UnAuthenticated());
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       log("errorauth");
-      emit(ErrorAuth(e.toString()));
+      emit(ErrorAuth(e.message.toString()));
     }
   }
 
@@ -61,9 +62,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         log("unauthicatedstate");
         emit(UnAuthenticated());
       }
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       log("error");
-      emit(ErrorAuth(e.toString()));
+      emit(ErrorAuth(e.message.toString()));
     }
   }
 

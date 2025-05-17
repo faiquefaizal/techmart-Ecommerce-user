@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
+import 'package:techmart/core/widgets/custem_dialogs.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -25,19 +26,30 @@ class HomeScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                CustemDialog(context);
+                // context.read<AuthBlocBloc>().add(Logout());
+              },
+              icon: Icon(Icons.exit_to_app),
+            ),
+          ],
+        ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustemButton(
-                Label: " Logut",
-                onpressed: () {
-                  context.read<AuthBlocBloc>().add(Logout());
-                },
-              ),
-            ],
-          ),
+          // child: Column(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
+          //     CustemButton(
+          //       Label: " Logut",
+          //       onpressed: () {
+
+          //       },
+          //     ),
+          //   ],
+          // ),
         ),
       ),
     );

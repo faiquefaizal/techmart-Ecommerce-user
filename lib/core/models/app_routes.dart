@@ -6,4 +6,5 @@ class AppRoutes {
   static const String privacyPolicy = "/privacyPolicy";
   static const String terms = "/termsandcondition";
   static const String home = "/homescreen";
+  static const String resetPassword = "/resetPassword";
 }

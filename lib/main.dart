@@ -6,6 +6,7 @@ import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
 import 'package:techmart/features/authentication/screens/login_screen.dart';
+import 'package:techmart/features/authentication/screens/password_reset_screen.dart';
 import 'package:techmart/features/authentication/screens/privacy_policy.dart';
 import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
 import 'package:techmart/features/authentication/screens/spash_screen.dart';
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
           AppRoutes.terms: (context) => TermsAndConditionsPage(),
           AppRoutes.home: (context) => Home(),
+          AppRoutes.resetPassword: (context) => PasswordResetScreen(),
         },
       ),
     );
