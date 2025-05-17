@@ -20,7 +20,7 @@ class CustemTextFIeld extends StatefulWidget {
 }
 
 class _CustemTextFIeldState extends State<CustemTextFIeld> {
-  bool _obscureText = true;
+  bool _obscureText = false;
   @override
   Widget build(BuildContext context) {
     return Column(

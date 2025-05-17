@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
-import 'package:techmart/features/authentication/screens/home_screen.dart';
+
 import 'package:techmart/features/authentication/screens/login_screen.dart';
 import 'package:techmart/features/authentication/screens/privacy_policy.dart';
 import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
@@ -12,6 +12,8 @@ import 'package:techmart/features/authentication/screens/spash_screen.dart';
 import 'package:techmart/features/authentication/screens/terms_and_condition.dart';
 import 'package:techmart/features/authentication/screens/welcome_screen.dart';
 import 'package:techmart/firebase_options.dart';
+import 'package:techmart/screens/home.dart';
+import 'package:techmart/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: SplashScreen(),
+        // home: Home(),
         initialRoute: AppRoutes.splash,
         routes: {
           AppRoutes.splash: (context) => SplashScreen(),
@@ -65,7 +67,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.signUp: (context) => SignUpScreen(),
           AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
           AppRoutes.terms: (context) => TermsAndConditionsPage(),
-          AppRoutes.home: (context) => HomeScreen(),
+          AppRoutes.home: (context) => Home(),
         },
       ),
     );

@@ -41,6 +41,8 @@ dependencies:
   bloc: ^9.0.0
   shared_preferences: ^2.5.3
   flutter_bloc: ^9.1.1
+  google_nav_bar: ^5.0.7
+  google_sign_in: ^6.3.0
 
 dev_dependencies:
   flutter_test:

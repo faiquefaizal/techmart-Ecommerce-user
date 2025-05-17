@@ -28,4 +28,6 @@ class Register extends AuthBlocEvent {
   });
 }
 
+class GoogleSignInEvent extends AuthBlocEvent {}
+
 class Logout extends AuthBlocEvent {}

@@ -7,6 +7,7 @@ import 'package:techmart/core/widgets/form_field.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
 import 'package:techmart/features/authentication/service/model/user_model.dart';
+import 'package:techmart/core/widgets/loading_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -30,6 +31,7 @@ class _SignupScreenState extends State<SignUpScreen> {
     return BlocListener<AuthBlocBloc, AuthBlocState>(
       listener: (context, state) {
         if (state is AuthBlocLoading) {
+          CustomLoadingIndicator(label: "Registering User.....");
         } else if (state is Authticated) {
           Navigator.of(context).pushReplacementNamed(AppRoutes.home);
         }
@@ -119,7 +121,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                                 ..onTap = () {
                                   Navigator.of(
                                     context,
-                                  ).pushNamed("termsandcondition");
+                                  ).pushNamed(AppRoutes.terms);
                                 },
                           style: TextStyle(
                             color: Colors.black,
@@ -138,7 +140,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                                 ..onTap = () {
                                   Navigator.of(
                                     context,
-                                  ).pushNamed("privacyPolicy");
+                                  ).pushNamed(AppRoutes.privacyPolicy);
                                 },
                           style: TextStyle(
                             color: Colors.black,
@@ -153,6 +155,16 @@ class _SignupScreenState extends State<SignUpScreen> {
                   CustemButton(
                     Label: "Create an Account",
                     onpressed: () {
+                      context.read<AuthBlocBloc>().add(
+                        Register(
+                          name: nameController.text,
+                          password: passwordController.text,
+                          dob: dobController.text,
+                          email: emailController.text,
+                          gender: genderController.text,
+                          phone: phoneController.text,
+                        ),
+                      );
                       // AuthService.registerUser(
                       //   name: nameController.text,
                       //   passord: passwordController.text,

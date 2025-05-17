@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:techmart/features/authentication/service/model/user_model.dart';
 
@@ -95,6 +96,26 @@ class AuthService {
       await auth.signOut();
     } catch (e) {
       log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<String> googleSignIn() async {
+    try {
+      GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      if (gUser == null) {
+        throw "Googel sign in aborted by the user";
+      }
+      GoogleSignInAuthentication gAuth = await gUser.authentication;
+      final Gcred = GoogleAuthProvider.credential(
+        idToken: gAuth.idToken,
+        accessToken: gAuth.accessToken,
+      );
+      await auth.signInWithCredential(Gcred);
+
+      return auth.currentUser!.uid;
+    } catch (e) {
+      log("google sign in error${e.toString()}");
       rethrow;
     }
   }

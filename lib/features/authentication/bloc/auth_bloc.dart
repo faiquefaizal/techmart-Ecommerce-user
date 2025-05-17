@@ -15,6 +15,8 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     on<AuthCheckEvent>(_authcheck);
     on<LogininEvent>(_login);
     on<Register>(_register);
+    on<GoogleSignInEvent>(_googlesignin);
+    on<Logout>(_logout);
   }
 
   void _authcheck(AuthCheckEvent event, Emitter<AuthBlocState> emit) async {
@@ -23,6 +25,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     final _isFirst = sharedpref.getBool("_isfirst") ?? false;
     log("auth check created");
     try {
+      await Future.delayed(Duration(seconds: 3));
       if (!_isFirst) {
         await sharedpref.setBool("_isfirst", true);
         log("welcome emit");
@@ -42,8 +45,10 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
   void _login(LogininEvent event, Emitter<AuthBlocState> emit) async {
     log("_loginAithcreated");
-
+    await Future.delayed(Duration(seconds: 3));
+    log("_loadingstate");
     emit(AuthBlocLoading());
+
     try {
       String? user = await authService.signInUser(
         email: event.email,
@@ -62,8 +67,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     }
   }
 
-  _register(Register event, Emitter<AuthBlocState> emit) async {
+  void _register(Register event, Emitter<AuthBlocState> emit) async {
     emit(AuthBlocLoading());
+    await Future.delayed(Duration(seconds: 3));
     try {
       String? user = await authService.registerUser(
         name: event.name,
@@ -78,6 +84,24 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       } else {
         emit(UnAuthenticated());
       }
+    } catch (e) {
+      emit(ErrorAuth(e.toString()));
+    }
+  }
+
+  _googlesignin(GoogleSignInEvent event, Emitter<AuthBlocState> emit) async {
+    try {
+      final userid = await authService.googleSignIn();
+      emit(Authticated(userid));
+    } catch (e) {
+      emit(ErrorAuth(e.toString()));
+    }
+  }
+
+  _logout(Logout event, Emitter<AuthBlocState> emit) {
+    try {
+      authService.signOut();
+      emit(UnAuthenticated());
     } catch (e) {
       emit(ErrorAuth(e.toString()));
     }
