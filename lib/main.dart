@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: Home(),
-        initialRoute: AppRoutes.splash,
+        home: Home(),
+        // initialRoute: AppRoutes.login,
         routes: {
           AppRoutes.splash: (context) => SplashScreen(),
           AppRoutes.welcome: (context) => WelcomeScreen(),
@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.terms: (context) => TermsAndConditionsPage(),
           AppRoutes.home: (context) => Home(),
           AppRoutes.resetPassword: (context) => PasswordResetScreen(),
+          AppRoutes.homeScreen: (context) => UserHomepage(),
         },
       ),
     );

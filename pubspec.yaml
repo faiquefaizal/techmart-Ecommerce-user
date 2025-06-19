@@ -43,6 +43,7 @@ dependencies:
   flutter_bloc: ^9.1.1
   google_nav_bar: ^5.0.7
   google_sign_in: ^6.3.0
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:

@@ -39,7 +39,7 @@ CustemDialog(BuildContext context) {
                   onpressed: () {
                     context.read<AuthBlocBloc>().add(Logout());
                     Navigator.pop(context);
-                    context.read<AuthBlocBloc>().add(Logout());
+                    // context.read<AuthBlocBloc>().add(Logout());
                   },
                   color: Colors.red,
                 ),

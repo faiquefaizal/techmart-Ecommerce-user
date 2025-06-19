@@ -222,7 +222,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                               password: passwordController.text,
                               dob: dobController.text,
                               email: emailController.text,
-                              gender: genderController.text,
+                              gender: selectedValue!,
                               phone: phoneController.text,
                             ),
                           );

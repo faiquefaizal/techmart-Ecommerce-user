@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Widget> screens = [
-    HomeScreen(),
+    UserHomepage(),
     FavoritesScreen(),
     CartScreen(),
     AccountScreen(),
