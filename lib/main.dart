@@ -12,6 +12,7 @@ import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
 import 'package:techmart/features/authentication/screens/spash_screen.dart';
 import 'package:techmart/features/authentication/screens/terms_and_condition.dart';
 import 'package:techmart/features/authentication/screens/welcome_screen.dart';
+import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/firebase_options.dart';
 import 'package:techmart/screens/home.dart';
 import 'package:techmart/screens/home_screen.dart';
@@ -38,6 +39,11 @@ class MyApp extends StatelessWidget {
               fontWeight: FontWeight.w900,
               height: 1,
             ),
+            displaySmall: GoogleFonts.lato(
+              fontSize: 45,
+              fontWeight: FontWeight.w900,
+              height: 1,
+            ),
             displayMedium: GoogleFonts.lato(
               fontSize: 35,
               fontWeight: FontWeight.w900,
@@ -60,18 +66,18 @@ class MyApp extends StatelessWidget {
           ),
         ),
         home: Home(),
-        // initialRoute: AppRoutes.login,
-        routes: {
-          AppRoutes.splash: (context) => SplashScreen(),
-          AppRoutes.welcome: (context) => WelcomeScreen(),
-          AppRoutes.login: (context) => LoginScreen(),
-          AppRoutes.signUp: (context) => SignUpScreen(),
-          AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
-          AppRoutes.terms: (context) => TermsAndConditionsPage(),
-          AppRoutes.home: (context) => Home(),
-          AppRoutes.resetPassword: (context) => PasswordResetScreen(),
-          AppRoutes.homeScreen: (context) => UserHomepage(),
-        },
+        // initialRoute: AppRoutes.home,
+        // routes: {
+        //   AppRoutes.splash: (context) => SplashScreen(),
+        //   AppRoutes.welcome: (context) => WelcomeScreen(),
+        //   AppRoutes.login: (context) => LoginScreen(),
+        //   AppRoutes.signUp: (context) => SignUpScreen(),
+        //   AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
+        //   AppRoutes.terms: (context) => TermsAndConditionsPage(),
+        //   AppRoutes.home: (context) => Home(),
+        //   AppRoutes.resetPassword: (context) => PasswordResetScreen(),
+        //   AppRoutes.homeScreen: (context) => HomeScreen(),
+        // },
       ),
     );
   }

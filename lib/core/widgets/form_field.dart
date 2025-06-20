@@ -186,7 +186,7 @@ class DatePickerFormField extends StatelessWidget {
                       surface: Colors.white, // calendar background
                       onSurface: Colors.black, // text color for days/month
                     ),
-                    dialogTheme: DialogTheme(backgroundColor: Colors.black),
+                    dialogTheme: DialogThemeData(backgroundColor: Colors.black),
                   ),
                   child: child!,
                 );

@@ -8,4 +8,5 @@ class AppRoutes {
   static const String home = "/homescreen";
   static const String resetPassword = "/resetPassword";
   static const String homeScreen = "/homeScreen";
+  static const String productDetailedScreen = "/productDetailScreen";
 }
