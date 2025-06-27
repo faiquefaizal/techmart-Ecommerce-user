@@ -10,12 +10,12 @@ final class AuthBlocLoading extends AuthBlocState {}
 final class WelcomeState extends AuthBlocState {}
 
 final class Authticated extends AuthBlocState {
-  String authicated;
+  final String authicated;
   Authticated(this.authicated);
 }
 
 final class ErrorAuth extends AuthBlocState {
-  String error;
+  final String error;
   ErrorAuth(this.error);
 }
 

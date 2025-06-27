@@ -10,6 +10,8 @@ import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/presentation/widgets/custem_search_field.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
+import 'package:techmart/features/home_page/utils/product_color_util.dart';
+import 'package:techmart/features/home_page/utils/text_util.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,8 +35,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 5),
               const CustemSearchField(),
               SizedBox(
-                // Constrain GridView height
-                height: availableHeight, // 75% of screen height
+                height: availableHeight,
                 child: StreamBuilder<List<ProductModel>>(
                   stream: ProductService.getAllproducts(),
                   builder: (context, asyncSnapshot) {
@@ -73,13 +74,9 @@ class HomeScreen extends StatelessWidget {
                         log('varient Data: $variant');
                         final regularPrice = variant.regularPrice;
                         final sellingPrice = variant.sellingPrice;
-                        final discount =
-                            (sellingPrice > 0)
-                                ? ((sellingPrice - regularPrice) /
-                                        sellingPrice *
-                                        100)
-                                    .round()
-                                : 0;
+                        final discount = ProductUtils.calculateDiscount(
+                          variant,
+                        );
 
                         return GestureDetector(
                           onTap: () {
@@ -146,11 +143,7 @@ class HomeScreen extends StatelessWidget {
                                   const SizedBox(height: 10),
                                   Text(
                                     product.productName,
-                                    style: GoogleFonts.anton(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54,
-                                    ),
+                                    style: CustomTextStyles.homeProductName,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -161,12 +154,7 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         '₹$regularPrice',
-                                        style: GoogleFonts.anton(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black87,
-                                          letterSpacing: 0.2,
-                                        ),
+                                        style: CustomTextStyles.regularPrice,
                                         maxLines: 1,
                                       ),
                                       const SizedBox(width: 8),
@@ -174,24 +162,13 @@ class HomeScreen extends StatelessWidget {
                                       if (regularPrice < sellingPrice) ...[
                                         Text(
                                           '₹$sellingPrice',
-                                          style: GoogleFonts.anton(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.grey,
-
-                                            decoration:
-                                                TextDecoration.lineThrough,
-                                          ),
+                                          style: CustomTextStyles.sellingPrice,
                                           maxLines: 1,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           '$discount% off',
-                                          style: GoogleFonts.anton(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.green,
-                                          ),
+                                          style: CustomTextStyles.homeDiscount,
                                         ),
                                       ],
                                     ],

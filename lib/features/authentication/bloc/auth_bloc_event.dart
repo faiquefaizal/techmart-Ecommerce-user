@@ -6,18 +6,18 @@ sealed class AuthBlocEvent {}
 class AuthCheckEvent extends AuthBlocEvent {}
 
 class LogininEvent extends AuthBlocEvent {
-  String email;
-  String password;
+  final String email;
+  final String password;
   LogininEvent({required this.email, required this.password});
 }
 
 class Register extends AuthBlocEvent {
-  String name;
-  String password;
-  String dob;
-  String email;
-  String gender;
-  String phone;
+  final String name;
+  final String password;
+  final String dob;
+  final String email;
+  final String gender;
+  final String phone;
   Register({
     required this.name,
     required this.password,

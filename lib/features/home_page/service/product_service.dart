@@ -26,4 +26,24 @@ class ProductService {
   static Future<String> getBrandNameById(String id) async {
     return await brandsRef.doc(id).get().then((doc) => doc["name"]);
   }
+
+  static Stream<List<ProductModel>> searchProduct(String quary) {
+    if (quary.isEmpty) return getAllproducts();
+
+    // final lowerQuary = quary.toLowerCase();
+    return _productsRef
+        .where("productName", isGreaterThanOrEqualTo: quary)
+        .where("productName", isLessThanOrEqualTo: quary + "\uf8ff")
+        .snapshots()
+        .map(
+          (snapshots) =>
+              snapshots.docs
+                  .map(
+                    (docs) => ProductModel.fromMap(
+                      docs.data() as Map<String, dynamic>,
+                    ),
+                  )
+                  .toList(),
+        );
+  }
 }

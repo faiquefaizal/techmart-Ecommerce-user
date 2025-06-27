@@ -12,3 +12,8 @@ class VariantSelected extends ProductEvent {
   final ProductVarientModel variant;
   VariantSelected(this.variant);
 }
+
+class SearchProduct extends ProductEvent {
+  final String productName;
+  SearchProduct({required this.productName});
+}

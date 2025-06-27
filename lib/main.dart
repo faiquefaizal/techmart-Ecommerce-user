@@ -15,7 +15,6 @@ import 'package:techmart/features/authentication/screens/welcome_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/firebase_options.dart';
 import 'package:techmart/screens/home.dart';
-import 'package:techmart/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
