@@ -1,8 +1,9 @@
 import 'dart:developer';
 
+import 'package:equatable/equatable.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 
-class ProductModel {
+class ProductModel extends Equatable {
   String productId;
   String productName;
   String productDescription;
@@ -35,6 +36,9 @@ class ProductModel {
       "varients": varients.map((e) => e.toMap()).toList(),
     };
   }
+
+  @override
+  List<Object> get props => [productId];
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     log("recieved productMap${map.toString()}");

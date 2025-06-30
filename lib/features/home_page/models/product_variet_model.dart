@@ -1,6 +1,8 @@
 import 'dart:developer';
 
-class ProductVarientModel {
+import 'package:equatable/equatable.dart';
+
+class ProductVarientModel extends Equatable {
   Map<String, String?> variantAttributes;
   int quantity;
   int regularPrice;
@@ -59,4 +61,14 @@ class ProductVarientModel {
       variantImageUrls: variantImageUrls ?? this.variantImageUrls,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    buyingPrice,
+    quantity,
+    regularPrice,
+    sellingPrice,
+    variantAttributes.entries.map((e) => MapEntry(e.key, e.value)).toList(),
+    variantImageUrls,
+  ];
 }

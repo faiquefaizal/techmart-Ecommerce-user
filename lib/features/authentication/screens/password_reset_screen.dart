@@ -6,7 +6,7 @@ import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
 
 class PasswordResetScreen extends StatelessWidget {
-  AuthService authService = AuthService();
+  final AuthService authService = AuthService();
   final _formState = GlobalKey<FormState>();
   PasswordResetScreen({super.key});
 

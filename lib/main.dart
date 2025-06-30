@@ -1,23 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:techmart/core/models/app_routes.dart';
+
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
-import 'package:techmart/features/authentication/screens/login_screen.dart';
-import 'package:techmart/features/authentication/screens/password_reset_screen.dart';
-import 'package:techmart/features/authentication/screens/privacy_policy.dart';
-import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
-import 'package:techmart/features/authentication/screens/spash_screen.dart';
-import 'package:techmart/features/authentication/screens/terms_and_condition.dart';
-import 'package:techmart/features/authentication/screens/welcome_screen.dart';
-import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/firebase_options.dart';
 import 'package:techmart/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
+  Gemini.init(apiKey: dotenv.env["GEMINI_API_KEY"]!);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }

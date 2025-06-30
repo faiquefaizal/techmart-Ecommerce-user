@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
 
 import 'package:techmart/screens/account_screen.dart';
@@ -17,7 +18,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<Widget> screens = [
-    HomeScreen(),
+    BlocProvider(
+      create: (context) => ProductBloc()..add(SearchProduct(productName: "")),
+      child: HomeScreen(),
+    ),
+
     FavoritesScreen(),
     CartScreen(),
     AccountScreen(),

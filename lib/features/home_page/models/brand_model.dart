@@ -1,4 +1,6 @@
-class BrandModel {
+import 'package:equatable/equatable.dart';
+
+class BrandModel extends Equatable {
   final String brandUid;
   final String name;
   final String imageUrl;
@@ -13,6 +15,8 @@ class BrandModel {
     return {"brandUid": brandUid, "name": name, "imageUrl": imageUrl};
   }
 
+  @override
+  List<Object> get props => [brandUid];
   factory BrandModel.fromMap(Map<String, dynamic> map) {
     return BrandModel(
       brandUid: map["brandUid"] ?? '', // Provide default if missing

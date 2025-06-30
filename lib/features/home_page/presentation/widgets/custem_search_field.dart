@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:techmart/core/utils/genrate_text_from_image/generate_text.dart';
 
 class CustemSearchField extends StatelessWidget {
-  const CustemSearchField({super.key});
+  final Function(String)? onChanged;
+  const CustemSearchField({super.key, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class CustemSearchField extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: TextField(
+                  onChanged: onChanged,
                   decoration: InputDecoration(
                     hintText: "Search electronics...",
                     hintStyle: TextStyle(
@@ -31,7 +34,7 @@ class CustemSearchField extends StatelessWidget {
               ),
               const IconButton(
                 icon: Icon(Icons.camera_alt_outlined, color: Colors.grey),
-                onPressed: null,
+                onPressed: imageSearch,
               ),
             ],
           ),
@@ -39,4 +42,8 @@ class CustemSearchField extends StatelessWidget {
       ),
     );
   }
+}
+
+void imageSearch() async {
+  await generateText();
 }

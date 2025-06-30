@@ -18,6 +18,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   context.read<ProductBloc>().add(SearchProduct(productName: ""));
+    // });
     final screenHeight = MediaQuery.of(context).size.height;
     final headerHeight =
         30.0 + 5.0 + 50.0; // Padding + SizedBox + estimated search field height
@@ -33,153 +36,164 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text("Discover", style: Theme.of(context).textTheme.displaySmall),
               const SizedBox(height: 5),
-              const CustemSearchField(),
+              CustemSearchField(
+                onChanged: (quary) {
+                  context.read<ProductBloc>().add(
+                    SearchProduct(productName: quary),
+                  );
+                },
+              ),
               SizedBox(
                 height: availableHeight,
-                child: StreamBuilder<List<ProductModel>>(
-                  stream: ProductService.getAllproducts(),
-                  builder: (context, asyncSnapshot) {
-                    if (asyncSnapshot.connectionState ==
-                        ConnectionState.waiting) {
+                child: BlocBuilder<ProductBloc, ProductState>(
+                  // stream: ProductService.getAllproducts(),
+                  builder: (context, state) {
+                    if (state is ProductInitial) {
                       log("waiting reached");
                       return const Center(child: CircularProgressIndicator());
                     }
-                    if (asyncSnapshot.hasError) {
-                      log(asyncSnapshot.error.toString());
-                      return Center(
-                        child: Text('Error: ${asyncSnapshot.error}'),
-                      );
+                    if (state is ProductSearchError) {
+                      log("error state");
+                      return Center(child: Text("Error: ${state.message}"));
                     }
-                    if (!asyncSnapshot.hasData || asyncSnapshot.data!.isEmpty) {
-                      log("asyncSnapshot.hasData reached");
-                      return const Center(child: Text('No products available'));
+                    if (state is ProductSearchNotFound) {
+                      log("search not found state callled");
+                      return const Center(child: Text("Product Not Found"));
                     }
+                    if (state is ProductLoading) {
+                      log("stateisProductLoading");
+                      //   return const Center(child: Text('No products available'));
+                      // }
 
-                    final products = asyncSnapshot.data!;
-                    log("products beire gridvidw $products");
-                    return GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.60, // Maintain aspect ratio
-                          ),
-                      itemCount: products.length,
-                      itemBuilder: (context, index) {
-                        final product = products[index];
-                        log('Product $index: $product');
-                        final variant = product.varients.first;
-
-                        log('varient Data: $variant');
-                        final regularPrice = variant.regularPrice;
-                        final sellingPrice = variant.sellingPrice;
-                        final discount = ProductUtils.calculateDiscount(
-                          variant,
-                        );
-
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BlocProvider(
-                                      create:
-                                          (context) =>
-                                              ProductBloc()
-                                                ..add(ProductLoaded(product)),
-                                      child: ProductDetailScreen(),
-                                    ),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: 170,
-                            height: 500,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
+                      final products = state.products;
+                      log("products beire gridvidw $products");
+                      return GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.60, // Maintain aspect ratio
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                // mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      variant.variantImageUrls!.first,
-                                      height: 150,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          final product = products[index];
+                          log('Product $index: $product');
+                          final variant = product.varients.first;
 
-                                      errorBuilder: (
-                                        context,
-                                        error,
-                                        stackTrace,
-                                      ) {
-                                        return Container(
-                                          height: 150,
-                                          width: double.infinity,
-                                          color: Colors.grey[200],
-                                          child: const Icon(
-                                            Icons.image,
-                                            color: Colors.grey,
-                                            size: 50,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    product.productName,
-                                    style: CustomTextStyles.homeProductName,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                          log('varient Data: $variant');
+                          final regularPrice = variant.regularPrice;
+                          final sellingPrice = variant.sellingPrice;
+                          final discount = ProductUtils.calculateDiscount(
+                            variant,
+                          );
 
-                                  const SizedBox(height: 5),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        '₹$regularPrice',
-                                        style: CustomTextStyles.regularPrice,
-                                        maxLines: 1,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => BlocProvider(
+                                        create:
+                                            (context) =>
+                                                ProductBloc()
+                                                  ..add(ProductLoaded(product)),
+                                        child: ProductDetailScreen(),
                                       ),
-                                      const SizedBox(width: 8),
-
-                                      if (regularPrice < sellingPrice) ...[
-                                        Text(
-                                          '₹$sellingPrice',
-                                          style: CustomTextStyles.sellingPrice,
-                                          maxLines: 1,
-                                        ),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          '$discount% off',
-                                          style: CustomTextStyles.homeDiscount,
-                                        ),
-                                      ],
-                                    ],
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 170,
+                              height: 500,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Image.network(
+                                        variant.variantImageUrls!.first,
+                                        height: 150,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+
+                                        errorBuilder: (
+                                          context,
+                                          error,
+                                          stackTrace,
+                                        ) {
+                                          return Container(
+                                            height: 150,
+                                            width: double.infinity,
+                                            color: Colors.grey[200],
+                                            child: const Icon(
+                                              Icons.image,
+                                              color: Colors.grey,
+                                              size: 50,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Text(
+                                      product.productName,
+                                      style: CustomTextStyles.homeProductName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '₹$regularPrice',
+                                          style: CustomTextStyles.regularPrice,
+                                          maxLines: 1,
+                                        ),
+                                        const SizedBox(width: 2),
+
+                                        if (regularPrice < sellingPrice) ...[
+                                          Text(
+                                            '₹$sellingPrice',
+                                            style:
+                                                CustomTextStyles.sellingPrice,
+                                            maxLines: 1,
+                                          ),
+                                          const SizedBox(width: 1),
+                                          Text(
+                                            '$discount% off',
+                                            style:
+                                                CustomTextStyles.homeDiscount,
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                    );
+                          );
+                        },
+                      );
+                    }
+                    return SizedBox.shrink();
                   },
                 ),
               ),

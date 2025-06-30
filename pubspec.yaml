@@ -44,6 +44,13 @@ dependencies:
   google_nav_bar: ^5.0.7
   google_sign_in: ^6.3.0
   carousel_slider: ^5.1.1
+  rxdart: ^0.28.0
+  equatable: ^2.0.7
+  image_picker: ^1.1.2
+  google_mlkit_text_recognition: ^0.15.0
+  http: ^1.4.0
+  flutter_dotenv: ^5.2.1
+  flutter_gemini: ^3.0.0
 
 dev_dependencies:
   flutter_test:

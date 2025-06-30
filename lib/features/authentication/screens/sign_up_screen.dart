@@ -6,8 +6,6 @@ import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/form_field.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
-import 'package:techmart/features/authentication/service/Auth_service.dart';
-import 'package:techmart/features/authentication/service/model/user_model.dart';
 import 'package:techmart/core/widgets/loading_widget.dart';
 
 class SignUpScreen extends StatefulWidget {
