@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:techmart/core/utils/debouncer.dart';
+import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
@@ -47,6 +48,38 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         );
       });
     });
+
+    // on<VisualSearch>((event, emit) async {
+    //   emit(ProductInitial());
+
+    //   final result = await runVisualSearch();
+    //   if (result == null) {
+    //     emit(ProductSearchNotFound());
+    //     return;
+    //   }
+
+    //   final searchQuery =
+    //       "${result.brandName} ${result.catagory} ${result.modelName}".trim();
+
+    //   if (searchQuery.isEmpty) {
+    //     emit(ProductSearchNotFound());
+    //     return;
+    //   }
+
+    //   ProductService.searchWithRx(searchQuery).listen(
+    //     (products) {
+    //       if (products.isEmpty) {
+    //         emit(ProductSearchNotFound());
+    //       } else {
+    //         emit(ProductLoading(products));
+    //       }
+    //     },
+    //     onError: (error) {
+    //       emit(ProductSearchError(error.toString()));
+    //     },
+    //   );
+    // });
+
     on<_ProductsFetched>((event, emit) {
       if (event.products.isEmpty) {
         emit(ProductSearchNotFound());

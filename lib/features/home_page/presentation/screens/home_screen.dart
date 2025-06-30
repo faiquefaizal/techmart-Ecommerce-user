@@ -14,8 +14,8 @@ import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
+  HomeScreen({super.key});
+  final searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -37,6 +37,7 @@ class HomeScreen extends StatelessWidget {
               Text("Discover", style: Theme.of(context).textTheme.displaySmall),
               const SizedBox(height: 5),
               CustemSearchField(
+                searchController: searchController,
                 onChanged: (quary) {
                   context.read<ProductBloc>().add(
                     SearchProduct(productName: quary),

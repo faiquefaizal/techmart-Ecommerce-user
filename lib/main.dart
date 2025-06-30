@@ -12,8 +12,9 @@ import 'package:techmart/screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
-  Gemini.init(apiKey: dotenv.env["GEMINI_API_KEY"]!);
+  // await dotenv.load();
+  // Gemini.init(apiKey: dotenv.env["GEMINI_API_KEY"]!);
+  Gemini.init(apiKey: "AIzaSyCNVTq0wcoRgoUS-p61F5FYvN2F8jQdVGQ");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
@@ -47,6 +48,16 @@ class MyApp extends StatelessWidget {
             headlineMedium: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w200,
+            ),
+            headlineLarge: GoogleFonts.lato(
+              fontSize: 35,
+              fontWeight: FontWeight.w900,
+              height: 1,
+            ),
+            headlineSmall: GoogleFonts.lato(
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              height: 1,
             ),
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(

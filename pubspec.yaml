@@ -51,6 +51,7 @@ dependencies:
   http: ^1.4.0
   flutter_dotenv: ^5.2.1
   flutter_gemini: ^3.0.0
+  mime: ^2.0.0
 
 dev_dependencies:
   flutter_test:
