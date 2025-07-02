@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
+import 'package:techmart/features/home_page/models/brand_model.dart';
 
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 
@@ -128,5 +130,22 @@ class ProductService {
               .toList(); // remove duplicates
       return allProducts;
     });
+  }
+
+  static Future<List<BrandModel>> fetchBrands() async {
+    final brandDoc = await brandsRef.get();
+    log(brandDoc.docs.toString());
+    return brandDoc.docs.map((doc) => BrandModel.fromMap(doc.data())).toList();
+  }
+
+  filterProdoct(FilterState filerState) {
+    Query quary = _productsRef;
+
+    if (filerState.selectedBrandId != "") {
+    quary=  quary.where("brandId", isEqualTo: filerState.selectedBrandId);
+    }
+    if(filerState.priceRange != ){
+
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/bottm_sheet.dart';
 
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
-import 'package:techmart/features/home_page/features/product_filter/cubit/price_sort_cubit.dart';
+
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
 import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
-import 'package:techmart/features/home_page/features/product_filter/cubit/price_range_cubic_cubit.dart';
-import 'package:techmart/features/home_page/features/product_filter/cubit/price_sort_cubit.dart';
+
+import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
+
+import 'package:techmart/features/home_page/features/product_filter/widgets/brand_choic_chips.dart';
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_slider_widget.dart';
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
 
@@ -11,10 +13,7 @@ custemBottomSheet(BuildContext context) {
     context: context,
     builder: (context) {
       return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => PriceSortCubit()),
-          BlocProvider(create: (context) => PriceRangeCubicCubit()),
-        ],
+        providers: [BlocProvider(create: (context) => FilterCubit())],
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
@@ -60,6 +59,9 @@ custemBottomSheet(BuildContext context) {
                 ),
 
                 SizedBox(height: 8),
+
+                BrandChoicChips(),
+                SizedBox(height: 15),
                 CustemButton(Label: "Apply Filters", onpressed: () {}),
               ],
             ),

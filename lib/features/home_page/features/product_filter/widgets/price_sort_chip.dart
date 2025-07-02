@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:techmart/features/home_page/features/product_filter/cubit/price_sort_cubit.dart';
+import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 
 import 'package:techmart/features/home_page/features/product_filter/model/price_sort_enum.dart';
 
@@ -9,13 +9,13 @@ class PriceSortChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PriceSortCubit, PriceSort?>(
+    return BlocBuilder<FilterCubit, FilterState?>(
       builder: (context, state) {
         return Wrap(
           spacing: 4,
           children:
               PriceSort.values.map((sort) {
-                final isSeleted = state == sort;
+                final isSeleted = state?.sortBy == sort;
                 return ChoiceChip(
                   label: Text(
                     getPrice(sort),
@@ -28,7 +28,7 @@ class PriceSortChip extends StatelessWidget {
                   selectedColor: Colors.black,
                   selected: isSeleted,
                   onSelected: (select) {
-                    context.read<PriceSortCubit>().selectChip(sort);
+                    context.read<FilterCubit>().setSort(sort);
                   },
                 );
               }).toList(),
