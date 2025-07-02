@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:techmart/core/utils/debouncer.dart';
+import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
@@ -18,13 +19,31 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   StreamSubscription<List<ProductModel>>? _searchSubsription;
 
   ProductBloc() : super(ProductInitial()) {
-    on<ProductLoaded>((event, emit) {
-      emit(ProductLoadSuccess(event.product, event.product.varients.first));
+    on<ProductLoaded>((event, emit) async {
+      final varients = await ProductService.getVariantsForProduct(
+        event.product.productId,
+      );
+      if (varients.isEmpty) {
+        emit(ProductSearchError(("No variants available")));
+      }
+      emit(
+        ProductLoadSuccess(
+          product: event.product,
+          vairents: varients,
+          selectedVariant: varients.first,
+        ),
+      );
     });
     on<VariantSelected>((event, emit) {
       if (state is ProductLoadSuccess) {
         final current = state as ProductLoadSuccess;
-        emit(ProductLoadSuccess(current.product, event.variant));
+        emit(
+          ProductLoadSuccess(
+            product: current.product,
+            vairents: current.vairents,
+            selectedVariant: event.variant,
+          ),
+        );
       }
     });
     on<SearchProduct>((event, emit) async {
@@ -90,6 +109,24 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
     on<_SearchFailed>((event, emit) {
       emit(ProductSearchError(event.error));
+    });
+    on<FileterEvent>((event, emit) async {
+      _searchSubsription?.cancel(); // cancel previous
+      emit(ProductInitial());
+
+      _searchSubsription = ProductService.filterProdoct(event.filters).listen(
+        (products) {
+          if (products.isEmpty) {
+            log("No products found.");
+          } else {
+            log("search ${products.first.toString()}");
+          }
+          add(_ProductsFetched(products));
+        },
+        onError: (error) {
+          add(_SearchFailed(error.toString()));
+        },
+      );
     });
   }
 }

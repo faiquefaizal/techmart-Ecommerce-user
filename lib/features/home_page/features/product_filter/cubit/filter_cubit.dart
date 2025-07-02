@@ -10,7 +10,11 @@ part 'filter_state.dart';
 class FilterCubit extends Cubit<FilterState> {
   FilterCubit()
     : super(
-        FilterState(priceRange: RangeValues(0, 100000), selectedBrandId: ""),
+        FilterState(
+          priceRange: RangeValues(0, 100000),
+          selectedBrandId: "",
+          sortBy: PriceSort.lowToHigh,
+        ),
       );
 
   void selectBrand(String? brandId) {

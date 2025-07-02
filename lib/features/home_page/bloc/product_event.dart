@@ -37,3 +37,11 @@ class _SearchFailed extends ProductEvent {
   @override
   List<Object?> get props => [error];
 }
+
+class FileterEvent extends ProductEvent {
+  final FilterState filters;
+  FileterEvent({required this.filters});
+
+  @override
+  List<Object?> get props => [filters];
+}

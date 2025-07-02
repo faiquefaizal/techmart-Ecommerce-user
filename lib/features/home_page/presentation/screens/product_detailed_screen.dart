@@ -32,8 +32,8 @@ class ProductDetailScreen extends StatelessWidget {
 
           final discount = ProductUtils.calculateDiscount(selectedVariant);
 
-          if (product.varients.length == 1) {
-            final singleVariant = product.varients.first;
+          if (state.vairents.length == 1) {
+            final singleVariant = state.vairents.first;
             print(
               'Single Variant: variantAttributes=${singleVariant.variantAttributes}, variantImageUrls=${singleVariant.variantImageUrls}',
             );
@@ -102,12 +102,12 @@ class ProductDetailScreen extends StatelessWidget {
           }
 
           // Multiple variants case
-          final variantGroups = ProductUtils.groupVariants(product.varients);
+          final variantGroups = ProductUtils.groupVariants(state.vairents);
 
           final effectiveVariant = ProductUtils.getEffectiveVariant(
             variantGroups,
             selectedVariant,
-            product.varients,
+            state.vairents,
           );
 
           return SingleChildScrollView(

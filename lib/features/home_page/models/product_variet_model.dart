@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 
 class ProductVarientModel extends Equatable {
+  String? varientId;
   Map<String, String?> variantAttributes;
   int quantity;
   int regularPrice;
@@ -11,6 +12,7 @@ class ProductVarientModel extends Equatable {
   List<String>? variantImageUrls;
 
   ProductVarientModel({
+    required this.varientId,
     required this.buyingPrice,
     required this.quantity,
     required this.regularPrice,
@@ -21,6 +23,7 @@ class ProductVarientModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      "varientId": varientId,
       "variantAttributes": variantAttributes,
       "quantity": quantity,
       "regularPrice": regularPrice,
@@ -33,6 +36,7 @@ class ProductVarientModel extends Equatable {
   factory ProductVarientModel.fromMap(Map<String, dynamic> map) {
     log('Variant Map: $map');
     return ProductVarientModel(
+      varientId: map["varientId"],
       buyingPrice: map["buyingPrice"],
       quantity: map["quantity"],
       regularPrice: map["regularPrice"],
@@ -45,6 +49,7 @@ class ProductVarientModel extends Equatable {
     );
   }
   ProductVarientModel copyWith({
+    String? varientId,
     int? buyingPrice,
     int? quantity,
     int? regularPrice,
@@ -53,6 +58,7 @@ class ProductVarientModel extends Equatable {
     List<String>? variantImageUrls,
   }) {
     return ProductVarientModel(
+      varientId: varientId ?? this.varientId,
       buyingPrice: buyingPrice ?? this.buyingPrice,
       quantity: quantity ?? this.quantity,
       regularPrice: regularPrice ?? this.regularPrice,
@@ -63,12 +69,5 @@ class ProductVarientModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    buyingPrice,
-    quantity,
-    regularPrice,
-    sellingPrice,
-    variantAttributes.entries.map((e) => MapEntry(e.key, e.value)).toList(),
-    variantImageUrls,
-  ];
+  List<Object?> get props => [varientId];
 }

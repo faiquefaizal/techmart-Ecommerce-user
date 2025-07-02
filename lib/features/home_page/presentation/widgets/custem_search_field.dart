@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/bottm_sheet.dart';
 
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
 import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
@@ -82,7 +83,9 @@ class CustemSearchField extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            custemBottomSheet(context);
+            final filterCubic = context.read<FilterCubit>();
+            final productBloc = context.read<ProductBloc>();
+            custemBottomSheet(context, productBloc, filterCubic);
           },
           child: Container(
             height: 60,

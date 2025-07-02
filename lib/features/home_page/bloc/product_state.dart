@@ -18,9 +18,14 @@ class ProductLoading extends ProductState {
 
 class ProductLoadSuccess extends ProductState {
   final ProductModel product;
+  final List<ProductVarientModel> vairents;
   final ProductVarientModel selectedVariant;
 
-  ProductLoadSuccess(this.product, this.selectedVariant);
+  ProductLoadSuccess({
+    required this.product,
+    required this.selectedVariant,
+    required this.vairents,
+  });
   @override
   List<Object?> get props => [product, selectedVariant];
 }

@@ -11,8 +11,6 @@ class ProductModel extends Equatable {
   String categoryId;
   String brandId;
 
-  List<ProductVarientModel> varients;
-
   ProductModel({
     required this.productId,
     required this.brandId,
@@ -21,7 +19,6 @@ class ProductModel extends Equatable {
     required this.productDescription,
     required this.productName,
     required this.sellerUid,
-    required this.varients,
   });
 
   Map<String, dynamic> toMap() {
@@ -32,8 +29,6 @@ class ProductModel extends Equatable {
       "sellerUid": sellerUid,
       "brandId": brandId,
       "categoryId": categoryId,
-
-      "varients": varients.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -50,13 +45,13 @@ class ProductModel extends Equatable {
       productDescription: map["productDescription"],
       productName: map["productName"],
       sellerUid: map["sellerUid"],
-      varients:
-          (map["varients"] as List<dynamic>?)
-              ?.map(
-                (e) => ProductVarientModel.fromMap(e as Map<String, dynamic>),
-              )
-              .toList() ??
-          [],
+      // varients:
+      //     (map["varients"] as List<dynamic>?)
+      //         ?.map(
+      //           (e) => ProductVarientModel.fromMap(e as Map<String, dynamic>),
+      //         )
+      //         .toList() ??
+      //     [],
     );
   }
   @override
@@ -69,7 +64,7 @@ productId:$productId,
   productDescription: $productDescription,
   productName: $productName,
   sellerUid: $sellerUid,
-  varients: ${varients.map((value) => value.toMap().toString())}
+
 )''';
   }
 
@@ -80,8 +75,8 @@ productId:$productId,
     String? sellerUid,
     String? categoryId,
     String? brandId,
+
     // List<String>? imageUrls, // Uncomment this if you start using imageUrls
-    List<ProductVarientModel>? varients,
   }) {
     return ProductModel(
       productId: productId ?? this.productId,
@@ -90,8 +85,8 @@ productId:$productId,
       sellerUid: sellerUid ?? this.sellerUid,
       categoryId: categoryId ?? this.categoryId,
       brandId: brandId ?? this.brandId,
+
       // imageUrls: imageUrls ?? this.imageUrls, // Uncomment this if you start using imageUrls
-      varients: varients ?? this.varients,
     );
   }
 }

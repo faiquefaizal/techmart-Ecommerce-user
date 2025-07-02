@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
+import 'package:techmart/features/home_page/features/product_filter/model/price_sort_enum.dart';
 import 'package:techmart/features/home_page/models/brand_model.dart';
 
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
+import 'package:techmart/features/home_page/models/product_variet_model.dart';
 
 class ProductService {
   static CollectionReference _productsRef = FirebaseFirestore.instance
@@ -138,14 +140,46 @@ class ProductService {
     return brandDoc.docs.map((doc) => BrandModel.fromMap(doc.data())).toList();
   }
 
-  filterProdoct(FilterState filerState) {
+  static Future<List<ProductVarientModel>> getVariantsForProduct(
+    String productID,
+  ) async {
+    final varinetDoc =
+        await _productsRef.doc(productID).collection("varients").get();
+    return varinetDoc.docs
+        .map((doc) => ProductVarientModel.fromMap(doc.data()))
+        .toList();
+  }
+
+  static Stream<List<ProductModel>> filterProdoct(FilterState filerState) {
     Query quary = _productsRef;
 
     if (filerState.selectedBrandId != "") {
-    quary=  quary.where("brandId", isEqualTo: filerState.selectedBrandId);
+      quary = quary.where("brandId", isEqualTo: filerState.selectedBrandId);
     }
-    if(filerState.priceRange != ){
-
+    if (filerState.priceRange != null) {
+      quary = quary
+          .where(
+            "minPrice",
+            isGreaterThanOrEqualTo: filerState.priceRange.start,
+          )
+          .where("maxPrice", isLessThanOrEqualTo: filerState.priceRange.end);
     }
+    // if (filerState.sortBy != null) {
+    //   switch (filerState.sortBy!) {
+    //     case PriceSort.lowToHigh:
+    //       quary = quary.orderBy("regularPrice", descending: false);
+    //       break;
+    //     case PriceSort.highToLow:
+    //       quary = quary.orderBy("regularPrice", descending: true);
+    //       break;
+    //  }
+    //}
+    return quary.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map(
+            (doc) => ProductModel.fromMap(doc.data() as Map<String, dynamic>),
+          )
+          .toList();
+    });
   }
 }
