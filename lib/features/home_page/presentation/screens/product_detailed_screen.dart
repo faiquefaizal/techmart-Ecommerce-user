@@ -2,12 +2,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:techmart/core/widgets/button_widgets.dart';
+import 'package:techmart/features/cart/cubit/cart_cubit.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/presentation/widgets/product_corosel_widget.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
+import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({super.key});
@@ -44,8 +47,66 @@ class ProductDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ProductCarouselWidget(
-                      imageUrls: singleVariant.variantImageUrls,
+                    Stack(
+                      children: [
+                        ProductCarouselWidget(
+                          imageUrls: singleVariant.variantImageUrls,
+                        ),
+                        Positioned(
+                          top: 17,
+                          right: 17,
+                          child: BlocBuilder<WishlistCubit, WishlistState>(
+                            builder: (context, state) {
+                              bool isWishList = false;
+                              if (state is WishlistLoaded) {
+                                isWishList = state.isWishList(
+                                  product.productId,
+                                  singleVariant.varientId!,
+                                );
+                              }
+
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color:
+                                      (isWishList)
+                                          ? const Color.fromARGB(
+                                            255,
+                                            245,
+                                            227,
+                                            230,
+                                          )
+                                          : Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  ),
+                                ),
+                                height: 40,
+                                width: 40,
+                                child: IconButton(
+                                  icon:
+                                      (isWishList)
+                                          ? Icon(
+                                            Icons.favorite,
+                                            color: Colors.red,
+                                          )
+                                          : Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.black,
+                                          ),
+                                  onPressed: () {
+                                    context
+                                        .read<WishlistCubit>()
+                                        .toggleWishList(
+                                          product.productId,
+                                          singleVariant.varientId!,
+                                        );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
 
                     const SizedBox(height: 16),
@@ -116,8 +177,64 @@ class ProductDetailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ProductCarouselWidget(
-                    imageUrls: effectiveVariant.variantImageUrls,
+                  Stack(
+                    children: [
+                      ProductCarouselWidget(
+                        imageUrls: effectiveVariant.variantImageUrls,
+                      ),
+                      Positioned(
+                        top: 17,
+                        right: 17,
+                        child: BlocBuilder<WishlistCubit, WishlistState>(
+                          builder: (context, state) {
+                            bool isWishList = false;
+                            if (state is WishlistLoaded) {
+                              isWishList = state.isWishList(
+                                product.productId,
+                                effectiveVariant.varientId!,
+                              );
+                            }
+
+                            return Container(
+                              decoration: BoxDecoration(
+                                color:
+                                    (isWishList)
+                                        ? const Color.fromARGB(
+                                          255,
+                                          245,
+                                          227,
+                                          230,
+                                        )
+                                        : Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                              ),
+                              height: 40,
+                              width: 40,
+                              child: IconButton(
+                                icon:
+                                    (isWishList)
+                                        ? Icon(
+                                          Icons.favorite,
+                                          color: Colors.red,
+                                        )
+                                        : Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.black,
+                                        ),
+                                onPressed: () {
+                                  context.read<WishlistCubit>().toggleWishList(
+                                    product.productId,
+                                    effectiveVariant.varientId!,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 16),
@@ -217,6 +334,60 @@ class ProductDetailScreen extends StatelessWidget {
                   Text(
                     product.productDescription,
                     style: CustomTextStyles.description,
+                  ),
+                  BlocBuilder<CartCubit, CartState>(
+                    builder: (context, state) {
+                      if (state is! CartLoaded) {
+                        return CustemButton(
+                          Label: "Add to Cart ",
+                          onpressed: () {
+                            context.read<CartCubit>().addToCart(
+                              productId: product.productId,
+                              varientId: effectiveVariant.varientId!,
+                              quatity: 1,
+                              regularPrice:
+                                  effectiveVariant.regularPrice.toString(),
+                              sellingPrice:
+                                  effectiveVariant.sellingPrice.toString(),
+                              varientAttribute:
+                                  effectiveVariant.variantAttributes,
+                              imageurl:
+                                  effectiveVariant.variantImageUrls!.first,
+                              productName: product.productName,
+                            );
+                          },
+                        );
+                      } else {
+                        bool addedToCart = state.isCartAdded(
+                          product.productId,
+                          effectiveVariant.varientId!,
+                        );
+                        return addedToCart
+                            ? CustemButton(
+                              Label: "Already In Cart",
+                              onpressed: () {},
+                            )
+                            : CustemButton(
+                              Label: "Add to Cart",
+                              onpressed: () {
+                                context.read<CartCubit>().addToCart(
+                                  productId: product.productId,
+                                  varientId: effectiveVariant.varientId!,
+                                  quatity: 1,
+                                  regularPrice:
+                                      effectiveVariant.regularPrice.toString(),
+                                  sellingPrice:
+                                      effectiveVariant.sellingPrice.toString(),
+                                  varientAttribute:
+                                      effectiveVariant.variantAttributes,
+                                  imageurl:
+                                      effectiveVariant.variantImageUrls!.first,
+                                  productName: product.productName,
+                                );
+                              },
+                            );
+                      }
+                    },
                   ),
                 ],
               ),

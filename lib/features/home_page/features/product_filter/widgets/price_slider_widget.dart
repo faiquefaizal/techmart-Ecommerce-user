@@ -10,21 +10,41 @@ class PriceSliderWidget extends StatelessWidget {
     return BlocBuilder<FilterCubit, FilterState>(
       builder: (context, state) {
         final price = state.priceRange;
-        return RangeSlider(
-          activeColor: Colors.black,
-          inactiveColor: Colors.grey[400],
+        return Column(
+          children: [
+            RangeSlider(
+              activeColor: Colors.black,
+              inactiveColor: Colors.grey[400],
 
-          min: 0,
-          max: 100000,
-          labels: RangeLabels(
-            "₹${price.start.toInt()}",
-            "₹${price.end.toInt()}",
-          ),
-          divisions: 1000,
-          values: RangeValues(price.start, price.end),
-          onChanged: (newRange) {
-            context.read<FilterCubit>().setPriceRange(newRange);
-          },
+              min: 0,
+              max: 100000,
+              labels: RangeLabels(
+                "₹${price.start.toInt()}",
+                "₹${price.end.toInt()}",
+              ),
+              divisions: 1000,
+              values: RangeValues(price.start, price.end),
+              onChanged: (newRange) {
+                context.read<FilterCubit>().setPriceRange(newRange);
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Min: ₹${price.start.toInt()}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "Max: ₹${price.end.toInt()}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ],
         );
       },
     );

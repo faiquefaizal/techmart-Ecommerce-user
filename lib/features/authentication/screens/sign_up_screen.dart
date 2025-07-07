@@ -137,12 +137,12 @@ class _SignupScreenState extends State<SignUpScreen> {
                         DropdownMenuItem(value: "other", child: Text("Other")),
                       ],
                       seletedValue: selectedValue,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please select gender";
-                        }
-                        return null;
-                      },
+                      // validator: (value) {
+                      //   if (value == null || value.isEmpty) {
+                      //     return "Please select gender";
+                      //   }
+                      //   return null;
+                      // },
                     ),
                     PhoneNumberField(
                       hintText: "9800000000",
@@ -220,7 +220,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                               password: passwordController.text,
                               dob: dobController.text,
                               email: emailController.text,
-                              gender: selectedValue!,
+                              gender: selectedValue,
                               phone: phoneController.text,
                             ),
                           );

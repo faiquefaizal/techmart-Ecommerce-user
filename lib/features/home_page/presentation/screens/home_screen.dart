@@ -1,18 +1,17 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
-import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/presentation/widgets/custem_search_field.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
+import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -27,6 +26,7 @@ class HomeScreen extends StatelessWidget {
         30.0 + 5.0 + 50.0; // Padding + SizedBox + estimated search field height
     final availableHeight = screenHeight - headerHeight;
     return Scaffold(
+      backgroundColor: const Color.fromARGB(172, 255, 255, 255),
       body: SingleChildScrollView(
         // Make the entire screen scrollable
         child: Padding(
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                               mainAxisSpacing: 10,
                               crossAxisSpacing: 10,
                               crossAxisCount: 2,
-                              childAspectRatio: 0.60, // Maintain aspect ratio
+                              childAspectRatio: 0.65, // Maintain aspect ratio
                             ),
                         itemCount: products.length,
                         itemBuilder: (context, index) {
@@ -117,91 +117,155 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: Container(
-                                  width: 170,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(16),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        spreadRadius: 2,
-                                        blurRadius: 5,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                            12,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      width: 170,
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            spreadRadius: 2,
+                                            blurRadius: 3,
+                                            offset: const Offset(0, 0),
                                           ),
-                                          child: Image.network(
-                                            variant.variantImageUrls!.first,
-                                            height: 150,
-                                            width: double.infinity,
-                                            fit: BoxFit.cover,
-                                            errorBuilder: (
-                                              context,
-                                              error,
-                                              stackTrace,
-                                            ) {
-                                              return Container(
+                                        ],
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.network(
+                                                variant.variantImageUrls!.first,
                                                 height: 150,
                                                 width: double.infinity,
-                                                color: Colors.grey[200],
-                                                child: const Icon(
-                                                  Icons.image,
-                                                  size: 50,
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Text(
-                                          product.productName,
-                                          style:
-                                              CustomTextStyles.homeProductName,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              '₹$regularPrice',
-                                              style:
-                                                  CustomTextStyles.regularPrice,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (
+                                                  context,
+                                                  error,
+                                                  stackTrace,
+                                                ) {
+                                                  return Container(
+                                                    height: 150,
+                                                    width: double.infinity,
+                                                    color: Colors.grey[200],
+                                                    child: const Icon(
+                                                      Icons.image,
+                                                      size: 50,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
                                             ),
-                                            const SizedBox(width: 2),
-                                            if (regularPrice >
-                                                sellingPrice) ...[
-                                              Text(
-                                                '₹$sellingPrice',
-                                                style:
-                                                    CustomTextStyles
-                                                        .sellingPrice,
-                                              ),
-                                              const SizedBox(width: 1),
-                                              Text(
-                                                '$discount% off',
-                                                style:
-                                                    CustomTextStyles
-                                                        .homeDiscount,
-                                              ),
-                                            ],
+                                            const SizedBox(height: 10),
+                                            Text(
+                                              product.productName,
+                                              style:
+                                                  CustomTextStyles
+                                                      .homeProductName,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  '₹$regularPrice',
+                                                  style:
+                                                      CustomTextStyles
+                                                          .regularPrice,
+                                                ),
+                                                const SizedBox(width: 2),
+                                                if (regularPrice >
+                                                    sellingPrice) ...[
+                                                  Text(
+                                                    '₹$sellingPrice',
+                                                    style:
+                                                        CustomTextStyles
+                                                            .sellingPrice,
+                                                  ),
+                                                  const SizedBox(width: 1),
+                                                  Text(
+                                                    '$discount% off',
+                                                    style:
+                                                        CustomTextStyles
+                                                            .homeDiscount,
+                                                  ),
+                                                ],
+                                              ],
+                                            ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
+                                    Positioned(
+                                      top: 17,
+                                      right: 17,
+                                      child: BlocBuilder<
+                                        WishlistCubit,
+                                        WishlistState
+                                      >(
+                                        builder: (context, state) {
+                                          bool isWishList = false;
+                                          if (state is WishlistLoaded) {
+                                            log("stast is called");
+                                            isWishList = state.isWishList(
+                                              product.productId,
+                                              variant.varientId!,
+                                            );
+                                            log(isWishList.toString());
+                                          }
+
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  (isWishList)
+                                                      ? const Color.fromARGB(
+                                                        255,
+                                                        245,
+                                                        227,
+                                                        230,
+                                                      )
+                                                      : Colors.white,
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(15),
+                                              ),
+                                            ),
+                                            height: 40,
+                                            width: 40,
+                                            child: IconButton(
+                                              icon:
+                                                  (isWishList)
+                                                      ? Icon(
+                                                        Icons.favorite,
+                                                        color: Colors.red,
+                                                      )
+                                                      : Icon(
+                                                        Icons.favorite_border,
+                                                        color: Colors.black,
+                                                      ),
+                                              onPressed: () {
+                                                context
+                                                    .read<WishlistCubit>()
+                                                    .toggleWishList(
+                                                      product.productId,
+                                                      variant.varientId!,
+                                                    );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

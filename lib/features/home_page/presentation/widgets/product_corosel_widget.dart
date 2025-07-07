@@ -2,6 +2,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
 class ProductCarouselWidget extends StatelessWidget {
   final List<String>? imageUrls;

@@ -14,6 +14,7 @@ custemBottomSheet(
   ProductBloc productBloc,
   FilterCubit filterBloc,
 ) {
+  filterBloc.fetchBrand();
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -63,16 +64,16 @@ custemBottomSheet(
 
                     SizedBox(height: 8),
                     PriceSliderWidget(),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        "₹${filterState.priceRange.start.toStringAsFixed(0)} - ₹${filterState.priceRange.end.toStringAsFixed(0)}",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.topCenter,
+                    //   child: Text(
+                    //     "₹${filterState.priceRange.start.toStringAsFixed(0)} - ₹${filterState.priceRange.end.toStringAsFixed(0)}",
+                    //     style: TextStyle(
+                    //       fontSize: 20,
+                    //       fontWeight: FontWeight.w600,
+                    //     ),
+                    //   ),
+                    // ),
                     SizedBox(height: 8),
                     Divider(),
                     SizedBox(height: 8),

@@ -164,16 +164,16 @@ class ProductService {
           )
           .where("maxPrice", isLessThanOrEqualTo: filerState.priceRange.end);
     }
-    // if (filerState.sortBy != null) {
-    //   switch (filerState.sortBy!) {
-    //     case PriceSort.lowToHigh:
-    //       quary = quary.orderBy("regularPrice", descending: false);
-    //       break;
-    //     case PriceSort.highToLow:
-    //       quary = quary.orderBy("regularPrice", descending: true);
-    //       break;
-    //  }
-    //}
+    if (filerState.sortBy != null) {
+      switch (filerState.sortBy!) {
+        case PriceSort.lowToHigh:
+          quary = quary.orderBy("minPrice", descending: false);
+          break;
+        case PriceSort.highToLow:
+          quary = quary.orderBy("minPrice", descending: true);
+          break;
+      }
+    }
     return quary.snapshots().map((snapshot) {
       return snapshot.docs
           .map(

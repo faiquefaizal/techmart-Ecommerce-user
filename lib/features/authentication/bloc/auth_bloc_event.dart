@@ -16,14 +16,14 @@ class Register extends AuthBlocEvent {
   final String password;
   final String dob;
   final String email;
-  final String gender;
+  final String? gender;
   final String phone;
   Register({
     required this.name,
     required this.password,
     required this.dob,
     required this.email,
-    required this.gender,
+    this.gender = "",
     required this.phone,
   });
 }

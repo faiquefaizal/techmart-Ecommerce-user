@@ -11,61 +11,52 @@ class BrandChoicChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ProductService.fetchBrands(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<FilterCubit, FilterState>(
+      builder: (context, state) {
+        final brands = state.brandList;
+        final brandId = state.selectedBrandId;
+        if (brands.isEmpty) {
           return Text("Loading");
         }
-        if (!snapshot.hasData || snapshot.data == null) {
-          return const Text("No brands found");
-        }
-        final brands = snapshot.data!;
-
-        return BlocBuilder<FilterCubit, FilterState>(
-          builder: (context, state) {
-            final brandId = state.selectedBrandId;
-            return Wrap(
-              spacing: 5,
-              children: [
-                ChoiceChip(
-                  label: Text(
-                    "All",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: brandId == "" ? Colors.white : Colors.black,
-                    ),
-                  ),
-                  selected: brandId == "",
-                  onSelected: (_) {
-                    context.read<FilterCubit>().selectBrand("");
-                  },
-                  backgroundColor: Colors.white,
-                  selectedColor: Colors.black,
+        return Wrap(
+          spacing: 5,
+          children: [
+            ChoiceChip(
+              label: Text(
+                "All",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: brandId == "" ? Colors.white : Colors.black,
                 ),
-                ...brands.map((brand) {
-                  final isSelected = brandId == brand.brandUid;
-                  return ChoiceChip(
-                    backgroundColor: Colors.white,
-                    selectedColor: Colors.black,
-                    label: Text(
-                      brand.name,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: isSelected ? Colors.white : Colors.black,
-                      ),
-                    ),
-                    selected: isSelected,
-                    onSelected: (selected) {
-                      if (selected) {
-                        context.read<FilterCubit>().selectBrand(brand.brandUid);
-                      }
-                    },
-                  );
-                }),
-              ],
-            );
-          },
+              ),
+              selected: brandId == "",
+              onSelected: (_) {
+                context.read<FilterCubit>().selectBrand("");
+              },
+              backgroundColor: Colors.white,
+              selectedColor: Colors.black,
+            ),
+            ...brands.map((brand) {
+              final isSelected = brandId == brand.brandUid;
+              return ChoiceChip(
+                backgroundColor: Colors.white,
+                selectedColor: Colors.black,
+                label: Text(
+                  brand.name,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: isSelected ? Colors.white : Colors.black,
+                  ),
+                ),
+                selected: isSelected,
+                onSelected: (selected) {
+                  if (selected) {
+                    context.read<FilterCubit>().selectBrand(brand.brandUid);
+                  }
+                },
+              );
+            }),
+          ],
         );
       },
     );

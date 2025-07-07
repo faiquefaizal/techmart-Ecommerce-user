@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:techmart/features/home_page/features/product_filter/model/price_sort_enum.dart';
+import 'package:techmart/features/home_page/models/brand_model.dart';
+import 'package:techmart/features/home_page/service/product_service.dart';
 
 part 'filter_state.dart';
 
@@ -18,6 +20,7 @@ class FilterCubit extends Cubit<FilterState> {
       );
 
   void selectBrand(String? brandId) {
+    if (brandId == state.selectedBrandId) return;
     log('Selected brand ID: $brandId');
 
     emit(state.copyWith(selectedBrandId: brandId));
@@ -32,6 +35,16 @@ class FilterCubit extends Cubit<FilterState> {
   }
 
   void clearFilters() {
-    emit(FilterState(priceRange: const RangeValues(0, 100000)));
+    emit(
+      FilterState(
+        priceRange: const RangeValues(0, 100000),
+        selectedBrandId: "",
+      ),
+    );
+  }
+
+  void fetchBrand() async {
+    final brands = await ProductService.fetchBrands();
+    emit(state.copyWith(brandList: brands));
   }
 }

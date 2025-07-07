@@ -10,6 +10,15 @@ class ProductUtils {
         : 0;
   }
 
+  static int calculateDiscountFromSellingAndBuyongPrice(
+    int sellingPrice,
+    int regularPrice,
+  ) {
+    return sellingPrice > 0 && regularPrice < sellingPrice
+        ? ((sellingPrice - regularPrice) / sellingPrice * 100).round()
+        : 0;
+  }
+
   static Map<String, Map<String, List<ProductVarientModel>>> groupVariants(
     List<ProductVarientModel> variants,
   ) {

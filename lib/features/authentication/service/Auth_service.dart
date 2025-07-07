@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:techmart/features/authentication/service/model/user_model.dart';
+import 'package:techmart/features/authentication/model/user_model.dart';
 
 class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -52,7 +52,7 @@ class AuthService {
     required String passord,
     required String dob,
     required String email,
-    required String gender,
+    String? gender,
     required String phone,
   }) async {
     try {

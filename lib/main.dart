@@ -4,8 +4,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:techmart/core/models/app_routes.dart';
 
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
+import 'package:techmart/features/authentication/presentation/spash_screen.dart';
+import 'package:techmart/features/authentication/screens/login_screen.dart';
+import 'package:techmart/features/authentication/screens/password_reset_screen.dart';
+import 'package:techmart/features/authentication/screens/privacy_policy.dart';
+import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
+import 'package:techmart/features/authentication/screens/terms_and_condition.dart';
+import 'package:techmart/features/authentication/screens/welcome_screen.dart';
+import 'package:techmart/features/cart/cubit/cart_cubit.dart';
+import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
+import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
+import 'package:techmart/features/home_page/presentation/screens/empty_wishlist_screen.dart';
+import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
+import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
 import 'package:techmart/firebase_options.dart';
 import 'package:techmart/screens/home.dart';
@@ -24,8 +38,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBlocBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AuthBlocBloc()),
+        BlocProvider(create: (context) => WishlistCubit()..fetchWisList()),
+        BlocProvider(create: (context) => CartCubit()..fetchAllCart()),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
@@ -71,19 +89,19 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: Home(),
-        // initialRoute: AppRoutes.home,
-        // routes: {
-        //   AppRoutes.splash: (context) => SplashScreen(),
-        //   AppRoutes.welcome: (context) => WelcomeScreen(),
-        //   AppRoutes.login: (context) => LoginScreen(),
-        //   AppRoutes.signUp: (context) => SignUpScreen(),
-        //   AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
-        //   AppRoutes.terms: (context) => TermsAndConditionsPage(),
-        //   AppRoutes.home: (context) => Home(),
-        //   AppRoutes.resetPassword: (context) => PasswordResetScreen(),
-        //   AppRoutes.homeScreen: (context) => HomeScreen(),
-        // },
+        // home: EmptyCartScreen(),
+        initialRoute: AppRoutes.splash,
+        routes: {
+          AppRoutes.splash: (context) => SplashScreen(),
+          AppRoutes.welcome: (context) => WelcomeScreen(),
+          AppRoutes.login: (context) => LoginScreen(),
+          AppRoutes.signUp: (context) => SignUpScreen(),
+          AppRoutes.privacyPolicy: (context) => PrivacyPolicyScreen(),
+          AppRoutes.terms: (context) => TermsAndConditionsPage(),
+          AppRoutes.home: (context) => Home(),
+          AppRoutes.resetPassword: (context) => PasswordResetScreen(),
+          AppRoutes.homeScreen: (context) => HomeScreen(),
+        },
       ),
     );
   }
