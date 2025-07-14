@@ -63,12 +63,13 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         emit(UnAuthenticated());
       }
     } on FirebaseAuthException catch (e) {
-      log("error");
-      emit(ErrorAuth(e.message.toString()));
+      log("error f");
+      emit(ErrorAuth("firebasererror ${e.message.toString()}"));
     }
   }
 
   void _register(Register event, Emitter<AuthBlocState> emit) async {
+    log("loading");
     emit(AuthBlocLoading());
     await Future.delayed(Duration(seconds: 3));
     try {
@@ -81,8 +82,10 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
         phone: event.phone,
       );
       if (user != null) {
+        log("authicated");
         emit(Authticated(user));
       } else {
+        log("not");
         emit(UnAuthenticated());
       }
     } catch (e) {

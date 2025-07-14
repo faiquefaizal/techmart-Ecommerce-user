@@ -33,7 +33,11 @@ class _SignupScreenState extends State<SignUpScreen> {
       listener: (context, state) {
         if (state is ErrorAuth) {
           if (Navigator.canPop(context)) Navigator.pop(context);
-          custemSnakbar(context, state.error, Colors.red);
+          custemSnakbar(
+            context: context,
+            message: state.error,
+            color: Colors.red,
+          );
         } else if (state is AuthBlocLoading) {
           CustomLoadingIndicator(label: "Registering User.....");
         } else if (state is Authticated) {

@@ -1,7 +1,10 @@
 part of 'product_bloc.dart';
 
 @immutable
-sealed class ProductEvent extends Equatable {}
+sealed class ProductEvent extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class ProductLoaded extends ProductEvent {
   final ProductModel product;
@@ -45,3 +48,15 @@ class FileterEvent extends ProductEvent {
   @override
   List<Object?> get props => [filters];
 }
+
+class CombinedSearchAndFilter extends ProductEvent {
+  final String? query;
+  final FilterState? filters;
+
+  CombinedSearchAndFilter({this.query, this.filters});
+
+  @override
+  List<Object?> get props => [query, filters];
+}
+
+final class SearchVisually extends ProductEvent {}

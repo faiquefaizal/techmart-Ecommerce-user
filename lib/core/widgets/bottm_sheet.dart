@@ -9,10 +9,11 @@ import 'package:techmart/features/home_page/features/product_filter/widgets/bran
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_slider_widget.dart';
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
 
-custemBottomSheet(
+void custemBottomSheet(
   BuildContext context,
   ProductBloc productBloc,
   FilterCubit filterBloc,
+  TextEditingController searchText,
 ) {
   filterBloc.fetchBrand();
   showModalBottomSheet(
@@ -35,9 +36,29 @@ custemBottomSheet(
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-                    Text(
-                      "Filter",
-                      style: Theme.of(context).textTheme.headlineLarge,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Filter",
+                          style: Theme.of(context).textTheme.headlineLarge,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.read<FilterCubit>().clearFilters();
+                          },
+                          child: Text(
+                            "Clear",
+
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 8),
                     Divider(),
@@ -92,7 +113,10 @@ custemBottomSheet(
                         final currentfilterState =
                             context.read<FilterCubit>().state;
                         context.read<ProductBloc>().add(
-                          FileterEvent(filters: currentfilterState),
+                          CombinedSearchAndFilter(
+                            query: searchText.text,
+                            filters: currentfilterState,
+                          ),
                         );
                         Navigator.of(context).pop();
                       },

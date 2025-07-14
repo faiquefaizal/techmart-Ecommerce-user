@@ -12,8 +12,10 @@ class ProductCartModel extends Equatable {
   Timestamp? createdtime;
   String imageUrl;
   String productName;
+  int? availableStock;
 
   ProductCartModel({
+    this.availableStock,
     required this.productName,
     required this.productId,
     required this.varientId,
@@ -37,8 +39,11 @@ class ProductCartModel extends Equatable {
     Map<String, String?>? varientAttribute,
     Timestamp? timeStamp,
     String? imageUrl,
+    int? availableStock,
   }) {
     return ProductCartModel(
+      availableStock: availableStock ?? this.availableStock,
+      cartId: cartId ?? this.cartId,
       imageUrl: imageUrl ?? this.imageUrl,
       productId: productId ?? this.productId,
       varientId: varientId ?? this.varientId,
@@ -53,6 +58,7 @@ class ProductCartModel extends Equatable {
 
   factory ProductCartModel.fromMap(Map<String, dynamic> map) {
     return ProductCartModel(
+      availableStock: map["AvaliabelStock"],
       productName: map['productName'],
       cartId: map['cartId'],
       productId: map['productId'],
@@ -70,6 +76,7 @@ class ProductCartModel extends Equatable {
     return {
       'productName': productName,
       'cartId': cartId,
+      "AvaliabelStock": availableStock,
       'productId': productId,
       'varientId': varientId,
       'quatity': quatity,
@@ -82,5 +89,5 @@ class ProductCartModel extends Equatable {
   }
 
   @override
-  List<Object> get props => [cartId!];
+  List<Object> get props => [productId, varientId, quatity];
 }

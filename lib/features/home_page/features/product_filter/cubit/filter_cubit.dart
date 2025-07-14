@@ -36,9 +36,10 @@ class FilterCubit extends Cubit<FilterState> {
 
   void clearFilters() {
     emit(
-      FilterState(
-        priceRange: const RangeValues(0, 100000),
+      state.copyWith(
+        priceRange: RangeValues(0, 100000),
         selectedBrandId: "",
+        sortBy: PriceSort.lowToHigh,
       ),
     );
   }

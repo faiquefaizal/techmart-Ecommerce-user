@@ -66,10 +66,10 @@ class PasswordResetScreen extends StatelessWidget {
                     // }
                     authService.passWordReset(emailcontroller.text.trim());
 
-                    return custemSnakbar(
-                      context,
-                      "Verification link send to your Mail",
-                      Colors.red,
+                    custemSnakbar(
+                      context: context,
+                      message: "Verification link send to your Mail",
+                      color: Colors.red,
                     );
                     // showDialog(
                     //   context: context,
@@ -80,7 +80,11 @@ class PasswordResetScreen extends StatelessWidget {
                     //   },
                     // );
                   } on FirebaseAuthException catch (e) {
-                    custemSnakbar(context, e.message.toString(), Colors.red);
+                    custemSnakbar(
+                      context: context,
+                      message: e.message.toString(),
+                      color: Colors.red,
+                    );
                   }
                 }
               },

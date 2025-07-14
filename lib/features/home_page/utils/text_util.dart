@@ -3,13 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextStyles {
   static final TextStyle productName = GoogleFonts.anton(
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     color: Colors.black87,
   );
 
   static final TextStyle regularPrice = GoogleFonts.anton(
-    fontSize: 19,
+    fontSize: 15,
     fontWeight: FontWeight.bold,
     color: Colors.black87,
   );
@@ -46,17 +46,19 @@ class CustomTextStyles {
     fontWeight: FontWeight.bold,
   );
   // HomeScreen styles
-  static final TextStyle homeProductName = GoogleFonts.anton(
-    fontSize: 15,
-    fontWeight: FontWeight.bold,
-    color: Colors.black54,
+  static final TextStyle homeProductName = GoogleFonts.oswald(
+    fontSize: 21,
+    fontWeight: FontWeight.w600,
+    color: Colors.black87,
+    height: 1.3,
   );
 
   static final TextStyle homeSellingPrice = GoogleFonts.anton(
-    fontSize: 15,
-    fontWeight: FontWeight.bold,
-    color: Colors.black87,
-    letterSpacing: 0.2,
+    fontSize: 18,
+
+    fontWeight: FontWeight.w600,
+    color: Colors.grey,
+    letterSpacing: 0.1,
   );
 
   static final TextStyle homeRegularPrice = GoogleFonts.anton(

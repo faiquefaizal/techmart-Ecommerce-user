@@ -8,6 +8,7 @@ import 'package:techmart/features/home_page/features/product_filter/cubit/filter
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
 import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
+import 'package:techmart/features/home_page/presentation/widgets/visual_search_loading.dart';
 
 class CustemSearchField extends StatelessWidget {
   final Function(String)? onChanged;
@@ -54,6 +55,7 @@ class CustemSearchField extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.camera_alt_outlined, color: Colors.grey),
                       onPressed: () async {
+                        // visualSearchLoading(context);
                         final result = await runVisualSearch();
 
                         if (result != null) {
@@ -68,9 +70,9 @@ class CustemSearchField extends StatelessWidget {
                           );
                         } else {
                           custemSnakbar(
-                            context,
-                            "Viaual Serach failed",
-                            Colors.red,
+                            context: context,
+                            message: "Viaual Serach failed",
+                            color: Colors.red,
                           );
                         }
                       },
@@ -85,7 +87,12 @@ class CustemSearchField extends StatelessWidget {
           onTap: () {
             final filterCubic = context.read<FilterCubit>();
             final productBloc = context.read<ProductBloc>();
-            custemBottomSheet(context, productBloc, filterCubic);
+            custemBottomSheet(
+              context,
+              productBloc,
+              filterCubic,
+              searchController,
+            );
           },
           child: Container(
             height: 60,

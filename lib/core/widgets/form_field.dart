@@ -8,6 +8,8 @@ class CustemTextFIeld extends StatefulWidget {
   final bool password;
   final bool readOnly;
   String? Function(String?)? validator;
+  void Function(String)? onchanged;
+
   CustemTextFIeld({
     required this.label,
     required this.hintText,
@@ -15,6 +17,7 @@ class CustemTextFIeld extends StatefulWidget {
     this.password = false,
     this.readOnly = false,
     this.validator,
+    this.onchanged,
   });
 
   @override
@@ -43,7 +46,7 @@ class _CustemTextFIeldState extends State<CustemTextFIeld> {
           readOnly: widget.readOnly,
           controller: widget.controller,
           obscureText: _obscureText,
-
+          onChanged: widget.onchanged,
           decoration: InputDecoration(
             hintText: widget.hintText,
             filled: true,
@@ -328,6 +331,72 @@ class PhoneNumberField extends StatelessWidget {
             ),
           ],
         ),
+      ],
+    );
+  }
+}
+
+class NewCustemFormField extends StatelessWidget {
+  final TextInputType? keyboardType;
+  final String label;
+  final String hintText;
+  final TextEditingController? controller;
+  final bool password;
+  final bool readOnly;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+  final bool autofocus;
+  final String intialValue;
+
+  const NewCustemFormField({
+    this.intialValue = "",
+    this.autofocus = false,
+    this.keyboardType,
+    Key? key,
+    required this.label,
+    required this.hintText,
+    this.controller,
+    this.password = false,
+    this.readOnly = false,
+    this.validator,
+    this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 5),
+        Text(label, style: const TextStyle(fontWeight: FontWeight.w700)),
+        const SizedBox(height: 8),
+        TextFormField(
+          initialValue: intialValue,
+          keyboardType: keyboardType,
+          controller: controller,
+          autofocus: autofocus,
+          validator: validator,
+          readOnly: readOnly,
+
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            hintText: hintText,
+            filled: true,
+            fillColor: const Color.fromARGB(255, 255, 253, 253),
+
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(
+                color: Color.fromARGB(255, 229, 229, 229),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Colors.black),
+            ),
+          ),
+        ),
+        const SizedBox(height: 5),
       ],
     );
   }

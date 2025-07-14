@@ -42,7 +42,7 @@ class BrandChoicChips extends StatelessWidget {
                 backgroundColor: Colors.white,
                 selectedColor: Colors.black,
                 label: Text(
-                  brand.name,
+                  brand.name[0].toUpperCase() + brand.name.substring(1),
                   style: TextStyle(
                     fontSize: 13,
                     color: isSelected ? Colors.white : Colors.black,

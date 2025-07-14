@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
 
-custemSnakbar(BuildContext context, String message, Color color) {
-  final snakbar = SnackBar(
+void custemSnakbar({
+  required BuildContext context,
+  required String message,
+  required Color color,
+  VoidCallback? onUndo,
+}) {
+  final snackBar = SnackBar(
     content: Text(message),
     backgroundColor: color,
-    margin: EdgeInsets.all(8),
+    margin: const EdgeInsets.all(8),
     behavior: SnackBarBehavior.floating,
-    padding: EdgeInsets.all(10),
-    duration: Duration(seconds: 2),
+    padding: const EdgeInsets.all(10),
+    duration: const Duration(seconds: 3),
     dismissDirection: DismissDirection.vertical,
+    action:
+        onUndo != null
+            ? SnackBarAction(
+              label: 'UNDO',
+              textColor: Colors.white,
+              onPressed: onUndo,
+            )
+            : null,
   );
+
   ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(snakbar);
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

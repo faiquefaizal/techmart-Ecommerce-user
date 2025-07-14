@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:techmart/core/utils/debouncer.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
@@ -19,6 +20,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   StreamSubscription<List<ProductModel>>? _searchSubsription;
 
   ProductBloc() : super(ProductInitial()) {
+    print(" ProductBloc constructed");
+    on<SearchVisually>((event, emit) => emit(VisualSearchLoading()));
     on<ProductLoaded>((event, emit) async {
       final varients = await ProductService.getVariantsForProduct(
         event.product.productId,
@@ -47,8 +50,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       }
     });
     on<SearchProduct>((event, emit) async {
+      print(" SearchProduct event handled");
       debounser.run(() {
         _searchSubsription?.cancel();
+        add(SearchVisually());
         _searchSubsription = ProductService.searchWithRx(
           event.productName,
         ).listen(
@@ -59,6 +64,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             } else {
               log("search ${product.first.toString()}");
             }
+
             add(_ProductsFetched(product));
           },
           onError: (error) {
@@ -100,6 +106,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     // });
 
     on<_ProductsFetched>((event, emit) {
+      Logger().d("called fetch");
       if (event.products.isEmpty) {
         emit(ProductSearchNotFound());
       } else {
@@ -108,6 +115,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
 
     on<_SearchFailed>((event, emit) {
+      log(event.error);
       emit(ProductSearchError(event.error));
     });
     on<FileterEvent>((event, emit) async {
@@ -124,6 +132,28 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           add(_ProductsFetched(products));
         },
         onError: (error) {
+          log(error.toString());
+          add(_SearchFailed(error.toString()));
+        },
+      );
+    });
+    on<CombinedSearchAndFilter>((event, emit) {
+      Logger().w("bloc triggerd");
+      _searchSubsription?.cancel();
+
+      _searchSubsription = ProductService.searchAndFilter(
+        query: event.query,
+        filter: event.filters,
+      ).listen(
+        (products) {
+          Logger().w(" Products fetched in BLoC");
+          for (var p in products) {
+            Logger().w(" ${p.productId} | ${p.productName} | ₹${p.minPrice}");
+          }
+          add(_ProductsFetched(products));
+        },
+        onError: (error) {
+          Logger().e(error.toString());
           add(_SearchFailed(error.toString()));
         },
       );

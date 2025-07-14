@@ -7,7 +7,7 @@ import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
-import 'package:techmart/features/home_page/presentation/screens/empty_wishlist_screen.dart';
+import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
@@ -47,6 +47,10 @@ class FavoritesScreen extends StatelessWidget {
                     future: WishlistService.getProductFromId(wislist.productId),
 
                     builder: (context, asyncSnapshot) {
+                      if (asyncSnapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
                       log("id ${asyncSnapshot.data?.productId.toString()}");
 
                       final product = asyncSnapshot.data;
@@ -84,7 +88,9 @@ class FavoritesScreen extends StatelessWidget {
                                             (_) =>
                                                 ProductBloc()
                                                   ..add(ProductLoaded(product)),
-                                        child: ProductDetailScreen(),
+                                        child: ProductDetailScreen(
+                                          varientModel: variant,
+                                        ),
                                       ),
                                 ),
                               );

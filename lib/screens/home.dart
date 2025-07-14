@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:techmart/features/accounts/presentation/screens/account_screen.dart';
 import 'package:techmart/features/cart/presentation/screens/cart_screen.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
-import 'package:techmart/features/home_page/presentation/screens/empty_wishlist_screen.dart';
+
 import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
 
-import 'package:techmart/screens/account_screen.dart';
-
-import 'package:techmart/features/wishlist_page/presentation/favorites_screen.dart';
+import 'package:techmart/features/wishlist_page/presentation/screens/favorites_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -24,10 +24,10 @@ class _HomeState extends State<Home> {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create:
-              (context) => ProductBloc()..add(SearchProduct(productName: "")),
+          create: (context) => ProductBloc()..add(CombinedSearchAndFilter()),
         ),
         BlocProvider(create: (context) => FilterCubit()),
+        BlocProvider(create: (context) => ImageIndexCubit()),
       ],
       child: HomeScreen(),
     ),

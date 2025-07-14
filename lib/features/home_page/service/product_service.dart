@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/model/price_sort_enum.dart';
@@ -58,9 +60,24 @@ class ProductService {
       return;
     }
 
-    // final words = query.toLowerCase().split(' ');
+    final freeQuary = query;
+
+    final fullPhraseSnapshot =
+        await FirebaseFirestore.instance
+            .collection('Products')
+            .where('productName', isGreaterThanOrEqualTo: freeQuary)
+            .where('productName', isLessThanOrEqualTo: '$freeQuary\uf8ff')
+            .get();
+
+    if (fullPhraseSnapshot.docs.isNotEmpty) {
+      yield fullPhraseSnapshot.docs
+          .map((e) => ProductModel.fromMap(e.data() as Map<String, dynamic>))
+          .toList();
+      return;
+    }
+    final words = freeQuary.split(' ').where((v) => v.isNotEmpty);
     log("quary afternot empty chek");
-    final words = query.split(' ');
+    // final words = query.split(' ');
     List<Stream<List<ProductModel>>> allStreams = [];
 
     for (String word in words) {
@@ -152,7 +169,7 @@ class ProductService {
 
   static Stream<List<ProductModel>> filterProdoct(FilterState filerState) {
     Query quary = _productsRef;
-
+    Logger().w(filerState.sortBy);
     if (filerState.selectedBrandId != "") {
       quary = quary.where("brandId", isEqualTo: filerState.selectedBrandId);
     }
@@ -168,10 +185,69 @@ class ProductService {
       switch (filerState.sortBy!) {
         case PriceSort.lowToHigh:
           quary = quary.orderBy("minPrice", descending: false);
-          break;
+          quary.snapshots().listen((snapshot) {
+            final products =
+                snapshot.docs
+                    .map(
+                      (doc) => ProductModel.fromMap(
+                        doc.data() as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList();
+            Logger().i(
+              "low to high  ${products.map((e) => e.minPrice).toList()}",
+            );
+          });
+          return quary.snapshots().map((snapshot) {
+            final products =
+                snapshot.docs
+                    .map(
+                      (doc) => ProductModel.fromMap(
+                        doc.data() as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList();
+            for (var product in products) {
+              Logger().w(
+                "productName ${product.productId} minPrice${product.minPrice}   ",
+              );
+            }
+            return products;
+          });
+
         case PriceSort.highToLow:
           quary = quary.orderBy("minPrice", descending: true);
-          break;
+
+          quary.snapshots().listen((snapshot) {
+            final products =
+                snapshot.docs
+                    .map(
+                      (doc) => ProductModel.fromMap(
+                        doc.data() as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList();
+            Logger().e(
+              "high to low  ${products.map((e) => e.minPrice).toList()}",
+            );
+          });
+          return quary.snapshots().map((snapshot) {
+            log("switchreturn entered");
+            final products =
+                snapshot.docs
+                    .map(
+                      (doc) => ProductModel.fromMap(
+                        doc.data() as Map<String, dynamic>,
+                      ),
+                    )
+                    .toList();
+            for (var product in products) {
+              Logger().w(
+                "productName ${product.productId} minPrice${product.minPrice}   ",
+              );
+            }
+            return products;
+          });
       }
     }
     return quary.snapshots().map((snapshot) {
@@ -181,5 +257,44 @@ class ProductService {
           )
           .toList();
     });
+  }
+
+  static Stream<List<ProductModel>> searchAndFilter({
+    String? query,
+    FilterState? filter,
+  }) async* {
+    // Logger().e(" search query: '$query'");
+    // Logger().e(" brand filter: '${filter?.selectedBrandId ?? "null"}");
+    // Logger().e(
+    //   " price range: ₹${filter!.priceRange.start} - ₹${filter.priceRange.end}",
+    // );
+    // Logger().e("↕sort: ${filter.sortBy}");
+
+    if (query == null && filter != null) {
+      yield* filterProdoct(filter);
+      return;
+    }
+    if (filter == null && query != null || query == null && filter == null) {
+      yield* searchWithRx(query ?? "");
+      return;
+    } else {
+      final searchStream = searchWithRx(query!);
+      final filterStream = filterProdoct(filter!);
+
+      yield* Rx.combineLatest2(searchStream, filterStream, (
+        List<ProductModel> searchList,
+        List<ProductModel> filterList,
+      ) {
+        final searchIds = searchList.map((e) => e.productId).toSet();
+        final merged =
+            filterList.where((p) => searchIds.contains(p.productId)).toList();
+
+        log("Combined Search + Filter → ${merged.length} products:");
+        for (var p in merged) {
+          log("${p.productId} | ${p.productName} | ₹${p.minPrice}");
+        }
+        return merged;
+      });
+    }
   }
 }

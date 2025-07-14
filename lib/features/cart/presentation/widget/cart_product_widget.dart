@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:techmart/features/cart/cubit/cart_cubit.dart';
+import 'package:techmart/features/cart/bloc/cart_bloc.dart';
+
 import 'package:techmart/features/cart/model/product_cart_model.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 
@@ -46,7 +47,7 @@ class CustemProductCard extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min, // Use min to wrap content
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,8 +62,8 @@ class CustemProductCard extends StatelessWidget {
 
                       GestureDetector(
                         onTap: () {
-                          context.read<CartCubit>().deleteFromCart(
-                            cartModel.cartId!,
+                          context.read<CartBloc>().add(
+                            DeleteFromCartEvent(cartModel.cartId!),
                           );
                         },
                         child: const Icon(Icons.delete, color: Colors.red),
@@ -109,7 +110,7 @@ class CustemProductCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 12.0),
-                  // Quantity controls
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -127,8 +128,8 @@ class CustemProductCard extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               onPressed: () {
-                                context.read<CartCubit>().decreaseQuatity(
-                                  cartModel.cartId!,
+                                context.read<CartBloc>().add(
+                                  DecreaseQtyEvent(cartModel),
                                 );
                               },
                             ),
@@ -142,10 +143,8 @@ class CustemProductCard extends StatelessWidget {
                             IconButton(
                               icon: const Icon(Icons.add, color: Colors.white),
                               onPressed: () {
-                                context.read<CartCubit>().increaseQuatity(
-                                  cartModel.cartId!,
-                                  cartModel.productId,
-                                  cartModel.varientId,
+                                context.read<CartBloc>().add(
+                                  IncreaseQtyEvent(cartModel),
                                 );
                               },
                             ),

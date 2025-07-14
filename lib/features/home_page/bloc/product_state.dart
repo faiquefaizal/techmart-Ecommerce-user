@@ -38,3 +38,38 @@ class ProductSearchError extends ProductState {
 }
 
 final class ProductSearchNotFound extends ProductState {}
+
+class CombinedProductLoading extends ProductState {
+  final List<ProductModel> products;
+  final String query;
+  final FilterState filters;
+
+  CombinedProductLoading(this.products, this.query, this.filters);
+
+  @override
+  List<Object?> get props => [products, query, filters];
+}
+
+class CombinedProductError extends ProductState {
+  final String message;
+  final String query;
+  final FilterState filters;
+
+  CombinedProductError(this.message, this.query, this.filters);
+
+  @override
+  List<Object?> get props => [message, query, filters];
+}
+
+class CombinedProductLoaded extends ProductState {
+  final List<ProductModel> products;
+  final String query;
+  final FilterState filters;
+
+  CombinedProductLoaded(this.products, this.query, this.filters);
+
+  @override
+  List<Object?> get props => [products, query, filters];
+}
+
+final class VisualSearchLoading extends ProductState {}

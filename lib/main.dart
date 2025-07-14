@@ -5,19 +5,23 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/models/app_routes.dart';
+import 'package:techmart/features/accounts/features/address/bloc/adderss_bloc.dart';
+import 'package:techmart/features/accounts/features/address/cubit/address_cubit.dart';
+import 'package:techmart/features/accounts/presentation/screens/account_screen.dart';
 
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 import 'package:techmart/features/authentication/presentation/spash_screen.dart';
-import 'package:techmart/features/authentication/screens/login_screen.dart';
-import 'package:techmart/features/authentication/screens/password_reset_screen.dart';
-import 'package:techmart/features/authentication/screens/privacy_policy.dart';
-import 'package:techmart/features/authentication/screens/sign_up_screen.dart';
-import 'package:techmart/features/authentication/screens/terms_and_condition.dart';
-import 'package:techmart/features/authentication/screens/welcome_screen.dart';
-import 'package:techmart/features/cart/cubit/cart_cubit.dart';
+import 'package:techmart/features/authentication/presentation/screens/login_screen.dart';
+import 'package:techmart/features/authentication/presentation/screens/password_reset_screen.dart';
+import 'package:techmart/features/authentication/presentation/screens/privacy_policy.dart';
+import 'package:techmart/features/authentication/presentation/screens/sign_up_screen.dart';
+import 'package:techmart/features/authentication/presentation/screens/terms_and_condition.dart';
+import 'package:techmart/features/authentication/presentation/screens/welcome_screen.dart';
+import 'package:techmart/features/cart/bloc/cart_bloc.dart';
+
 import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
-import 'package:techmart/features/home_page/presentation/screens/empty_wishlist_screen.dart';
+import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
 import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
@@ -42,7 +46,8 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthBlocBloc()),
         BlocProvider(create: (context) => WishlistCubit()..fetchWisList()),
-        BlocProvider(create: (context) => CartCubit()..fetchAllCart()),
+        BlocProvider(create: (context) => CartBloc()..add(FetchCart())),
+        BlocProvider(create: (context) => AdderssBloc()..add(GetAllAddress())),
       ],
       child: MaterialApp(
         theme: ThemeData(
@@ -65,7 +70,7 @@ class MyApp extends StatelessWidget {
             ),
             headlineMedium: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w200,
+              fontWeight: FontWeight.w400,
             ),
             headlineLarge: GoogleFonts.lato(
               fontSize: 35,
@@ -89,7 +94,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        // home: EmptyCartScreen(),
+        // home: MyWidget(),
         initialRoute: AppRoutes.splash,
         routes: {
           AppRoutes.splash: (context) => SplashScreen(),
