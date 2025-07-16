@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextStyles {
-  static final TextStyle productName = GoogleFonts.anton(
-    fontSize: 20,
+  static final TextStyle productName = GoogleFonts.oswald(
+    fontSize: 29,
     fontWeight: FontWeight.bold,
     color: Colors.black87,
+    letterSpacing: 1.5,
   );
 
   static final TextStyle regularPrice = GoogleFonts.anton(
-    fontSize: 15,
+    fontSize: 38,
     fontWeight: FontWeight.bold,
     color: Colors.black87,
   );
 
   static final TextStyle sellingPrice = GoogleFonts.anton(
-    fontSize: 15,
+    fontSize: 20,
     fontWeight: FontWeight.bold,
     color: Colors.grey,
     decoration: TextDecoration.lineThrough,
@@ -27,22 +28,23 @@ class CustomTextStyles {
     color: Colors.green,
   );
 
-  static final TextStyle variantAttribute = GoogleFonts.anton(
+  static final TextStyle variantAttribute = GoogleFonts.oswald(
     fontSize: 18,
     color: Colors.black87,
   );
 
-  static final TextStyle sectionTitle = GoogleFonts.anton(
+  static final TextStyle sectionTitle = GoogleFonts.oswald(
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle description = GoogleFonts.anton(
+  static final TextStyle description = GoogleFonts.oswald(
     fontSize: 16,
     color: Colors.black54,
   );
 
   static final TextStyle brandName = const TextStyle(
+    fontSize: 12,
     fontWeight: FontWeight.bold,
   );
   // HomeScreen styles

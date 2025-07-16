@@ -15,6 +15,7 @@ import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/presentation/screens/loading_product_card.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
+import 'package:techmart/features/home_page/presentation/screens/search_not_found.dart';
 import 'package:techmart/features/home_page/presentation/widgets/custem_search_field.dart';
 import 'package:techmart/features/home_page/presentation/widgets/discount_widget.dart';
 import 'package:techmart/features/home_page/presentation/widgets/favorite_button_widget.dart';
@@ -79,11 +80,11 @@ class HomeScreen extends StatelessWidget {
                     }
                     if (state is ProductSearchError) {
                       log("error state");
-                      return Center(child: Text("Error: ${state.message}"));
+                      return SearchNotFound(error: state.message);
                     }
                     if (state is ProductSearchNotFound) {
                       log("search not found state callled");
-                      return const Center(child: Text("Product Not Found"));
+                      return SearchNotFound();
                     }
                     if (state is ProductLoading) {
                       log("stateisProductLoading");

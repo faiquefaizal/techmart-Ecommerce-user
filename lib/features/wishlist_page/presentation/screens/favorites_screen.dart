@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
+import 'package:techmart/features/home_page/presentation/screens/loading_product_card.dart';
 import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
@@ -22,7 +24,10 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WishlistCubit, WishlistState>(
       builder: (context, state) {
-        if (state is WishlistInitial || state is EmptyWishlistState) {
+        if (state is WishlistInitial) {
+          return loadingShimmerGrid();
+        }
+        if (state is EmptyWishlistState) {
           return EmptyWishlistScreen();
         } else if (state is wishlistError) {
           log(state.error);
@@ -49,7 +54,7 @@ class FavoritesScreen extends StatelessWidget {
                     builder: (context, asyncSnapshot) {
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return loadingCardShimmer(context);
                       }
                       log("id ${asyncSnapshot.data?.productId.toString()}");
 
@@ -61,9 +66,7 @@ class FavoritesScreen extends StatelessWidget {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return loadingCardShimmer(context);
                           }
 
                           final variantList = snapshot.data!;
@@ -80,14 +83,22 @@ class FavoritesScreen extends StatelessWidget {
 
                           return GestureDetector(
                             onTap: () {
+                              final indexCubic =
+                                  context.read<ImageIndexCubit>();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder:
-                                      (context) => BlocProvider(
-                                        create:
-                                            (_) =>
-                                                ProductBloc()
-                                                  ..add(ProductLoaded(product)),
+                                      (context) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(value: indexCubic),
+                                          BlocProvider(
+                                            create:
+                                                (_) =>
+                                                    ProductBloc()..add(
+                                                      ProductLoaded(product),
+                                                    ),
+                                          ),
+                                        ],
                                         child: ProductDetailScreen(
                                           varientModel: variant,
                                         ),
@@ -158,7 +169,8 @@ class FavoritesScreen extends StatelessWidget {
                                             Text(
                                               '₹$regularPrice',
                                               style:
-                                                  CustomTextStyles.regularPrice,
+                                                  CustomTextStyles
+                                                      .homeSellingPrice,
                                             ),
                                             const SizedBox(width: 2),
                                             if (regularPrice >

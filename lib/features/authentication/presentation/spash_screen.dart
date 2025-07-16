@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
@@ -45,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
               children: [
                 Image.asset("assets/logo.png", height: 250),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.25),
-                CircularProgressIndicator(color: Colors.white, strokeWidth: 8),
+                LottieBuilder.asset("assets/splash_screen_loading.json"),
               ],
             ),
           );

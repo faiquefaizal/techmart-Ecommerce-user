@@ -59,4 +59,7 @@ class CombinedSearchAndFilter extends ProductEvent {
   List<Object?> get props => [query, filters];
 }
 
-final class SearchVisually extends ProductEvent {}
+class SearchVisually extends ProductEvent {
+  TextEditingController controller;
+  SearchVisually({required this.controller});
+}

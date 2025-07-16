@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:techmart/core/utils/debouncer.dart';
@@ -21,7 +22,27 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   ProductBloc() : super(ProductInitial()) {
     print(" ProductBloc constructed");
-    on<SearchVisually>((event, emit) => emit(VisualSearchLoading()));
+    on<SearchVisually>((event, emit) async {
+      emit(VisualSearchLoading());
+
+      try {
+        final result = await runVisualSearch();
+
+        if (result != null) {
+          final query =
+              "${result.safeCategory} ${result.safeModel} ${result.brandName}"
+                  .trim();
+
+          event.controller.text = query;
+
+          add(SearchProduct(productName: query));
+        } else {
+          add(_SearchFailed("Viaual Serach failed"));
+        }
+      } catch (e) {
+        add(_SearchFailed(e.toString()));
+      }
+    });
     on<ProductLoaded>((event, emit) async {
       final varients = await ProductService.getVariantsForProduct(
         event.product.productId,
@@ -53,7 +74,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       print(" SearchProduct event handled");
       debounser.run(() {
         _searchSubsription?.cancel();
-        add(SearchVisually());
+
         _searchSubsription = ProductService.searchWithRx(
           event.productName,
         ).listen(

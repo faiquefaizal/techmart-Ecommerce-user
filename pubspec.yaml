@@ -60,6 +60,10 @@ dependencies:
   intl: ^0.20.2
   smooth_page_indicator: ^1.2.1
   photo_view: ^0.15.0
+  animated_flip_counter: ^0.3.4
+  animated_number: ^1.0.2
+  animated_read_more_text: ^0.0.6
+  neopop: ^1.0.2
 
 dev_dependencies:
   flutter_test:
@@ -92,6 +96,8 @@ flutter:
     - assets/cart.json
     - assets/Google_Icons-09-512.webp
     - assets/ai_loading.json
+    - assets/splash_screen_loading.json
+    - assets/search_not_found.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

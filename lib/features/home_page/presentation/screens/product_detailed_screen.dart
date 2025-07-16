@@ -1,19 +1,27 @@
 import 'dart:developer';
 
+import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:animated_read_more_text/animated_read_more_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/utils/price_formater.dart';
+import 'package:techmart/core/utils/text_util.dart/capitalizse_text.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
+import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 import 'package:techmart/features/cart/cubit/cart_cubit.dart';
 import 'package:techmart/features/cart/model/product_cart_model.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/features/image_preview/widgets/image_corosal.dart';
+import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
+import 'package:techmart/features/home_page/presentation/screens/add_to_cart.dart';
+import 'package:techmart/features/home_page/presentation/widgets/favorites_detail_page.dart';
 import 'package:techmart/features/home_page/presentation/widgets/product_corosel_widget.dart';
+import 'package:techmart/features/home_page/presentation/widgets/varient_button.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
@@ -26,13 +34,7 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: [],
-      ),
+      appBar: custemAppbar(heading: "Details", context: context),
       body: BlocListener<CartBloc, CartState>(
         listener: (context, state) {
           if (state is CartAdded) {
@@ -87,8 +89,8 @@ class ProductDetailScreen extends StatelessWidget {
                             imageUrls: singleVariant.variantImageUrls,
                           ),
                           Positioned(
-                            top: 17,
-                            right: 17,
+                            top: 22,
+                            right: 22,
                             child: BlocBuilder<WishlistCubit, WishlistState>(
                               builder: (context, state) {
                                 bool isWishList = false;
@@ -99,43 +101,10 @@ class ProductDetailScreen extends StatelessWidget {
                                   );
                                 }
 
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color:
-                                        (isWishList)
-                                            ? const Color.fromARGB(
-                                              255,
-                                              245,
-                                              227,
-                                              230,
-                                            )
-                                            : Colors.white,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(15),
-                                    ),
-                                  ),
-                                  height: 40,
-                                  width: 40,
-                                  child: IconButton(
-                                    icon:
-                                        (isWishList)
-                                            ? Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                            )
-                                            : Icon(
-                                              Icons.favorite_border,
-                                              color: Colors.black,
-                                            ),
-                                    onPressed: () {
-                                      context
-                                          .read<WishlistCubit>()
-                                          .toggleWishList(
-                                            product.productId,
-                                            singleVariant.varientId!,
-                                          );
-                                    },
-                                  ),
+                                return favorites_detailPage_button(
+                                  isWishList: isWishList,
+                                  product: product,
+                                  singleVariant: singleVariant,
                                 );
                               },
                             ),
@@ -232,7 +201,6 @@ class ProductDetailScreen extends StatelessWidget {
               );
             }
 
-            // Multiple variants case
             final variantGroups = ProductUtils.groupVariants(state.vairents);
 
             final effectiveVariant = ProductUtils.getEffectiveVariant(
@@ -249,7 +217,7 @@ class ProductDetailScreen extends StatelessWidget {
                   children: [
                     Stack(
                       children: [
-                        ProductCarouselWidget(
+                        ProductCarouselWidgetUpdated(
                           imageUrls: effectiveVariant.variantImageUrls,
                         ),
                         Positioned(
@@ -314,34 +282,54 @@ class ProductDetailScreen extends StatelessWidget {
                       future: ProductService.getBrandNameById(product.brandId),
                       builder: (context, asyncSnapshot) {
                         return Text(
-                          asyncSnapshot.data ?? "Loading..",
+                          captilize(asyncSnapshot.data),
                           style: CustomTextStyles.brandName,
                         );
                       },
                     ),
                     Text(
-                      product.productName,
+                      captilize(product.productName),
                       style: CustomTextStyles.productName,
                     ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Text(
-                          '₹${effectiveVariant.regularPrice.toString()}',
-                          style: CustomTextStyles.regularPrice,
+                        AnimatedFlipCounter(
+                          value: effectiveVariant.regularPrice,
+                          thousandSeparator: ",",
+                          prefix: '₹',
+                          textStyle: CustomTextStyles.regularPrice,
+
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeOut,
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          '₹${effectiveVariant.sellingPrice.toString()}',
-                          style: CustomTextStyles.sellingPrice,
+                        AnimatedFlipCounter(
+                          value: effectiveVariant.sellingPrice,
+                          thousandSeparator: ",",
+                          prefix: '₹',
+                          textStyle: CustomTextStyles.sellingPrice,
+
+                          duration: Duration(milliseconds: 500),
+                          curve: Curves.easeInOut,
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          '$discount% off',
-                          style: CustomTextStyles.discount,
+                        AnimatedFlipCounter(
+                          duration: Duration(milliseconds: 500),
+                          value: discount,
+                          suffix: "% off",
+                          textStyle: CustomTextStyles.discount,
                         ),
                       ],
                     ),
+                    if (effectiveVariant.regularPrice > 100)
+                      Text(
+                        "Free Delivery",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                     const SizedBox(height: 16),
                     ...variantGroups.entries.map((entry) {
                       final attributeName = entry.key;
@@ -355,7 +343,7 @@ class ProductDetailScreen extends StatelessWidget {
                             style: CustomTextStyles.sectionTitle,
                           ),
                           const SizedBox(height: 8),
-                          Row(
+                          Wrap(
                             children:
                                 valueToVariants.entries.map((valueEntry) {
                                   final value = valueEntry.key;
@@ -371,30 +359,12 @@ class ProductDetailScreen extends StatelessWidget {
 
                                   return Padding(
                                     padding: const EdgeInsets.only(right: 8.0),
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        if (variants.contains(
-                                          effectiveVariant,
-                                        )) {
-                                          context.read<ProductBloc>().add(
-                                            VariantSelected(effectiveVariant),
-                                          );
-                                        } else {
-                                          context.read<ProductBloc>().add(
-                                            VariantSelected(
-                                              representativeVariant,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            variants.contains(effectiveVariant)
-                                                ? Colors.black
-                                                : Colors.grey,
-                                        foregroundColor: Colors.white,
-                                      ),
-                                      child: Text(value),
+                                    child: varient_button_widget(
+                                      variants: variants,
+                                      effectiveVariant: effectiveVariant,
+                                      representativeVariant:
+                                          representativeVariant,
+                                      value: value,
                                     ),
                                   );
                                 }).toList(),
@@ -408,10 +378,17 @@ class ProductDetailScreen extends StatelessWidget {
                       style: CustomTextStyles.sectionTitle,
                     ),
                     const SizedBox(height: 8),
-                    Text(
+                    AnimatedReadMoreText(
                       product.productDescription,
-                      style: CustomTextStyles.description,
+                      maxLines: 2,
+
+                      textStyle: CustomTextStyles.description,
+                      buttonTextStyle: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
                     ),
+
                     BlocBuilder<CartBloc, CartState>(
                       builder: (context, state) {
                         bool isInCart = false;
@@ -421,30 +398,10 @@ class ProductDetailScreen extends StatelessWidget {
                             product.productId,
                           );
                         }
-                        return CustemButton(
-                          Label: isInCart ? 'Go to Cart' : 'Add to Cart',
-                          onpressed: () {
-                            if (!isInCart) {
-                              final ProductCartModel
-                              cartModel = ProductCartModel(
-                                productName: product.productName,
-                                productId: product.productId,
-                                varientId: effectiveVariant.varientId!,
-                                quatity: 1,
-                                regularPrice:
-                                    effectiveVariant.regularPrice.toString(),
-                                sellingPrice:
-                                    effectiveVariant.sellingPrice.toString(),
-                                varientAttribute:
-                                    effectiveVariant.variantAttributes,
-                                imageUrl:
-                                    effectiveVariant.variantImageUrls!.first,
-                              );
-                              context.read<CartBloc>().add(
-                                AddToCartEvent(cartModel: cartModel),
-                              );
-                            }
-                          },
+                        return add_to_cart_botton(
+                          isInCart: isInCart,
+                          product: product,
+                          effectiveVariant: effectiveVariant,
                         );
                       },
                     ),

@@ -55,6 +55,9 @@ class CustemSearchField extends StatelessWidget {
                     IconButton(
                       icon: Icon(Icons.camera_alt_outlined, color: Colors.grey),
                       onPressed: () async {
+                        context.read<ProductBloc>().add(
+                          SearchVisually(controller: searchController),
+                        );
                         // visualSearchLoading(context);
                         final result = await runVisualSearch();
 

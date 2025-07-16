@@ -13,7 +13,6 @@ Widget loadingCardShimmer(BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image placeholder
             Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
@@ -29,7 +28,6 @@ Widget loadingCardShimmer(BuildContext context) {
 
             const SizedBox(height: 10),
 
-            // Product name placeholder
             Shimmer.fromColors(
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
