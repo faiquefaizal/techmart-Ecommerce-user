@@ -4,8 +4,8 @@ import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
-class favrite_widget extends StatelessWidget {
-  const favrite_widget({
+class FavoriteButtonWidget extends StatelessWidget {
+  const FavoriteButtonWidget({
     super.key,
     required this.isWishList,
     required this.product,
@@ -20,10 +20,7 @@ class favrite_widget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color:
-            (isWishList)
-                ? const Color.fromARGB(255, 245, 227, 230)
-                : Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       height: 40,
@@ -31,7 +28,7 @@ class favrite_widget extends StatelessWidget {
       child: IconButton(
         icon:
             (isWishList)
-                ? Icon(Icons.favorite, color: Colors.red)
+                ? Icon(Icons.favorite, color: Colors.black)
                 : Icon(Icons.favorite_border, color: Colors.black),
         onPressed: () {
           context.read<WishlistCubit>().toggleWishList(

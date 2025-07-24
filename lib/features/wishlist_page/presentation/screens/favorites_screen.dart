@@ -8,7 +8,7 @@ import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
-import 'package:techmart/features/home_page/presentation/screens/loading_product_card.dart';
+import 'package:techmart/features/home_page/presentation/widgets/loading_product_card.dart';
 import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';

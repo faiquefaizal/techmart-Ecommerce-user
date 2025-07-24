@@ -15,7 +15,7 @@ class CustomTextStyles {
     color: Colors.black87,
   );
 
-  static final TextStyle sellingPrice = GoogleFonts.anton(
+  static final TextStyle sellingPrice = GoogleFonts.poppins(
     fontSize: 20,
     fontWeight: FontWeight.bold,
     color: Colors.grey,
@@ -55,7 +55,7 @@ class CustomTextStyles {
     height: 1.3,
   );
 
-  static final TextStyle homeSellingPrice = GoogleFonts.anton(
+  static final TextStyle homeSellingPrice = GoogleFonts.poppins(
     fontSize: 18,
 
     fontWeight: FontWeight.w600,
@@ -74,5 +74,44 @@ class CustomTextStyles {
     fontSize: 10,
     fontWeight: FontWeight.bold,
     color: Colors.green,
+  );
+}
+
+class CustemTextStyles {
+  static const TextStyle headline = TextStyle(
+    fontFamily: 'GeneralSans',
+    fontSize: 28,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+    letterSpacing: 0.5,
+  );
+
+  static const TextStyle subHeadline = TextStyle(
+    fontFamily: 'GeneralSans',
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+    letterSpacing: 0.2,
+  );
+
+  static const TextStyle body = TextStyle(
+    fontFamily: 'GeneralSans',
+    fontSize: 15,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  );
+
+  static const TextStyle price = TextStyle(
+    fontFamily: 'GeneralSans',
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  );
+
+  static const TextStyle discount = TextStyle(
+    fontFamily: 'GeneralSans',
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
   );
 }

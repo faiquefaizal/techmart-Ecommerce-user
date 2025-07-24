@@ -52,6 +52,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
+          cardColor: Colors.white,
+          shadowColor: Colors.black.withAlpha((0.2 * 0.255).toInt()),
           textTheme: TextTheme(
             displayLarge: GoogleFonts.lato(
               fontSize: 60,

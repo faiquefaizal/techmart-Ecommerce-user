@@ -114,7 +114,7 @@ class ProductDetailScreen extends StatelessWidget {
 
                       const SizedBox(height: 16),
                       Text(
-                        product.productName,
+                        captilize(product.productName),
                         style: CustomTextStyles.productName,
                       ),
                       const SizedBox(height: 8),
@@ -155,10 +155,17 @@ class ProductDetailScreen extends StatelessWidget {
                         style: CustomTextStyles.sectionTitle,
                       ),
                       const SizedBox(height: 8),
-                      Text(
+                      AnimatedReadMoreText(
                         product.productDescription,
-                        style: CustomTextStyles.sectionTitle,
+                        maxLines: 2,
+
+                        textStyle: CustomTextStyles.description,
+                        buttonTextStyle: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
                       ),
+
                       BlocBuilder<CartBloc, CartState>(
                         builder: (context, state) {
                           bool isInCart = false;
@@ -398,7 +405,7 @@ class ProductDetailScreen extends StatelessWidget {
                             product.productId,
                           );
                         }
-                        return add_to_cart_botton(
+                        return AddToCart(
                           isInCart: isInCart,
                           product: product,
                           effectiveVariant: effectiveVariant,

@@ -10,8 +10,8 @@ import 'package:techmart/features/cart/model/product_cart_model.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 
-class add_to_cart_botton extends StatelessWidget {
-  const add_to_cart_botton({
+class AddToCart extends StatelessWidget {
+  const AddToCart({
     super.key,
     required this.isInCart,
     required this.product,
@@ -24,43 +24,24 @@ class add_to_cart_botton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: NeoPopButton(
-        color: Colors.black,
-        bottomShadowColor: Color.fromARGB(255, 70, 126, 72),
-        rightShadowColor: Color.fromARGB(255, 70, 126, 72),
+    return CustemButton(
+      Label: isInCart ? 'Go to Cart' : 'Add to Cart',
 
-        onTapUp: () {},
-        border: Border.all(color: Color.fromARGB(255, 70, 126, 72), width: 1),
-        child: Center(
-          child: Text(
-            isInCart ? 'Go to Cart' : 'Add to Cart',
-            style: GoogleFonts.schibstedGrotesk(
-              color: Colors.white,
-
-              fontSize: 25,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-
-        // onTapUp: () {
-        //   if (!isInCart) {
-        //     final ProductCartModel cartModel = ProductCartModel(
-        //       productName: product.productName,
-        //       productId: product.productId,
-        //       varientId: effectiveVariant.varientId!,
-        //       quatity: 1,
-        //       regularPrice: effectiveVariant.regularPrice.toString(),
-        //       sellingPrice: effectiveVariant.sellingPrice.toString(),
-        //       varientAttribute: effectiveVariant.variantAttributes,
-        //       imageUrl: effectiveVariant.variantImageUrls!.first,
-        //     );
-        //     context.read<CartBloc>().add(AddToCartEvent(cartModel: cartModel));
-        //   }
-        // },
-      ),
+      onpressed: () {
+        if (!isInCart) {
+          final ProductCartModel cartModel = ProductCartModel(
+            productName: product.productName,
+            productId: product.productId,
+            varientId: effectiveVariant.varientId!,
+            quatity: 1,
+            regularPrice: effectiveVariant.regularPrice.toString(),
+            sellingPrice: effectiveVariant.sellingPrice.toString(),
+            varientAttribute: effectiveVariant.variantAttributes,
+            imageUrl: effectiveVariant.variantImageUrls!.first,
+          );
+          context.read<CartBloc>().add(AddToCartEvent(cartModel: cartModel));
+        }
+      },
     );
   }
 }

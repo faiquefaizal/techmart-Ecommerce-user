@@ -140,21 +140,25 @@ class ProductCarouselWidgetUpdated extends StatelessWidget {
         ),
 
         // if (imageUrls != null && imageUrls!.length > 1)
-        Center(
-          child: AnimatedSmoothIndicator(
-            activeIndex: index,
-            effect: const ScrollingDotsEffect(
-              paintStyle: PaintingStyle.fill,
-              activeDotColor: Colors.black,
-              dotColor: Color.fromARGB(108, 253, 252, 252),
-              dotHeight: 8,
-              dotWidth: 8,
-              spacing: 6,
+        ...[
+          SizedBox(height: 10),
+          Center(
+            child: AnimatedSmoothIndicator(
+              activeIndex: index,
+              effect: SwapEffect(
+                type: SwapType.yRotation,
+                paintStyle: PaintingStyle.fill,
+                activeDotColor: Colors.black,
+                dotColor: Color.fromARGB(108, 152, 152, 152),
+                dotHeight: 8,
+                dotWidth: 8,
+                spacing: 6,
+              ),
+              count: imageUrls!.length,
+              onDotClicked: (index) => corosel.animateToPage(index),
             ),
-            count: imageUrls!.length,
-            onDotClicked: (index) => corosel.animateToPage(index),
           ),
-        ),
+        ],
       ],
     );
   }

@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:logger/web.dart';
-import 'package:redacted/redacted.dart';
+
 import 'package:techmart/core/utils/price_formater.dart';
 
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
-import 'package:techmart/features/home_page/models/peoduct_model.dart';
+
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
-import 'package:techmart/features/home_page/presentation/screens/loading_product_card.dart';
+import 'package:techmart/features/home_page/presentation/widgets/loading_product_card.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/search_not_found.dart';
 import 'package:techmart/features/home_page/presentation/widgets/custem_search_field.dart';
@@ -98,10 +98,10 @@ class HomeScreen extends StatelessWidget {
                         child: GridView.builder(
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 10,
+                                mainAxisSpacing: 1,
                                 crossAxisSpacing: 10,
                                 crossAxisCount: 2,
-                                childAspectRatio: 0.64, // Maintain aspect ratio
+                                childAspectRatio: 0.60,
                               ),
                           itemCount: products.length,
                           itemBuilder: (context, index) {
@@ -185,34 +185,43 @@ class HomeScreen extends StatelessWidget {
                                           },
                                           child: Stack(
                                             children: [
-                                              Container(
-                                                width: 170,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  boxShadow: [
-                                                    BoxShadow(
-                                                      color: Colors.grey,
-                                                      spreadRadius: 2,
-                                                      blurRadius: 3,
-                                                      offset: const Offset(
-                                                        0,
-                                                        0,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              Padding(
+                                                padding: const EdgeInsets.all(
+                                                  12.0,
                                                 ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets.all(
-                                                    12.0,
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      ClipRRect(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Theme.of(
+                                                              context,
+                                                            ).cardColor,
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12,
+                                                            ),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Theme.of(
+                                                                  context,
+                                                                ).shadowColor
+                                                                .withOpacity(
+                                                                  0.1,
+                                                                ),
+                                                            blurRadius: 6,
+                                                            offset:
+                                                                const Offset(
+                                                                  0,
+                                                                  3,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
+
+                                                      child: ClipRRect(
                                                         borderRadius:
                                                             BorderRadius.circular(
                                                               12,
@@ -258,51 +267,48 @@ class HomeScreen extends StatelessWidget {
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        height: 10,
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    Text(
+                                                      product.productName[0]
+                                                              .toUpperCase() +
+                                                          product.productName
+                                                              .substring(1),
+                                                      style: TextStyle(
+                                                        fontFamily:
+                                                            "GeneralSans",
+                                                        fontSize: 15,
                                                       ),
-                                                      Text(
-                                                        product.productName[0]
-                                                                .toUpperCase() +
-                                                            product.productName
-                                                                .substring(1),
-                                                        style: CustomTextStyles
-                                                            .homeProductName
-                                                            .copyWith(
-                                                              fontSize: 21,
-                                                            ),
-                                                        maxLines: 1,
-                                                        overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
-                                                      ),
-                                                      const SizedBox(height: 5),
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        children: [
-                                                          Text(
-                                                            formatIndianPrice(
-                                                              (product.minPrice
-                                                                  .toInt()),
-                                                            ),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Text(
+                                                          formatIndianPrice(
+                                                            (product.minPrice
+                                                                .toInt()),
+                                                          ),
 
-                                                            style:
-                                                                CustomTextStyles
-                                                                    .homeSellingPrice,
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 2,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                          style:
+                                                              CustomTextStyles
+                                                                  .homeSellingPrice,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 2,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                               Positioned(
-                                                top: 17,
-                                                right: 17,
+                                                top: 20,
+                                                right: 20,
                                                 child: BlocBuilder<
                                                   WishlistCubit,
                                                   WishlistState
@@ -320,7 +326,7 @@ class HomeScreen extends StatelessWidget {
                                                       // log(isWishList.toString());
                                                     }
 
-                                                    return favrite_widget(
+                                                    return FavoriteButtonWidget(
                                                       isWishList: isWishList,
                                                       product: product,
                                                       variant: variant,
@@ -331,10 +337,13 @@ class HomeScreen extends StatelessWidget {
                                               if (regularPrice <= sellingPrice)
                                                 Positioned(
                                                   left: 12,
-                                                  top: 12,
-                                                  child: discount_widget(
+                                                  top: 12.5,
+                                                  child: dicount_widget(
                                                     discount: discount,
                                                   ),
+                                                  //  discount_widget(
+                                                  //   discount: discount,
+                                                  // ),
                                                 ),
                                             ],
                                           ),

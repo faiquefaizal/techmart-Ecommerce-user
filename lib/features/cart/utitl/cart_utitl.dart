@@ -13,17 +13,22 @@ String getTotalDiscounts(List<ProductCartModel> cartList) {
   if (cartList.isEmpty) return '0';
 
   final totalDiscount = cartList.fold<int>(0, (sum, cart) {
-    final selling = int.tryParse(cart.sellingPrice) ?? 0;
-    final regular = int.tryParse(cart.regularPrice) ?? 0;
+    final mrp = int.tryParse(cart.sellingPrice) ?? 0; // original MRP
+    final selling =
+        int.tryParse(cart.regularPrice) ?? 0; // actual selling price
     final quantity = cart.quatity;
 
-    final discountPerItem =
-        ProductUtils.calculateDiscountFromSellingAndBuyongPrice(
-          selling,
-          regular,
-        );
+    final discountPerItem = mrp - selling;
     return sum + (discountPerItem * quantity);
   });
 
   return totalDiscount.toString();
+}
+
+int getShippingFee(int total) {
+  return total > 1000 ? 0 : 100;
+}
+
+int getTotalPrice({int? shopping, int? delivery}) {
+  return (shopping ?? 0) + (delivery ?? 0);
 }

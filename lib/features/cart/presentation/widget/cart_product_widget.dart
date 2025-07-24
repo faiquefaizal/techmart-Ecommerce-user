@@ -1,41 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:techmart/core/widgets/custem_alrert_dialog.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
-
 import 'package:techmart/features/cart/model/product_cart_model.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 
-class CustemProductCard extends StatelessWidget {
-  ProductCartModel cartModel;
-  CustemProductCard({super.key, required this.cartModel});
+class CustomProductCard extends StatelessWidget {
+  final ProductCartModel cartModel;
+
+  const CustomProductCard({super.key, required this.cartModel});
 
   @override
   Widget build(BuildContext context) {
-    final dicount = ProductUtils.calculateDiscountFromSellingAndBuyongPrice(
+    final discount = ProductUtils.calculateDiscountFromSellingAndBuyongPrice(
       int.parse(cartModel.sellingPrice),
       int.parse(cartModel.regularPrice),
     );
+
     return Card(
-      elevation: 2.0,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Colors.grey, // Border color
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(12.0),
-      ),
+      elevation: 2,
+
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+
           children: [
             Container(
               width: 100,
-              height: 100,
+              height: 120,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8.0),
-                color: Colors.grey[200],
+                border: Border.all(color: Colors.grey, width: 1),
                 image: DecorationImage(
                   image: NetworkImage(cartModel.imageUrl),
                   fit: BoxFit.cover,
@@ -43,115 +42,150 @@ class CustemProductCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 16.0),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         cartModel.productName,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-
-                      GestureDetector(
-                        onTap: () {
-                          context.read<CartBloc>().add(
-                            DeleteFromCartEvent(cartModel.cartId!),
+                      IconButton(
+                        onPressed: () {
+                          showDeleteConfirmationDialog(
+                            context,
+                            () {
+                              context.read<CartBloc>().add(
+                                DeleteFromCartEvent(cartModel.cartId!),
+                              );
+                            },
+                            "Cart Removed",
+                            Colors.red,
                           );
                         },
-                        child: const Icon(Icons.delete, color: Colors.red),
+                        icon: Icon(
+                          Icons.delete_outline_outlined,
+                          color: Colors.red,
+                        ),
                       ),
                     ],
                   ),
+                  const SizedBox(height: 4.0),
 
                   Text(
                     cartModel.varientAttribute.entries
-                        .map((value) => "${value.key} ${value.value}")
-                        .join(","),
-                    style: TextStyle(fontSize: 14.0, color: Colors.grey[600]),
-                  ),
-                  SizedBox(height: 12.0),
-                  Row(
-                    children: [
-                      Text(
-                        cartModel.regularPrice,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Text(
-                        cartModel.sellingPrice,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.grey,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      if (dicount > 0)
-                        Text(
-                          dicount.toString(),
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                    ],
+                        .map((value) => "${value.key}: ${value.value}")
+                        .join(" • "),
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.black54,
+                    ),
                   ),
                   const SizedBox(height: 12.0),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          border: Border.all(color: Colors.white),
-                          borderRadius: BorderRadius.circular(8.0),
+                  FittedBox(
+                    child: Row(
+                      children: [
+                        Text(
+                          '₹${cartModel.sellingPrice}',
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
                         ),
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.remove,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                context.read<CartBloc>().add(
-                                  DecreaseQtyEvent(cartModel),
-                                );
-                              },
+                        const SizedBox(width: 8.0),
+
+                        Text(
+                          '₹${cartModel.regularPrice}',
+                          style: const TextStyle(
+                            fontSize: 14.0,
+                            color: Colors.black54,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(width: 8.0),
+
+                        if (discount > 0)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 2,
                             ),
-                            Text(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withAlpha(25),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '$discount% OFF',
+                              style: const TextStyle(
+                                fontSize: 12.0,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 12.0),
+
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        border: Border.all(color: Colors.black26),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.remove, size: 20),
+                            color: Colors.white,
+                            onPressed: () {
+                              context.read<CartBloc>().add(
+                                DecreaseQtyEvent(cartModel),
+                              );
+                            },
+                          ),
+                          Container(
+                            width: 30,
+                            alignment: Alignment.center,
+                            child: Text(
                               cartModel.quatity.toString(),
                               style: const TextStyle(
-                                fontSize: 16.0,
                                 color: Colors.white,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.add, color: Colors.white),
-                              onPressed: () {
-                                context.read<CartBloc>().add(
-                                  IncreaseQtyEvent(cartModel),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.add, size: 20),
+                            color: Colors.white,
+                            onPressed: () {
+                              context.read<CartBloc>().add(
+                                IncreaseQtyEvent(cartModel),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
