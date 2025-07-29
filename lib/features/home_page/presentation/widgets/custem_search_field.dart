@@ -26,12 +26,12 @@ class CustemSearchField extends StatelessWidget {
         Expanded(
           child: Card(
             color: Colors.white,
-            elevation: 3,
+            elevation: 1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: SizedBox(
                 height: 60,
                 child: Row(

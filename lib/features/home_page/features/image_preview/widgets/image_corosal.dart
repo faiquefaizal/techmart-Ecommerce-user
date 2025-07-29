@@ -102,7 +102,7 @@ class ProductCarouselWidgetUpdated extends StatelessWidget {
             onPageChanged: (index, reason) {
               context.read<ImageIndexCubit>().chageIndex(index);
             },
-            height: 300,
+            height: 270,
             aspectRatio: 16 / 9,
             viewportFraction: 1.0,
             enableInfiniteScroll: true,

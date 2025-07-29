@@ -45,3 +45,53 @@ class AddToCart extends StatelessWidget {
     );
   }
 }
+
+class AddtoCartBottomSheet extends StatelessWidget {
+  const AddtoCartBottomSheet({
+    super.key,
+    required this.isInCart,
+    required this.product,
+    required this.effectiveVariant,
+  });
+
+  final bool isInCart;
+  final ProductModel product;
+  final ProductVarientModel effectiveVariant;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: 200,
+      child: ElevatedButton.icon(
+        onPressed: () {
+          if (!isInCart) {
+            final ProductCartModel cartModel = ProductCartModel(
+              productName: product.productName,
+              productId: product.productId,
+              varientId: effectiveVariant.varientId!,
+              quatity: 1,
+              regularPrice: effectiveVariant.regularPrice.toString(),
+              sellingPrice: effectiveVariant.sellingPrice.toString(),
+              varientAttribute: effectiveVariant.variantAttributes,
+              imageUrl: effectiveVariant.variantImageUrls!.first,
+            );
+            context.read<CartBloc>().add(AddToCartEvent(cartModel: cartModel));
+          }
+        },
+        icon: Icon(Icons.shopping_bag_outlined, color: Colors.white),
+        label: Text(
+          isInCart ? 'Go to Cart' : 'Add to Cart',
+          style: TextStyle(color: Colors.white),
+        ),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 16),
+        ),
+      ),
+    );
+  }
+}

@@ -8,14 +8,17 @@ import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/core/widgets/label_align_price.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
+import 'package:techmart/core/widgets/spacing_widget.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
-import 'package:techmart/features/cart/presentation/screens/check_out_page.dart';
 
 import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_shemmer.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
 
 import 'package:techmart/features/cart/utitl/cart_utitl.dart';
+import 'package:techmart/features/check_out/cubit/select_payment_cubic.dart';
+import 'package:techmart/features/check_out/cubit/selected_address_cubit.dart';
+import 'package:techmart/features/check_out/presentation/screens/check_out_page.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -93,36 +96,66 @@ class CartScreen extends StatelessWidget {
                             value: subtotal,
                             label: "Subtotal",
                           ),
-                          const SizedBox(height: 8),
+                          const VerticalSpaceWisget(5),
 
                           LabelAlignPriceWidget(
                             value: totalDiscount,
                             label: "Discount",
                           ),
+                          const VerticalSpaceWisget(5),
+
                           LabelAlignPriceWidget(
                             value: shippingCharge.toString(),
                             label: "Shippin Charge",
                           ),
-                          Divider(),
+                          const VerticalSpaceWisget(5),
+                          const Divider(),
+                          const VerticalSpaceWisget(5),
                           HeadLabelAlignPriceWidget(
                             value: total.toString(),
                             label: "Total",
                           ),
-                          Spacer(),
-                          CustemButton(
-                            Label: "Go to Checkout ",
-                            onpressed:
-                                () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => CheckOutPage(),
-                                  ),
-                                ),
-                          ),
+
+                          // CustemButton(
+                          //   Label: "Go to Checkout ",
+                          //   onpressed:
+                          //       () => Navigator.of(context).push(
+                          //         MaterialPageRoute(
+                          //           builder: (context) => CheckOutPage(),
+                          //         ),
+                          //       ),
+                          // ),
                         ],
                       ),
                     ),
                   ],
                 ),
+              ),
+            ),
+
+            bottomNavigationBar: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CustemButton(
+                hieght: 55,
+                Label: "Go to Checkout",
+                onpressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder:
+                          (context) => MultiBlocProvider(
+                            providers: [
+                              BlocProvider(
+                                create: (context) => SelectedAddressCubit(),
+                              ),
+                              BlocProvider(
+                                create: (context) => SelectPaymentCubic(),
+                              ),
+                            ],
+                            child: CheckoutPage(),
+                          ),
+                    ),
+                  );
+                },
               ),
             ),
           );

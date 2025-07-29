@@ -22,7 +22,7 @@ class AddressModel extends Equatable {
     required this.area,
     this.isDefault = false,
   });
-
+  String get fulladdress => "$houseNo, $area, $city, $state - $pinCode";
   factory AddressModel.fromMap(Map<String, dynamic> map) {
     return AddressModel(
       id: map['id'],

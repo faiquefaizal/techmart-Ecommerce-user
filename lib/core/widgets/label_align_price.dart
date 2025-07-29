@@ -1,5 +1,6 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LabelAlignPriceWidget extends StatelessWidget {
   final String label;
@@ -22,16 +23,19 @@ class LabelAlignPriceWidget extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontSize: 18,
             color: textColor,
+            fontWeight: FontWeight.w200,
           ),
         ),
         AnimatedFlipCounter(
           value: int.parse(value),
           thousandSeparator: ",",
           prefix: '₹',
-          textStyle: TextStyle(fontSize: 18),
+          textStyle: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
 
           duration: Duration(milliseconds: 250),
           curve: Curves.easeOut,
@@ -63,8 +67,8 @@ class HeadLabelAlignPriceWidget extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w500,
+            fontSize: 21,
+            fontWeight: FontWeight.w400,
             color: textColor,
           ),
         ),
@@ -72,7 +76,10 @@ class HeadLabelAlignPriceWidget extends StatelessWidget {
           value: int.parse(value),
           thousandSeparator: ",",
           prefix: '₹',
-          textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          textStyle: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
 
           duration: Duration(milliseconds: 250),
           curve: Curves.easeOut,

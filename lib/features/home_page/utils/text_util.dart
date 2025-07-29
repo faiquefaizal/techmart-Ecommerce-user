@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextStyles {
+  static final TextStyle cartPrice = GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: Colors.black87,
+  );
   static final TextStyle productName = GoogleFonts.oswald(
     fontSize: 29,
     fontWeight: FontWeight.bold,
@@ -9,14 +14,20 @@ class CustomTextStyles {
     letterSpacing: 1.5,
   );
 
-  static final TextStyle regularPrice = GoogleFonts.anton(
-    fontSize: 38,
+  static final TextStyle cartCardPrice = GoogleFonts.poppins(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: Colors.black87,
+  );
+
+  static final TextStyle regularPrice = GoogleFonts.poppins(
+    fontSize: 33,
     fontWeight: FontWeight.bold,
     color: Colors.black87,
   );
 
   static final TextStyle sellingPrice = GoogleFonts.poppins(
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: Colors.grey,
     decoration: TextDecoration.lineThrough,
@@ -56,9 +67,9 @@ class CustomTextStyles {
   );
 
   static final TextStyle homeSellingPrice = GoogleFonts.poppins(
-    fontSize: 18,
+    fontSize: 11,
 
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w400,
     color: Colors.grey,
     letterSpacing: 0.1,
   );
@@ -74,6 +85,17 @@ class CustomTextStyles {
     fontSize: 10,
     fontWeight: FontWeight.bold,
     color: Colors.green,
+  );
+  static const variantAttributeKey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: Colors.black87,
+  );
+
+  static const variantAttributeValue = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
   );
 }
 

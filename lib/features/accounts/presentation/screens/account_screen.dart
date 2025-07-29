@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
-import 'package:techmart/features/accounts/presentation/screens/address_screen.dart';
+import 'package:techmart/features/accounts/features/address/presentation/screens/address_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});

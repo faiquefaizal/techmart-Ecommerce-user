@@ -2,29 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustemButton extends StatelessWidget {
+  double hieght;
   String Label;
   VoidCallback onpressed;
   Widget? child;
   Color color;
   Color textcolor;
+  double radius;
+  double textSize;
+  Color borderColor;
+  FontWeight fontWeight;
   CustemButton({
+    this.hieght = 60,
     required this.Label,
     required this.onpressed,
     this.child,
+    this.radius = 5,
     this.color = Colors.black,
     this.textcolor = Colors.white,
+    this.textSize = 25,
+    this.borderColor = Colors.black,
+    this.fontWeight = FontWeight.w400,
   });
 
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: hieght,
       width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.grey),
-            borderRadius: BorderRadius.circular(15),
+            side: BorderSide(color: borderColor),
+            borderRadius: BorderRadius.circular(radius),
           ),
           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         ),
@@ -33,11 +43,11 @@ class CustemButton extends StatelessWidget {
             child ??
             Text(
               Label,
+              textAlign: TextAlign.center,
               style: GoogleFonts.lato(
                 color: textcolor,
-
-                fontSize: 25,
-                fontWeight: FontWeight.w400,
+                fontSize: textSize,
+                fontWeight: fontWeight,
               ),
             ),
       ),

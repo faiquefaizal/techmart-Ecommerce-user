@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
+import 'package:techmart/core/widgets/cusetmrouded_button.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
@@ -31,47 +32,49 @@ void custemBottomSheet(
             return SingleChildScrollView(
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
+                    Center(
+                      child: Container(
+                        height: 8,
+                        width: 70,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 235, 235, 235),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Filter",
+                          "Filters",
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<FilterCubit>().clearFilters();
-                          },
-                          child: Text(
-                            "Clear",
 
-                            style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(Icons.close, size: 30),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+
                     Divider(),
-                    SizedBox(height: 8),
+                    SizedBox(height: 5),
                     Text(
                       "Sort By",
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 5),
                     PriceSortChip(),
-                    SizedBox(height: 8),
+
                     Divider(),
-                    SizedBox(height: 8),
+                    // SizedBox(height: 8),
                     Row(
                       children: [
                         Text(
@@ -83,7 +86,6 @@ void custemBottomSheet(
                       ],
                     ),
 
-                    SizedBox(height: 8),
                     PriceSliderWidget(),
                     // Align(
                     //   alignment: Alignment.topCenter,
@@ -103,23 +105,41 @@ void custemBottomSheet(
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
 
-                    SizedBox(height: 8),
-
+                    // SizedBox(height: 8),
                     BrandChoicChips(),
-                    SizedBox(height: 15),
-                    CustemButton(
-                      Label: "Apply Filters",
-                      onpressed: () {
-                        final currentfilterState =
-                            context.read<FilterCubit>().state;
-                        context.read<ProductBloc>().add(
-                          CombinedSearchAndFilter(
-                            query: searchText.text,
-                            filters: currentfilterState,
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: CusetmroudedButton(
+                            textcolor: Colors.black,
+                            color: Colors.white,
+                            Label: "Clear",
+                            onpressed: () {
+                              context.read<FilterCubit>().clearFilters();
+                            },
                           ),
-                        );
-                        Navigator.of(context).pop();
-                      },
+                        ),
+                        SizedBox(width: 10),
+                        Flexible(
+                          flex: 1,
+                          child: CusetmroudedButton(
+                            Label: "Apply Filters",
+                            onpressed: () {
+                              final currentfilterState =
+                                  context.read<FilterCubit>().state;
+                              context.read<ProductBloc>().add(
+                                CombinedSearchAndFilter(
+                                  query: searchText.text,
+                                  filters: currentfilterState,
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

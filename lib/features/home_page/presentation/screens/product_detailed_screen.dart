@@ -11,6 +11,7 @@ import 'package:techmart/core/utils/text_util.dart/capitalizse_text.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
+import 'package:techmart/core/widgets/spacing_widget.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 import 'package:techmart/features/cart/cubit/cart_cubit.dart';
 import 'package:techmart/features/cart/model/product_cart_model.dart';
@@ -115,9 +116,20 @@ class ProductDetailScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       Text(
                         captilize(product.productName),
-                        style: CustomTextStyles.productName,
+                        style: TextStyle(
+                          fontFamily: "GeneralSans",
+                          fontSize: 45,
+                        ),
                       ),
                       const SizedBox(height: 8),
+                      if (singleVariant.regularPrice > 1000)
+                        Text(
+                          "Free Delivery",
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
                       Row(
                         children: [
                           Text(
@@ -140,68 +152,78 @@ class ProductDetailScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      ...singleVariant.variantAttributes.entries.map((entry) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Text(
-                            '${entry.key}: ${entry.value}',
-                            style: CustomTextStyles.variantAttribute,
-                          ),
-                        );
-                      }),
-                      SizedBox(height: 16),
-                      Text(
-                        'Product Description',
-                        style: CustomTextStyles.sectionTitle,
-                      ),
-                      const SizedBox(height: 8),
+
+                      // const SizedBox(height: 8),
                       AnimatedReadMoreText(
                         product.productDescription,
-                        maxLines: 2,
+                        maxLines: 4,
 
                         textStyle: CustomTextStyles.description,
                         buttonTextStyle: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w700,
                           color: Colors.black,
                         ),
                       ),
+                      VerticalSpaceWisget(30),
+                      ...singleVariant.variantAttributes.entries.map((entry) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: '${entry.key}: ',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                TextSpan(
+                                  text: captilize('${entry.value}'),
+                                  style: CustomTextStyles.variantAttributeValue,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }),
 
-                      BlocBuilder<CartBloc, CartState>(
-                        builder: (context, state) {
-                          bool isInCart = false;
-                          if (state is CartLoaded) {
-                            isInCart = state.isCartAdded(
-                              singleVariant.varientId!,
-                              product.productId,
-                            );
-                          }
-                          return CustemButton(
-                            Label: isInCart ? 'Go to Cart' : 'Add to Cart',
-                            onpressed: () {
-                              if (!isInCart) {
-                                final ProductCartModel cartModel =
-                                    ProductCartModel(
-                                      productName: product.productName,
-                                      productId: product.productId,
-                                      varientId: singleVariant.varientId!,
-                                      quatity: 1,
-                                      regularPrice:
-                                          singleVariant.regularPrice.toString(),
-                                      sellingPrice:
-                                          singleVariant.sellingPrice.toString(),
-                                      varientAttribute:
-                                          singleVariant.variantAttributes,
-                                      imageUrl:
-                                          singleVariant.variantImageUrls!.first,
-                                    );
-                                context.read<CartBloc>().add(
-                                  AddToCartEvent(cartModel: cartModel),
-                                );
-                              }
-                            },
-                          );
-                        },
-                      ),
+                      SizedBox(height: 16),
+
+                      // BlocBuilder<CartBloc, CartState>(
+                      //   builder: (context, state) {
+                      //     bool isInCart = false;
+                      //     if (state is CartLoaded) {
+                      //       isInCart = state.isCartAdded(
+                      //         singleVariant.varientId!,
+                      //         product.productId,
+                      //       );
+                      //     }
+                      //     return CustemButton(
+                      //       Label: isInCart ? 'Go to Cart' : 'Add to Cart',
+                      //       onpressed: () {
+                      //         if (!isInCart) {
+                      //           final ProductCartModel cartModel =
+                      //               ProductCartModel(
+                      //                 productName: product.productName,
+                      //                 productId: product.productId,
+                      //                 varientId: singleVariant.varientId!,
+                      //                 quatity: 1,
+                      //                 regularPrice:
+                      //                     singleVariant.regularPrice.toString(),
+                      //                 sellingPrice:
+                      //                     singleVariant.sellingPrice.toString(),
+                      //                 varientAttribute:
+                      //                     singleVariant.variantAttributes,
+                      //                 imageUrl:
+                      //                     singleVariant.variantImageUrls!.first,
+                      //               );
+                      //           context.read<CartBloc>().add(
+                      //             AddToCartEvent(cartModel: cartModel),
+                      //           );
+                      //         }
+                      //       },
+                      //     );
+                      //     },
+                      //  )
                     ],
                   ),
                 ),
@@ -240,43 +262,23 @@ class ProductDetailScreen extends StatelessWidget {
                                 );
                               }
 
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      (isWishList)
-                                          ? const Color.fromARGB(
-                                            255,
-                                            245,
-                                            227,
-                                            230,
-                                          )
-                                          : Colors.white,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(15),
-                                  ),
-                                ),
-                                height: 40,
-                                width: 40,
-                                child: IconButton(
-                                  icon:
-                                      (isWishList)
-                                          ? Icon(
-                                            Icons.favorite,
-                                            color: Colors.red,
-                                          )
-                                          : Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.black,
-                                          ),
-                                  onPressed: () {
-                                    context
-                                        .read<WishlistCubit>()
-                                        .toggleWishList(
-                                          product.productId,
-                                          effectiveVariant.varientId!,
-                                        );
-                                  },
-                                ),
+                              return IconButton(
+                                icon:
+                                    (isWishList)
+                                        ? Icon(
+                                          Icons.favorite,
+                                          color: Colors.black,
+                                        )
+                                        : Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.black,
+                                        ),
+                                onPressed: () {
+                                  context.read<WishlistCubit>().toggleWishList(
+                                    product.productId,
+                                    effectiveVariant.varientId!,
+                                  );
+                                },
                               );
                             },
                           ),
@@ -296,7 +298,7 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     Text(
                       captilize(product.productName),
-                      style: CustomTextStyles.productName,
+                      style: TextStyle(fontFamily: "GeneralSans", fontSize: 40),
                     ),
                     const SizedBox(height: 8),
                     Row(
@@ -329,7 +331,7 @@ class ProductDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    if (effectiveVariant.regularPrice > 100)
+                    if (effectiveVariant.regularPrice > 1000)
                       Text(
                         "Free Delivery",
                         style: TextStyle(
@@ -338,6 +340,18 @@ class ProductDetailScreen extends StatelessWidget {
                         ),
                       ),
                     const SizedBox(height: 16),
+                    AnimatedReadMoreText(
+                      product.productDescription,
+                      maxLines: 4,
+
+                      textStyle: CustomTextStyles.description,
+                      buttonTextStyle: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.black,
+                      ),
+                    ),
+                    VerticalSpaceWisget(5),
+
                     ...variantGroups.entries.map((entry) {
                       final attributeName = entry.key;
                       final valueToVariants = entry.value;
@@ -347,7 +361,7 @@ class ProductDetailScreen extends StatelessWidget {
                         children: [
                           Text(
                             'Choose ${attributeName[0].toUpperCase()}${attributeName.substring(1)}',
-                            style: CustomTextStyles.sectionTitle,
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           const SizedBox(height: 8),
                           Wrap(
@@ -380,44 +394,111 @@ class ProductDetailScreen extends StatelessWidget {
                         ],
                       );
                     }),
-                    Text(
-                      'Product Description',
-                      style: CustomTextStyles.sectionTitle,
-                    ),
-                    const SizedBox(height: 8),
-                    AnimatedReadMoreText(
-                      product.productDescription,
-                      maxLines: 2,
+                    // Text(
+                    //   'Product Description',
+                    //   style: CustomTextStyles.sectionTitle,
+                    // ),
+                    // const SizedBox(height: 8),
+                    // AnimatedReadMoreText(
+                    //   product.productDescription,
+                    //   maxLines: 4,
 
-                      textStyle: CustomTextStyles.description,
-                      buttonTextStyle: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black,
-                      ),
-                    ),
+                    //   textStyle: CustomTextStyles.description,
+                    //   buttonTextStyle: TextStyle(
+                    //     fontWeight: FontWeight.w700,
+                    //     color: Colors.black,
+                    //   ),
+                    // ),
 
-                    BlocBuilder<CartBloc, CartState>(
-                      builder: (context, state) {
-                        bool isInCart = false;
-                        if (state is CartLoaded) {
-                          isInCart = state.isCartAdded(
-                            effectiveVariant.varientId!,
-                            product.productId,
-                          );
-                        }
-                        return AddToCart(
-                          isInCart: isInCart,
-                          product: product,
-                          effectiveVariant: effectiveVariant,
-                        );
-                      },
-                    ),
+                    // BlocBuilder<CartBloc, CartState>(
+                    //   builder: (context, state) {
+                    //     bool isInCart = false;
+                    //     if (state is CartLoaded) {
+                    //       isInCart = state.isCartAdded(
+                    //         effectiveVariant.varientId!,
+                    //         product.productId,
+                    //       );
+                    //     }
+                    //     return AddToCart(
+                    //       isInCart: isInCart,
+                    //       product: product,
+                    //       effectiveVariant: effectiveVariant,
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               ),
             );
           },
         ),
+      ),
+      bottomNavigationBar: BlocBuilder<ProductBloc, ProductState>(
+        builder: (context, state) {
+          if (state is! ProductLoadSuccess) {
+            return SizedBox.shrink();
+          }
+
+          final product = state.product;
+          final effectiveVariant = ProductUtils.getEffectiveVariant(
+            ProductUtils.groupVariants(state.vairents),
+            state.selectedVariant,
+            state.vairents,
+          );
+
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(
+                top: BorderSide(color: Colors.grey.shade300, width: 1),
+              ),
+            ),
+            height: 90,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Price",
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                    ),
+                    SizedBox(height: 4),
+                    AnimatedFlipCounter(
+                      value: state.selectedVariant.regularPrice,
+                      thousandSeparator: ",",
+                      prefix: '₹',
+                      textStyle: CustomTextStyles.cartPrice,
+
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                    ),
+                  ],
+                ),
+
+                BlocBuilder<CartBloc, CartState>(
+                  builder: (context, state) {
+                    bool isInCart = false;
+                    if (state is CartLoaded) {
+                      isInCart = state.isCartAdded(
+                        effectiveVariant.varientId!,
+                        product.productId,
+                      );
+                    }
+                    return AddtoCartBottomSheet(
+                      isInCart: isInCart,
+                      product: product,
+                      effectiveVariant: effectiveVariant,
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

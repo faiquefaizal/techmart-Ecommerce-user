@@ -17,6 +17,11 @@ class PriceSortChip extends StatelessWidget {
               PriceSort.values.map((sort) {
                 final isSeleted = state?.sortBy == sort;
                 return ChoiceChip(
+                  showCheckmark: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(12),
+                  ),
+
                   label: Text(
                     getPrice(sort),
                     style: TextStyle(

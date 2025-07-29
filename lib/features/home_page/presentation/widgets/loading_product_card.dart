@@ -17,7 +17,7 @@ Widget loadingCardShimmer(BuildContext context) {
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
               child: Container(
-                height: 150,
+                height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -32,7 +32,7 @@ Widget loadingCardShimmer(BuildContext context) {
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
               child: Container(
-                height: 16,
+                height: 10,
                 width: 120,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -47,7 +47,7 @@ Widget loadingCardShimmer(BuildContext context) {
               baseColor: Colors.grey[300]!,
               highlightColor: Colors.grey[100]!,
               child: Container(
-                height: 14,
+                height: 8,
                 width: 60,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -65,10 +65,10 @@ Widget loadingCardShimmer(BuildContext context) {
 Widget loadingShimmerGrid() {
   return GridView.builder(
     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-      mainAxisSpacing: 10,
-      crossAxisSpacing: 10,
+      mainAxisSpacing: 0,
+      crossAxisSpacing: 0,
       crossAxisCount: 2,
-      childAspectRatio: 0.65, // Maintain aspect ratio
+      childAspectRatio: 0.75,
     ),
     itemCount: 4,
     itemBuilder: (context, int) {

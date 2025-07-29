@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/models/app_routes.dart';
+import 'package:techmart/core/theme/app_theme.dart';
 import 'package:techmart/features/accounts/features/address/bloc/adderss_bloc.dart';
 import 'package:techmart/features/accounts/features/address/cubit/address_cubit.dart';
 import 'package:techmart/features/accounts/presentation/screens/account_screen.dart';
@@ -21,12 +22,15 @@ import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 
 import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
+import 'package:techmart/features/check_out/presentation/screens/address_select_page.dart';
+import 'package:techmart/features/check_out/presentation/screens/check_out_page.dart';
 import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
 import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
 
 import 'package:techmart/firebase_options.dart';
 import 'package:techmart/screens/home.dart';
+import 'package:techmart/features/check_out/presentation/widgets/select_address_card.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,53 +54,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AdderssBloc()..add(GetAllAddress())),
       ],
       child: MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          cardColor: Colors.white,
-          shadowColor: Colors.black.withAlpha((0.2 * 0.255).toInt()),
-          textTheme: TextTheme(
-            displayLarge: GoogleFonts.lato(
-              fontSize: 60,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-            displaySmall: GoogleFonts.lato(
-              fontSize: 45,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-            displayMedium: GoogleFonts.lato(
-              fontSize: 35,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-            headlineMedium: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
-            headlineLarge: GoogleFonts.lato(
-              fontSize: 35,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-            headlineSmall: GoogleFonts.lato(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              height: 1,
-            ),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return Colors.grey;
-                }
-                return Colors.black; // Default color
-              }),
-            ),
-          ),
-        ),
-        // home: MyWidget(),
+        theme: appTheme,
+
+        // home: CheckoutPage(),
         initialRoute: AppRoutes.splash,
         routes: {
           AppRoutes.splash: (context) => SplashScreen(),
@@ -108,6 +68,7 @@ class MyApp extends StatelessWidget {
           AppRoutes.home: (context) => Home(),
           AppRoutes.resetPassword: (context) => PasswordResetScreen(),
           AppRoutes.homeScreen: (context) => HomeScreen(),
+          AppRoutes.SelectAddressPage: (context) => AddressSelectPage(),
         },
       ),
     );
