@@ -215,7 +215,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                     ),
                     SizedBox(height: 12),
                     CustemButton(
-                      Label: "Create an Account",
+                      label: "Create an Account",
                       onpressed: () {
                         if (_formKey.currentState!.validate()) {
                           context.read<AuthBlocBloc>().add(

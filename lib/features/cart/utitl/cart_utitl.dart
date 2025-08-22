@@ -32,3 +32,17 @@ int getShippingFee(int total) {
 int getTotalPrice({int? shopping, int? delivery}) {
   return (shopping ?? 0) + (delivery ?? 0);
 }
+
+Map<String, double> sellerTotal(List<ProductCartModel> cartList) {
+  Map<String, double> sellerTotalList = {};
+  for (var cart in cartList) {
+    final itemTotal = cart.quatity * int.parse(cart.regularPrice);
+
+    sellerTotalList.update(
+      cart.sellerId!,
+      (value) => value + itemTotal,
+      ifAbsent: () => itemTotal.toDouble(),
+    );
+  }
+  return sellerTotalList;
+}

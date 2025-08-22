@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustemButton extends StatelessWidget {
   double hieght;
-  String Label;
+  final String label;
   VoidCallback onpressed;
   Widget? child;
   Color color;
@@ -12,9 +12,11 @@ class CustemButton extends StatelessWidget {
   double textSize;
   Color borderColor;
   FontWeight fontWeight;
+  EdgeInsets padding;
   CustemButton({
+    super.key,
     this.hieght = 60,
-    required this.Label,
+    required this.label,
     required this.onpressed,
     this.child,
     this.radius = 5,
@@ -23,6 +25,7 @@ class CustemButton extends StatelessWidget {
     this.textSize = 25,
     this.borderColor = Colors.black,
     this.fontWeight = FontWeight.w400,
+    this.padding = const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
   });
 
   Widget build(BuildContext context) {
@@ -36,13 +39,13 @@ class CustemButton extends StatelessWidget {
             side: BorderSide(color: borderColor),
             borderRadius: BorderRadius.circular(radius),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          padding: padding,
         ),
         onPressed: onpressed,
         child:
             child ??
             Text(
-              Label,
+              label,
               textAlign: TextAlign.center,
               style: GoogleFonts.lato(
                 color: textcolor,

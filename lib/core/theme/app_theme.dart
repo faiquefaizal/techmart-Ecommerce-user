@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData appTheme = ThemeData(
+  useMaterial3: true,
   inputDecorationTheme: InputDecorationTheme(focusColor: Colors.black),
   // primarySwatch: MaterialColor(, swatch),
   focusColor: Colors.black,
@@ -36,7 +37,7 @@ ThemeData appTheme = ThemeData(
       height: 1,
     ),
     displayMedium: GoogleFonts.lato(
-      fontSize: 35,
+      fontSize: 28,
       fontWeight: FontWeight.w900,
       height: 1,
     ),

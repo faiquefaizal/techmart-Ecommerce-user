@@ -4,7 +4,9 @@ import 'package:techmart/core/utils/text_util.dart/capitalizse_text.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/core/widgets/spacing_widget.dart';
-import 'package:techmart/features/accounts/features/address/bloc/adderss_bloc.dart';
+import 'package:techmart/features/address/bloc/adderss_bloc.dart';
+import 'package:techmart/features/address/cubit/current_address_cubit/current_address_cubic_cubit.dart';
+import 'package:techmart/features/address/presentation/widgets/add_address_bottonsheet.dart';
 import 'package:techmart/features/check_out/cubit/selected_address_cubit.dart';
 import 'package:techmart/features/check_out/funtions/helper_funtion.dart';
 import 'package:techmart/features/check_out/presentation/widgets/select_address_card.dart';
@@ -53,11 +55,28 @@ class AddressSelectPage extends StatelessWidget {
                       textcolor: Colors.black,
                       color: Colors.white,
                       hieght: 55,
-                      Label: "+ Add New Address",
+                      label: "+ Add New Address",
                       textSize: 20,
                       fontWeight: FontWeight.w500,
                       borderColor: Colors.grey.shade200,
-                      onpressed: () {},
+                      onpressed: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          isDismissible: true,
+                          enableDrag: true,
+                          builder: (context) {
+                            return Builder(
+                              builder: (context) {
+                                return BlocProvider(
+                                  create: (_) => CurrentAddressCubicCubit(),
+                                  child: addressBottomSheet(context),
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 );
@@ -71,7 +90,7 @@ class AddressSelectPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         child: CustemButton(
           textSize: 22,
-          Label: "Apply",
+          label: "Apply",
           onpressed: () {
             Navigator.of(context).pop();
           },

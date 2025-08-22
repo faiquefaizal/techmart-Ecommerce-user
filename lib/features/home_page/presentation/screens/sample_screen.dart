@@ -63,28 +63,31 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-              // SizedBox(height: 5),
-              BlocProvider(
-                create: (context) => SelectedChipsCubit(),
-                child: CustemChoiceChips(),
-              ),
-              FutureBuilder(
-                future: BannerService.getAllBaners(),
-                builder: (context, asyncSnapshot) {
-                  if (asyncSnapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return bannerShimmerPlaceholder();
-                  }
-                  final images = asyncSnapshot.data;
-                  if (images == null || images.isEmpty) {
-                    Logger().w("${asyncSnapshot.data.toString()}");
-                    log("called ${images.toString()}");
-                  }
-                  return HomeCorosal(
-                    imageUrls: asyncSnapshot.data?.expand((e) => e).toList(),
-                  );
-                },
-              ),
+              if (searchController.text.isEmpty) ...[
+                BlocProvider(
+                  create: (context) => SelectedChipsCubit(),
+                  child: CustemChoiceChips(),
+                ),
+                FutureBuilder(
+                  future: BannerService.getAllBaners(),
+                  builder: (context, asyncSnapshot) {
+                    if (asyncSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return bannerShimmerPlaceholder();
+                    }
+                    final images = asyncSnapshot.data;
+                    if (images == null || images.isEmpty) {
+                      Logger().w("${asyncSnapshot.data.toString()}");
+                      log("called ${images.toString()}");
+                    }
+                    return HomeCorosal(
+                      imageUrls: asyncSnapshot.data?.expand((e) => e).toList(),
+                    );
+                  },
+                ),
+              ] else
+                SizedBox.shrink(),
+
               SizedBox(
                 height: availableHeight,
                 child: BlocConsumer<ProductBloc, ProductState>(
@@ -130,7 +133,7 @@ class HomeScreen extends StatelessWidget {
                                 mainAxisSpacing: 0,
                                 crossAxisSpacing: 0,
                                 crossAxisCount: 2,
-                                childAspectRatio: 0.75,
+                                childAspectRatio: 0.70,
                               ),
                           itemCount: products.length,
                           itemBuilder: (context, index) {
@@ -264,34 +267,43 @@ class HomeScreen extends StatelessWidget {
                                                             type:
                                                                 MaterialType
                                                                     .transparency,
-                                                            child: Image.network(
-                                                              variant
-                                                                  .variantImageUrls!
-                                                                  .first,
-                                                              height: 150,
-                                                              width:
-                                                                  double
-                                                                      .infinity,
-                                                              fit: BoxFit.cover,
-                                                              errorBuilder: (
-                                                                context,
-                                                                error,
-                                                                stackTrace,
-                                                              ) {
-                                                                return Container(
-                                                                  height: 150,
-                                                                  width:
-                                                                      double
-                                                                          .infinity,
-                                                                  color:
-                                                                      Colors
-                                                                          .grey[200],
-                                                                  child: const Icon(
-                                                                    Icons.image,
-                                                                    size: 50,
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsets.all(
+                                                                    8.0,
                                                                   ),
-                                                                );
-                                                              },
+                                                              child: Image.network(
+                                                                variant
+                                                                    .variantImageUrls!
+                                                                    .first,
+                                                                height: 150,
+                                                                width:
+                                                                    double
+                                                                        .infinity,
+                                                                fit:
+                                                                    BoxFit
+                                                                        .cover,
+                                                                errorBuilder: (
+                                                                  context,
+                                                                  error,
+                                                                  stackTrace,
+                                                                ) {
+                                                                  return Container(
+                                                                    height: 150,
+                                                                    width:
+                                                                        double
+                                                                            .infinity,
+                                                                    color:
+                                                                        Colors
+                                                                            .grey[200],
+                                                                    child: const Icon(
+                                                                      Icons
+                                                                          .image,
+                                                                      size: 50,
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ),
                                                             ),
                                                           ),
                                                         ),

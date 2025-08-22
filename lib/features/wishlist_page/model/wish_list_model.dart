@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:techmart/features/wishlist_page/service/wishlistservice.dart';
 
 class WishListModel {
   String productId;

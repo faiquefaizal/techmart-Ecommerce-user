@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/core/widgets/custem_alrert_dialog.dart';
-import 'package:techmart/features/accounts/features/address/bloc/adderss_bloc.dart';
-import 'package:techmart/features/accounts/features/address/cubit/current_address_cubit/current_address_cubic_cubit.dart';
-import 'package:techmart/features/accounts/features/address/models/address_model.dart';
-import 'package:techmart/features/accounts/features/address/presentation/widgets/updated_address_botton_sheet.dart';
+import 'package:techmart/features/address/bloc/adderss_bloc.dart';
+import 'package:techmart/features/address/cubit/current_address_cubit/current_address_cubic_cubit.dart';
+import 'package:techmart/features/address/models/address_model.dart';
+import 'package:techmart/features/address/presentation/widgets/updated_address_botton_sheet.dart';
 
 class AddressCard extends StatelessWidget {
   const AddressCard({super.key, required this.address});

@@ -103,27 +103,32 @@ class LoginScreen extends StatelessWidget {
                     },
                   ),
 
-                  Row(
-                    children: [
-                      Text("Forget your password?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, AppRoutes.resetPassword);
-                        },
-                        child: Text(
-                          "Reset your password",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.black,
+                  FittedBox(
+                    child: Row(
+                      children: [
+                        Text("Forget your password?"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.resetPassword,
+                            );
+                          },
+                          child: Text(
+                            "Reset your password",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(height: 15),
 
                   CustemButton(
-                    Label: "Login",
+                    label: "Login",
                     onpressed: () {
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthBlocBloc>().add(
@@ -145,7 +150,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 40),
                   CustemButton(
-                    Label: "Sign Up with Google",
+                    label: "Sign Up with Google",
                     color: Colors.white,
                     onpressed: () {
                       context.read<AuthBlocBloc>().add(GoogleSignInEvent());

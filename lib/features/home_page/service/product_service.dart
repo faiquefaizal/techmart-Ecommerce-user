@@ -25,7 +25,7 @@ class ProductService {
             .toList();
       } catch (e) {
         log("Error mapping products: $e");
-        throw e; // so StreamBuilder sees the error
+        rethrow;
       }
     });
   }
@@ -81,7 +81,6 @@ class ProductService {
     List<Stream<List<ProductModel>>> allStreams = [];
 
     for (String word in words) {
-      // product name
       final nameStream = FirebaseFirestore.instance
           .collection('Products')
           .where('productName', isGreaterThanOrEqualTo: word)
@@ -94,7 +93,6 @@ class ProductService {
 
       allStreams.add(nameStream);
 
-      // brand
       final brandSnap =
           await FirebaseFirestore.instance
               .collection('Brands')
@@ -117,7 +115,7 @@ class ProductService {
       }
 
       log(allStreams.toString());
-      // category
+
       final catSnap =
           await FirebaseFirestore.instance
               .collection('Catagory')
@@ -140,13 +138,9 @@ class ProductService {
       }
     }
     log(allStreams.length.toString());
-    // Merge all product streams into one
+
     yield* Rx.combineLatestList(allStreams).map((listOfLists) {
-      final allProducts =
-          listOfLists
-              .expand((list) => list)
-              .toSet()
-              .toList(); // remove duplicates
+      final allProducts = listOfLists.expand((list) => list).toSet().toList();
       return allProducts;
     });
   }

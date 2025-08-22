@@ -83,7 +83,7 @@ class TermsAndConditionsPage extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 32),
-              CustemButton(Label: "Create an Account", onpressed: () {}),
+              CustemButton(label: "Create an Account", onpressed: () {}),
             ],
           ),
         ),

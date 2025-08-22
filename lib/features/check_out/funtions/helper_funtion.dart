@@ -1,4 +1,4 @@
-import 'package:techmart/features/accounts/features/address/models/address_model.dart';
+import 'package:techmart/features/address/models/address_model.dart';
 
 String getDefaultId(List<AddressModel?> addressList) {
   final address = addressList.firstWhere(
@@ -16,4 +16,8 @@ AddressModel getSelectedAddress(String? id, List<AddressModel> addressList) {
     return addressList.firstWhere((address) => address.id == id);
   }
   return addressList.firstWhere((addressModel) => addressModel.isDefault);
+}
+
+String removeException(Object e) {
+  return e.toString().replaceFirst("Exception", "");
 }

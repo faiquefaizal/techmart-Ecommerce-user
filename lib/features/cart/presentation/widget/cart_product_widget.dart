@@ -16,10 +16,10 @@ class CustomProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double cardSized = 130;
-    final discount = ProductUtils.calculateDiscountFromSellingAndBuyongPrice(
-      int.parse(cartModel.sellingPrice),
-      int.parse(cartModel.regularPrice),
-    );
+    // final discount = ProductUtils.calculateDiscountFromSellingAndBuyongPrice(
+    //   int.parse(cartModel.sellingPrice),
+    //   int.parse(cartModel.regularPrice),
+    // );
 
     return SizedBox(
       height: cardSized,
@@ -43,11 +43,19 @@ class CustomProductCard extends StatelessWidget {
                     width: 100,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
-                      // border: Border.all(color: Colors.grey, width: 1),
-                      image: DecorationImage(
-                        image: NetworkImage(cartModel.imageUrl),
+                      border: Border.all(color: Colors.grey, width: 0.8),
+                      // image: DecorationImage(
+
+                      //   image: NetworkImage(cartModel.imageUrl),
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(8),
+                      child: Image.network(
+                        cartModel.imageUrl,
                         fit: BoxFit.cover,
                       ),
                     ),

@@ -118,10 +118,10 @@ class ProductDetailScreen extends StatelessWidget {
                         captilize(product.productName),
                         style: TextStyle(
                           fontFamily: "GeneralSans",
-                          fontSize: 45,
+                          fontSize: 33,
                         ),
                       ),
-                      const SizedBox(height: 8),
+
                       if (singleVariant.regularPrice > 1000)
                         Text(
                           "Free Delivery",
@@ -130,28 +130,27 @@ class ProductDetailScreen extends StatelessWidget {
                             fontWeight: FontWeight.normal,
                           ),
                         ),
-                      Row(
-                        children: [
-                          Text(
-                            formatIndianPrice(singleVariant.regularPrice),
-                            style: CustomTextStyles.regularPrice,
-                          ),
-                          if (singleVariant.regularPrice <
-                              singleVariant.sellingPrice) ...[
-                            const SizedBox(width: 8),
-                            Text(
-                              formatIndianPrice(singleVariant.sellingPrice),
-                              style: CustomTextStyles.sellingPrice,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              '$discount% OFF',
-                              style: CustomTextStyles.discount,
-                            ),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 16),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //       formatIndianPrice(singleVariant.regularPrice),
+                      //       style: CustomTextStyles.regularPrice,
+                      //     ),
+                      //     if (singleVariant.regularPrice <
+                      //         singleVariant.sellingPrice) ...[
+                      //       const SizedBox(width: 8),
+                      //       Text(
+                      //         formatIndianPrice(singleVariant.sellingPrice),
+                      //         style: CustomTextStyles.sellingPrice,
+                      //       ),
+                      //       const SizedBox(width: 8),
+                      //       Text(
+                      //         '$discount% OFF',
+                      //         style: CustomTextStyles.discount,
+                      //       ),
+                      //     ],
+                      //   ],
+                      // ),
 
                       // const SizedBox(height: 8),
                       AnimatedReadMoreText(
@@ -161,7 +160,7 @@ class ProductDetailScreen extends StatelessWidget {
                         textStyle: CustomTextStyles.description,
                         buttonTextStyle: TextStyle(
                           fontWeight: FontWeight.w700,
-                          color: Colors.black,
+                          color: Colors.black87,
                         ),
                       ),
                       VerticalSpaceWisget(30),
@@ -298,39 +297,39 @@ class ProductDetailScreen extends StatelessWidget {
                     ),
                     Text(
                       captilize(product.productName),
-                      style: TextStyle(fontFamily: "GeneralSans", fontSize: 40),
+                      style: TextStyle(fontFamily: "GeneralSans", fontSize: 33),
                     ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        AnimatedFlipCounter(
-                          value: effectiveVariant.regularPrice,
-                          thousandSeparator: ",",
-                          prefix: '₹',
-                          textStyle: CustomTextStyles.regularPrice,
+                    // const SizedBox(height: 8),
+                    // Row(
+                    //   children: [
+                    //     AnimatedFlipCounter(
+                    //       value: effectiveVariant.regularPrice,
+                    //       thousandSeparator: ",",
+                    //       prefix: '₹',
+                    //       textStyle: CustomTextStyles.regularPrice,
 
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeOut,
-                        ),
-                        const SizedBox(width: 8),
-                        AnimatedFlipCounter(
-                          value: effectiveVariant.sellingPrice,
-                          thousandSeparator: ",",
-                          prefix: '₹',
-                          textStyle: CustomTextStyles.sellingPrice,
+                    //       duration: Duration(milliseconds: 500),
+                    //       curve: Curves.easeOut,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     AnimatedFlipCounter(
+                    //       value: effectiveVariant.sellingPrice,
+                    //       thousandSeparator: ",",
+                    //       prefix: '₹',
+                    //       textStyle: CustomTextStyles.sellingPrice,
 
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.easeInOut,
-                        ),
-                        const SizedBox(width: 8),
-                        AnimatedFlipCounter(
-                          duration: Duration(milliseconds: 500),
-                          value: discount,
-                          suffix: "% off",
-                          textStyle: CustomTextStyles.discount,
-                        ),
-                      ],
-                    ),
+                    //       duration: Duration(milliseconds: 500),
+                    //       curve: Curves.easeInOut,
+                    //     ),
+                    //     const SizedBox(width: 8),
+                    //     AnimatedFlipCounter(
+                    //       duration: Duration(milliseconds: 500),
+                    //       value: discount,
+                    //       suffix: "% off",
+                    //       textStyle: CustomTextStyles.discount,
+                    //     ),
+                    //   ],
+                    // ),
                     if (effectiveVariant.regularPrice > 1000)
                       Text(
                         "Free Delivery",
@@ -339,7 +338,7 @@ class ProductDetailScreen extends StatelessWidget {
                           fontWeight: FontWeight.normal,
                         ),
                       ),
-                    const SizedBox(height: 16),
+                    // const SizedBox(height: 16),
                     AnimatedReadMoreText(
                       product.productDescription,
                       maxLines: 4,

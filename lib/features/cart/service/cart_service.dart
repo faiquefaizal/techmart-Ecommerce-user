@@ -27,6 +27,7 @@ class CartService {
       varientId,
     );
     log("cartIdjust after th efuntion $cartId");
+
     final newCartProduct = cartModel.copyWith(
       availableStock: availabelCount,
       cartId: cartId,

@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:techmart/core/utils/genrete_firbase_id.dart';
-import 'package:techmart/features/accounts/features/address/models/address_model.dart';
+import 'package:techmart/features/address/models/address_model.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
 
 class AddressService {
@@ -72,5 +71,25 @@ class AddressService {
       await _addressRef.doc(doc.id).update({'isDefault': false});
     }
     log('Cleared ${snapshot.docs.length} default addresses');
+  }
+
+  static Future<bool> chechAddressExist() async {
+    final addressDocs = await _addressRef.get();
+    return addressDocs.docs.isEmpty;
+  }
+
+  static Future<List<AddressModel>> addFirstAddress(
+    AddressModel address,
+  ) async {
+    final addressId = genertateFirebase();
+    final updatedAddressModel = address.copyWith(
+      id: addressId,
+      isDefault: true,
+    );
+    await _addressRef
+        .doc(updatedAddressModel.id)
+        .set(updatedAddressModel.toMap());
+    final addressList = await AddressService.getAllAddressList();
+    return addressList;
   }
 }

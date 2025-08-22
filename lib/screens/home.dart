@@ -83,11 +83,14 @@
 //     );
 //   }
 // }
+import 'package:material_symbols_icons/material_symbols_icons.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:techmart/features/accounts/presentation/screens/account_screen.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
@@ -148,10 +151,12 @@ class _HomeState extends State<Home> {
         items: [
           BottomBarItem(
             title: Text("Home"),
-            icon: Icon(Icons.home_outlined),
+            icon: Image.asset(
+              "assets/home_30dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png",
+            ),
             selectedColor: Colors.black,
 
-            selectedIcon: Icon(Icons.home, color: Colors.black),
+            selectedIcon: Image.asset("assets/home_filled.png"),
             // label: "Home",
           ),
           BottomBarItem(
@@ -162,28 +167,33 @@ class _HomeState extends State<Home> {
           ),
           BottomBarItem(
             icon: Stack(
+              clipBehavior: Clip.none,
               children: [
                 Icon(Icons.shopping_cart_outlined),
                 count > 0
                     ? Positioned(
-                      top: -2,
-                      right: 0,
-
+                      right: -2,
+                      top: -4,
                       child: Container(
-                        height: 13,
-                        width: 13,
-
+                        padding: const EdgeInsets.all(
+                          2,
+                        ), // Gives internal spacing
+                        constraints: BoxConstraints(
+                          minWidth: 14,
+                          minHeight: 14,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(15),
+                          shape: BoxShape.circle, // Ensures perfect roundness
                         ),
-                        child: Text(
-                          count.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w800,
+                        child: Center(
+                          child: Text(
+                            count.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),

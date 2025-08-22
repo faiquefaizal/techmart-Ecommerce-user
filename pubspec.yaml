@@ -63,9 +63,19 @@ dependencies:
   animated_flip_counter: ^0.3.4
   animated_number: ^1.0.2
   animated_read_more_text: ^0.0.6
-  neopop: ^1.0.2
   cached_network_image: ^3.4.1
   stylish_bottom_bar: ^1.1.1
+  material_symbols_icons: ^4.2858.1
+  flutter_stripe: ^11.5.0
+  dio: ^5.8.0+1
+  json_annotation: ^4.9.0
+  flutter_svg: ^2.2.0
+  getwidget: ^6.0.0
+  timeline_tile: ^2.0.0
+  flutter_rating_bar: ^4.0.1
+  pdf: ^3.11.3
+  path_provider: ^2.1.5
+  open_file: ^3.5.10
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +87,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  build_runner: ^2.5.4
+  freezed: ^2.5.8
+  json_serializable: ^6.9.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -100,7 +113,11 @@ flutter:
     - assets/ai_loading.json
     - assets/splash_screen_loading.json
     - assets/search_not_found.json
-
+    - assets/home_30dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png
+    - assets/home_filled.png
+    - assets/ineventaory.svg
+    - assets/help.svg
+    - assets/status_order_placed.svg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

@@ -13,6 +13,7 @@ class ProductCartModel extends Equatable {
   String imageUrl;
   String productName;
   int? availableStock;
+  String? sellerId;
 
   ProductCartModel({
     this.availableStock,
@@ -26,9 +27,11 @@ class ProductCartModel extends Equatable {
     required this.varientAttribute,
     this.createdtime,
     required this.imageUrl,
+    this.sellerId,
   });
 
   ProductCartModel copyWith({
+    String? sellerid,
     String? productName,
     String? productId,
     String? varientId,
@@ -53,11 +56,13 @@ class ProductCartModel extends Equatable {
       varientAttribute: varientAttribute ?? this.varientAttribute,
       createdtime: timeStamp ?? this.createdtime,
       productName: productName ?? this.productName,
+      sellerId: sellerid ?? sellerId,
     );
   }
 
   factory ProductCartModel.fromMap(Map<String, dynamic> map) {
     return ProductCartModel(
+      sellerId: map["SellerId"],
       availableStock: map["AvaliabelStock"],
       productName: map['productName'],
       cartId: map['cartId'],
@@ -74,6 +79,7 @@ class ProductCartModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      "SellerId": sellerId,
       'productName': productName,
       'cartId': cartId,
       "AvaliabelStock": availableStock,

@@ -9,8 +9,10 @@ class CustemTextFIeld extends StatefulWidget {
   final bool readOnly;
   String? Function(String?)? validator;
   void Function(String)? onchanged;
+  String? intial;
 
   CustemTextFIeld({
+    this.intial,
     required this.label,
     required this.hintText,
     required this.controller,
@@ -42,6 +44,7 @@ class _CustemTextFIeldState extends State<CustemTextFIeld> {
         Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         TextFormField(
+          initialValue: widget.intial,
           validator: widget.validator,
           readOnly: widget.readOnly,
           controller: widget.controller,

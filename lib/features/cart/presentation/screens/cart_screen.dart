@@ -19,6 +19,9 @@ import 'package:techmart/features/cart/utitl/cart_utitl.dart';
 import 'package:techmart/features/check_out/cubit/select_payment_cubic.dart';
 import 'package:techmart/features/check_out/cubit/selected_address_cubit.dart';
 import 'package:techmart/features/check_out/presentation/screens/check_out_page.dart';
+import 'package:techmart/features/coupen/cubit/coupen_cubit.dart';
+import 'package:techmart/features/coupen/models/copen.model.dart';
+import 'package:techmart/features/coupen/services/coupen_services.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -65,6 +68,7 @@ class CartScreen extends StatelessWidget {
             shopping: int.parse(subtotal),
             delivery: shippingCharge,
           );
+          final SellerByMap = sellerTotal(state.cartItems);
 
           return Scaffold(
             appBar: custemAppbar(heading: "My Cart", context: context),
@@ -137,7 +141,7 @@ class CartScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: CustemButton(
                 hieght: 55,
-                Label: "Go to Checkout",
+                label: "Go to Checkout",
                 onpressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -150,8 +154,15 @@ class CartScreen extends StatelessWidget {
                               BlocProvider(
                                 create: (context) => SelectPaymentCubic(),
                               ),
+                              BlocProvider(
+                                create:
+                                    (context) => CoupenCubit(CoupenServices()),
+                              ),
                             ],
-                            child: CheckoutPage(),
+                            child: CheckoutPage(
+                              total: total,
+                              sellerByMap: SellerByMap,
+                            ),
                           ),
                     ),
                   );

@@ -54,7 +54,7 @@ class PasswordResetScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             CustemButton(
-              Label: "Send Code",
+              label: "Send Code",
               onpressed: () {
                 if (_formState.currentState!.validate()) {
                   // if(email.isEmpty){

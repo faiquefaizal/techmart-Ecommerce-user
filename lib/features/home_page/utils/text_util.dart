@@ -49,9 +49,10 @@ class CustomTextStyles {
     fontWeight: FontWeight.bold,
   );
 
-  static final TextStyle description = GoogleFonts.oswald(
-    fontSize: 16,
-    color: Colors.black54,
+  static final TextStyle description = TextStyle(
+    fontSize: 14,
+    color: Colors.grey,
+    fontWeight: FontWeight.w400,
   );
 
   static final TextStyle brandName = const TextStyle(
