@@ -6,17 +6,17 @@ import 'package:techmart/features/invoice/presentation/widgets/order_details_wid
 import 'package:techmart/features/invoice/presentation/widgets/summery_widget.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
 
-pw.Widget invoiceStructure(InvoiceModel invoice, pw.Font invoiceFont) {
+pw.Widget invoiceStructure(InvoiceModel invoice) {
   return pw.Column(
     crossAxisAlignment: pw.CrossAxisAlignment.start,
     children: [
       buildHeader(invoice.orderModel),
       pw.SizedBox(height: 20),
-      buildOrderDetails(invoice, invoiceFont),
+      buildOrderDetails(invoice),
       pw.SizedBox(height: 20),
       buildAddress(invoice.orderModel.address),
       pw.Spacer(),
-      buildSummary(invoice.orderModel, invoiceFont),
+      buildSummary(invoice.orderModel),
       pw.Divider(),
       pw.Center(
         child: pw.Text(

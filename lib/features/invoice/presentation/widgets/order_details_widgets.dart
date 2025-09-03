@@ -3,7 +3,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:techmart/features/invoice/model/invoice_model.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
 
-pw.Widget buildOrderDetails(InvoiceModel invoice, pw.Font invoiceFont) {
+pw.Widget buildOrderDetails(InvoiceModel invoice) {
   return pw.Table(
     border: pw.TableBorder.all(),
     columnWidths: {
@@ -65,7 +65,6 @@ pw.Widget buildOrderDetails(InvoiceModel invoice, pw.Font invoiceFont) {
             padding: const pw.EdgeInsets.all(8),
             child: pw.Text(
               "₹${(invoice.orderModel.total - invoice.taxAmount).toString()}",
-              style: pw.TextStyle(font: invoiceFont),
             ),
           ),
           pw.Padding(
@@ -74,18 +73,12 @@ pw.Widget buildOrderDetails(InvoiceModel invoice, pw.Font invoiceFont) {
           ),
           pw.Padding(
             padding: const pw.EdgeInsets.all(8),
-            child: pw.Text(
-              "₹${invoice.taxAmount.toStringAsFixed(2)}",
-              style: pw.TextStyle(font: invoiceFont),
-            ),
+            child: pw.Text("₹${invoice.taxAmount.toStringAsFixed(2)}"),
           ),
 
           pw.Padding(
             padding: const pw.EdgeInsets.all(8),
-            child: pw.Text(
-              "₹${invoice.orderModel.total.toStringAsFixed(2)}",
-              style: pw.TextStyle(font: invoiceFont),
-            ),
+            child: pw.Text("₹${invoice.orderModel.total.toStringAsFixed(2)}"),
           ),
         ],
       ),

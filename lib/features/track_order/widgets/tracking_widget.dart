@@ -4,11 +4,6 @@
 // import 'package:techmart/features/track_order/model/order_status.dart';
 // import 'package:timeline_tile/timeline_tile.dart';
 
-class DummyData {
-  String status;
-  DateTime updatedTime;
-  DummyData({required this.status, required this.updatedTime});
-}
 
 // class SampleTimeLine extends StatelessWidget {
 //   final DummyData data;

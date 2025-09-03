@@ -32,10 +32,26 @@ class FetchOrderBloc extends Bloc<OrderEvent, OrderState> {
         log(allOrders.length.toString());
         assert(allOrders.isNotEmpty, "orderiteselfisempty");
         final upcoming =
-            allOrders.where((o) => o.status != "delivery").toList();
+            allOrders
+                .where(
+                  (o) =>
+                      o.status != "delivery" &&
+                      o.status != "returnRequest" &&
+                      o.status != "Approved" &&
+                      o.status != "Rejected",
+                )
+                .toList();
 
         final completed =
-            allOrders.where((o) => o.status == "delivery").toList();
+            allOrders
+                .where(
+                  (o) =>
+                      o.status == "delivery" ||
+                      o.status == "returnRequest" ||
+                      o.status == "Approved" ||
+                      o.status == "Rejected",
+                )
+                .toList();
 
         return OrderLoaded(
           upcomingOrders: upcoming,

@@ -106,6 +106,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:techmart/features/orders/model/order_model.dart';
 import 'package:techmart/features/track_order/model/order_status.dart';
 import 'package:techmart/features/track_order/utils/helper_funtions.dart';
 import 'package:techmart/features/track_order/widgets/tracking_widget.dart';
@@ -113,11 +114,10 @@ import 'package:timeline_tile/timeline_tile.dart';
 import 'package:intl/intl.dart'; // Added for date formatting
 
 class OrderTrackingTimeline extends StatelessWidget {
-  final DummyData data;
+  final OrderModel data;
 
   OrderTrackingTimeline({super.key, required this.data});
 
-  // Use the specified steps list
   final List<String> steps = [
     "Pending",
     "proccessing",
@@ -194,7 +194,7 @@ class OrderTrackingTimeline extends StatelessWidget {
                 ),
                 if (isCurrent)
                   Text(
-                    formatTime(data.updatedTime),
+                    formatTime(data.updateTime ?? data.createTime),
                     style: const TextStyle(fontSize: 12, color: Colors.grey),
                   ),
               ],

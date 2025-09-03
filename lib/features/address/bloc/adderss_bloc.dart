@@ -53,7 +53,7 @@ class AdderssBloc extends Bloc<AdderssEvent, AdderssState> {
       }
 
       await AddressService.addAddress(event.addressModel);
-      // Refresh the list after adding
+
       final addressList = await AddressService.getAllAddressList();
       emit(AddressLoaded(addressList: addressList));
     } catch (e) {

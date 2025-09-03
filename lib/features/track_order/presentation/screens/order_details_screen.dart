@@ -8,6 +8,7 @@ import 'package:techmart/features/home_page/utils/text_util.dart';
 import 'package:techmart/features/invoice/model/invoice_model.dart';
 import 'package:techmart/features/invoice/service/invoice_service.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
+import 'package:techmart/features/return_request/presentation/screen/return_screen.dart';
 import 'package:techmart/features/track_order/presentation/widgets/invoice_button_widget.dart';
 import 'package:techmart/features/track_order/presentation/widgets/order_card.dart';
 import 'package:techmart/features/track_order/presentation/widgets/price_row.dart';
@@ -78,7 +79,32 @@ class OrderDetailsScreen extends StatelessWidget {
                 price: orderModel.total.toString(),
               ),
 
-              ReturnButtonWidget(date: orderModel.createTime, onpressed: () {}),
+              ReturnButtonWidget(
+                date: orderModel.createTime,
+                onpressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder:
+                          (context) => ReturnScreen(
+                            orderId: orderModel.orderId,
+                            image: productDetails["Image"]!,
+                            productName: productDetails["Name"]!,
+                            productinfo: (productDetails["varientAttributes"]!
+                                    as Map<String, dynamic>)
+                                .entries
+                                .map(
+                                  (element) =>
+                                      "${element.key} ${element.value}",
+                                )
+                                .join(","),
+                            count: orderModel.quantity,
+                            price: orderModel.total.toString(),
+                          ),
+                    ),
+                  );
+                },
+                status: orderModel.status,
+              ),
               Divider(height: 30),
 
               Text(

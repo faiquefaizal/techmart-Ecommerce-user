@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import 'package:techmart/core/widgets/button_widgets.dart';
+import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/track_order/utils/helper_funtions.dart';
 
 class ReturnButtonWidget extends StatelessWidget {
   final DateTime date;
   final VoidCallback onpressed;
+  final String status;
   const ReturnButtonWidget({
     super.key,
+    required this.status,
     required this.onpressed,
     required this.date,
   });
@@ -29,7 +32,16 @@ class ReturnButtonWidget extends StatelessWidget {
                   textcolor: Colors.black,
 
                   label: "Return Item",
-                  onpressed: onpressed,
+                  onpressed:
+                      (returnForNotDelivered(status) == null)
+                          ? onpressed
+                          : () {
+                            custemSnakbar(
+                              context: context,
+                              message: "Already $status",
+                              color: Colors.green,
+                            );
+                          },
                 ),
               )
               : Column(
@@ -45,7 +57,7 @@ class ReturnButtonWidget extends StatelessWidget {
                       textSize: 12,
                       textcolor: Colors.black38,
                       label: "Return period ended",
-                      onpressed: onpressed,
+                      onpressed: () {},
                     ),
                   ),
                   Text(

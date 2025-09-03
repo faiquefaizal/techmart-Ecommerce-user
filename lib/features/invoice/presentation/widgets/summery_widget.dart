@@ -1,7 +1,7 @@
 import 'package:pdf/widgets.dart' as pw;
 import 'package:techmart/features/orders/model/order_model.dart';
 
-pw.Widget buildSummary(OrderModel order, pw.Font invoiceFont) {
+pw.Widget buildSummary(OrderModel order) {
   final delivery = order.deliveryCharge ?? 0;
   final total = order.total + delivery;
 
@@ -12,20 +12,14 @@ pw.Widget buildSummary(OrderModel order, pw.Font invoiceFont) {
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: [
           pw.Text("Subtotal:"),
-          pw.Text(
-            "₹${order.total.toStringAsFixed(2)}",
-            style: pw.TextStyle(font: invoiceFont),
-          ),
+          pw.Text("₹${order.total.toStringAsFixed(2)}"),
         ],
       ),
       pw.Row(
         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
         children: [
           pw.Text("Delivery:"),
-          pw.Text(
-            "₹${delivery.toStringAsFixed(2)}",
-            style: pw.TextStyle(font: invoiceFont),
-          ),
+          pw.Text("₹${delivery.toStringAsFixed(2)}"),
         ],
       ),
       if (order.couponCode != null)
@@ -44,14 +38,7 @@ pw.Widget buildSummary(OrderModel order, pw.Font invoiceFont) {
             "Total:",
             style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
           ),
-          pw.Text(
-            "₹${total.toStringAsFixed(2)}",
-            style: pw.TextStyle(
-              font: invoiceFont,
-              fontSize: 16,
-              fontWeight: pw.FontWeight.bold,
-            ),
-          ),
+          pw.Text("₹${total.toStringAsFixed(2)}"),
         ],
       ),
     ],

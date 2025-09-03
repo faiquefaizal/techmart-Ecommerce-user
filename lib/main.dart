@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:logger/logger.dart';
 
 import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/core/theme/app_theme.dart';
@@ -20,14 +23,17 @@ import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 
 import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
+import 'package:techmart/features/chat_room/presention/screens/chat_screen.dart';
 import 'package:techmart/features/check_out/presentation/screens/address_select_page.dart';
 import 'package:techmart/features/check_out/presentation/screens/check_out_page.dart';
+import 'package:techmart/features/notification/service/message_service.dart';
 import 'package:techmart/features/orders/bloc/order_bloc.dart';
 import 'package:techmart/features/orders/service/order_service.dart';
 import 'package:techmart/features/placeorder/bloc/order_bloc.dart'
     hide FetchOrders;
 import 'package:techmart/features/placeorder/service/place_order_service.dart';
 import 'package:techmart/features/payments/const/payment.dart';
+import 'package:techmart/features/return_request/presentation/screen/return_screen.dart';
 import 'package:techmart/features/track_order/presentation/screens/order_details_screen.dart';
 import 'package:techmart/features/wishlist_page/presentation/screens/empty_wishlist_screen.dart';
 import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
@@ -42,7 +48,9 @@ void main() async {
   // Gemini.init(apiKey: dotenv.env["GEMINI_API_KEY"]!);
   Gemini.init(apiKey: "AIzaSyCNVTq0wcoRgoUS-p61F5FYvN2F8jQdVGQ");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await MessageService().initialiazeNotification();
   Stripe.publishableKey = publishableKey;
+  // Logger().w("SecretKEy: $secretkey  ");
 
   runApp(MyApp());
 }

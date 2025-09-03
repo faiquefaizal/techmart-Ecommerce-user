@@ -3,8 +3,13 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
+import 'package:techmart/core/widgets/spacing_widget.dart';
+import 'package:techmart/features/chat_room/bloc/message_bloc.dart';
+import 'package:techmart/features/chat_room/presention/screens/chat_screen.dart';
+import 'package:techmart/features/chat_room/service/chat_room_service.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
 import 'package:techmart/features/track_order/cubit/track_order_cubit.dart';
+import 'package:techmart/features/track_order/presentation/widgets/need_help_widget.dart';
 import 'package:techmart/features/track_order/service/track_order_service.dart';
 import 'package:techmart/features/track_order/widgets/order_tracking_timeline_widget.dart';
 import 'package:techmart/features/track_order/widgets/tracking_widget.dart';
@@ -50,7 +55,7 @@ class TrackScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             OrderTrackingTimeline(
-              data: DummyData(status: "shipped", updatedTime: DateTime.now()),
+              data: order,
               // status: order.status,
               // updatedAt: order.updateTime?.toIso8601String() ?? '',
             ),
@@ -181,7 +186,8 @@ class TrackScreen extends StatelessWidget {
               style: TextStyle(color: Colors.grey, fontSize: 20),
             ),
 
-            const SizedBox(height: 24),
+            const HorizontalSpaceWisget(10),
+            NeedHelpButton(sellerId: order.sellerId),
           ],
         ),
       ),

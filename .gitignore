@@ -45,3 +45,4 @@ app.*.map.json
 /android/app/release
 
 .env
+/assets/techmart-ecd96-44ba9fae2451.json

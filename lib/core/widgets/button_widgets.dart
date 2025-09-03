@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class CustemButton extends StatelessWidget {
   double hieght;
   final String label;
-  VoidCallback onpressed;
+  VoidCallback? onpressed;
   Widget? child;
   Color color;
   Color textcolor;
@@ -17,7 +17,7 @@ class CustemButton extends StatelessWidget {
     super.key,
     this.hieght = 60,
     required this.label,
-    required this.onpressed,
+    this.onpressed,
     this.child,
     this.radius = 5,
     this.color = Colors.black,

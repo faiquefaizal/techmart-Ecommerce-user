@@ -29,8 +29,8 @@ class ProductCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
             image,
-            width: 70,
-            height: 70,
+            width: 80,
+            height: 80,
 
             fit: BoxFit.contain,
           ),
@@ -40,10 +40,29 @@ class ProductCardWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(orderName, style: Theme.of(context).textTheme.labelSmall),
+              Text(
+                textHeightBehavior: TextHeightBehavior(
+                  applyHeightToFirstAscent: false,
+                  applyHeightToLastDescent: false,
+                ),
+                orderName,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
               SizedBox(height: 4),
-              Text(orderProductAttributes),
-              Text("Qty: $count"),
+              Text(
+                textHeightBehavior: TextHeightBehavior(
+                  applyHeightToFirstAscent: false,
+                  applyHeightToLastDescent: false,
+                ),
+                orderProductAttributes,
+              ),
+              Text(
+                textHeightBehavior: TextHeightBehavior(
+                  applyHeightToFirstAscent: false,
+                  applyHeightToLastDescent: false,
+                ),
+                "Qty: $count",
+              ),
               SizedBox(height: 4),
               Text(
                 formatIndianPrice(num.parse(price)),

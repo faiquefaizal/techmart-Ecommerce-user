@@ -55,10 +55,17 @@ bool ckeckEligibleforReturn(DateTime date) {
   Duration diffrents = currentTime.difference(date);
   Logger().e(diffrents.inDays.toString());
 
-  return (diffrents.inDays <= 7);
+  return (diffrents.inDays <= 20);
 }
 
 String maxRetrunDate(DateTime date) {
   DateTime maxDate = date.add(Duration(days: 7));
   return maxDate.toFancyFormat();
+}
+
+String? returnForNotDelivered(String status) {
+  if (status == "delivery") {
+    return null;
+  }
+  return "notNull";
 }
