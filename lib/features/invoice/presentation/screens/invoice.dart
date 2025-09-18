@@ -20,7 +20,7 @@ pw.Widget invoiceStructure(InvoiceModel invoice) {
       pw.Divider(),
       pw.Center(
         child: pw.Text(
-          "Thank you for shopping with us!",
+          "Thank you for shopping with us! ",
           style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold),
         ),
       ),
