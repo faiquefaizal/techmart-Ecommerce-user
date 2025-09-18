@@ -16,7 +16,7 @@ import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 import 'package:techmart/features/home_page/cubit/cubit/banner_cubit.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
-import 'package:techmart/features/home_page/presentation/screens/sample_screen.dart';
+import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
 
 import 'package:techmart/features/wishlist/presentation/screens/favorites_screen.dart';
 
