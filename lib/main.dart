@@ -34,7 +34,7 @@ import 'package:techmart/features/placeorder/bloc/order_bloc.dart'
 import 'package:techmart/features/placeorder/service/place_order_service.dart';
 import 'package:techmart/features/payments/const/payment.dart';
 
-import 'package:techmart/features/home_page/presentation/screens/home_screen.dart';
+import 'package:techmart/features/home_page/presentation/screens/sample.dart';
 import 'package:techmart/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
