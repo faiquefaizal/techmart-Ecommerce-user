@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/cusetmrouded_button.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 
@@ -133,6 +134,10 @@ void custemBottomSheet(
                                 CombinedSearchAndFilter(
                                   query: searchText.text,
                                   filters: currentfilterState,
+                                  catagoryId:
+                                      (context.read<CatogoryCubicCubit>().state
+                                              as CatagoryCubicLoaded)
+                                          .selectedId,
                                 ),
                               );
                               Navigator.of(context).pop();

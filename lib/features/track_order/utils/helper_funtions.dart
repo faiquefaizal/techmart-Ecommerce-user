@@ -31,7 +31,14 @@ final List<String> displayLabels = const [
   "Delivered",
 ];
 List<Widget> currentWidget = [
-  // Lottie.asset();
+  Lottie.asset("assets/order_placed_status.json"),
+  Lottie.asset("assets/processing_status.json"),
+  Lottie.asset("assets/shipped_status.json"),
+  Lottie.asset("assets/out_status.json"),
+  Container(
+    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black),
+    child: Icon(Icons.home_rounded, color: Colors.white),
+  ),
 ];
 double getTaxInfo(double amount) {
   return amount * (18 / 100);

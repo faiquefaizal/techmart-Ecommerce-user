@@ -6,6 +6,8 @@ import 'package:techmart/core/utils/price_formater.dart';
 import 'package:techmart/core/utils/text_util.dart/capitalizse_text.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
 import 'package:techmart/features/orders/model/order_card_model.dart';
+import 'package:techmart/features/orders/presentation/widgets/add_rating_button.dart';
+import 'package:techmart/features/orders/presentation/widgets/rating_button.dart';
 import 'package:techmart/features/rating/cubit/rating_cubit.dart';
 import 'package:techmart/features/rating/presentation/screens/rating_bottonsheet_widget.dart';
 import 'package:techmart/features/track_order/cubit/track_order_cubit.dart';
@@ -143,71 +145,8 @@ class CompletedCardWidget extends StatelessWidget {
                                 ),
                                 Spacer(),
                                 (cartModel.ratingCount == 0)
-                                    ? GestureDetector(
-                                      onTap: () {
-                                        ratingBottonSheet(
-                                          context,
-                                          cartModel.id,
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 35,
-                                        width: 100,
-                                        padding: EdgeInsets.symmetric(
-                                          vertical: 7,
-                                          horizontal: 10,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.black,
-                                          border: Border.all(
-                                            color: Colors.black26,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            5,
-                                          ),
-                                        ),
-                                        child: Text(
-                                          "Leave Review",
-
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    : Container(
-                                      height: 35,
-                                      width: 80,
-                                      padding: EdgeInsets.symmetric(
-                                        vertical: 7,
-                                        horizontal: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: Colors.grey.shade400,
-                                        ),
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      child: FittedBox(
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.star,
-                                              color: Color.fromRGBO(
-                                                255,
-                                                153,
-                                                0,
-                                                100,
-                                              ),
-                                            ),
-                                            Text("${cartModel.ratingCount}/5"),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                    ? RatingButten(cartModel: cartModel)
+                                    : AddRatingButton(cartModel: cartModel),
                               ],
                             ),
                           ),

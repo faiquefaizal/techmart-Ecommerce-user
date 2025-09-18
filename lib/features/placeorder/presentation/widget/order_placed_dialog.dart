@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
@@ -18,22 +19,28 @@ void orderPlacedDialog(BuildContext context) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade100, // light green background
-                    shape: BoxShape.circle,
-                  ),
-                  padding: EdgeInsets.all(8),
-                  child: Icon(Icons.check, color: Colors.green, size: 40),
+                Lottie.asset(
+                  "assets/Tick.json",
+                  width: 90,
+                  height: 90,
+                  repeat: false,
                 ),
-                SizedBox(height: 15),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: Colors.green.shade100, // light green background
+                //     shape: BoxShape.circle,
+                //   ),
+                //   padding: EdgeInsets.all(8),
+                //   child: Icon(Icons.check, color: Colors.green, size: 40),
+                // ),
+                // SizedBox(height: 15),
                 Text(
                   "Congratulations",
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 SizedBox(height: 15),
                 Text(
-                  "Your order has been placed?",
+                  "Your order has been placed!",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
                 ),
                 SizedBox(height: 15),

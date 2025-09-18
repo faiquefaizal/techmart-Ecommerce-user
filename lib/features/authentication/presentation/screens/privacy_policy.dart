@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:techmart/features/authentication/presentation/screens/section_tile_widget.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   const PrivacyPolicyScreen({super.key});
@@ -27,52 +28,52 @@ class PrivacyPolicyScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
-              _buildSectionTitle("1. Information We Collect"),
-              _buildBulletPoint(
+              buildSectionTitle("1. Information We Collect"),
+              buildBulletPoint(
                 "Personal Data (Name, Email, Phone Number, etc.)",
               ),
-              _buildBulletPoint("Payment Information (only for transactions)"),
-              _buildBulletPoint("Device and Log Data"),
+              buildBulletPoint("Payment Information (only for transactions)"),
+              buildBulletPoint("Device and Log Data"),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("2. How We Use Your Information"),
-              _buildBulletPoint("To process orders and deliver products"),
-              _buildBulletPoint("To provide customer support"),
-              _buildBulletPoint("To personalize user experience"),
-              _buildBulletPoint("To improve app features and functionality"),
+              buildSectionTitle("2. How We Use Your Information"),
+              buildBulletPoint("To process orders and deliver products"),
+              buildBulletPoint("To provide customer support"),
+              buildBulletPoint("To personalize user experience"),
+              buildBulletPoint("To improve app features and functionality"),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("3. Sharing Your Information"),
-              _buildBulletPoint("We do not sell or rent your data."),
-              _buildBulletPoint(
+              buildSectionTitle("3. Sharing Your Information"),
+              buildBulletPoint("We do not sell or rent your data."),
+              buildBulletPoint(
                 "We may share with service providers for order processing or analytics.",
               ),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("4. Data Security"),
+              buildSectionTitle("4. Data Security"),
               const Text(
                 "We use industry-standard security measures to protect your data. However, no method of transmission is 100% secure.",
                 style: TextStyle(fontSize: 16),
               ),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("5. Your Rights"),
-              _buildBulletPoint(
+              buildSectionTitle("5. Your Rights"),
+              buildBulletPoint(
                 "You have the right to access, update, or delete your personal data.",
               ),
-              _buildBulletPoint(
+              buildBulletPoint(
                 "You can request data export or removal anytime.",
               ),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("6. Changes to this Policy"),
+              buildSectionTitle("6. Changes to this Policy"),
               const Text(
                 "We may update this policy occasionally. Changes will be posted in this app.",
                 style: TextStyle(fontSize: 16),
               ),
 
               const SizedBox(height: 16),
-              _buildSectionTitle("7. Contact Us"),
+              buildSectionTitle("7. Contact Us"),
               const Text(
                 "If you have any questions about this policy, contact us at: support@yourapp.com",
                 style: TextStyle(fontSize: 16),
@@ -82,26 +83,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-    );
-  }
-
-  Widget _buildBulletPoint(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text("•  ", style: TextStyle(fontSize: 18)),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 16))),
-        ],
       ),
     );
   }

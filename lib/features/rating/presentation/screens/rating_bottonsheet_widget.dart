@@ -93,6 +93,7 @@ ratingBottonSheet(BuildContext context, String id) {
                             message: ratingText,
                           ),
                         );
+                        Navigator.of(context).pop();
                       },
                     ),
                     VerticalSpaceWisget(15),

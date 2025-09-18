@@ -1,17 +1,18 @@
-import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:logger/logger.dart';
-import 'package:meta/meta.dart';
+import 'dart:async';
 import 'package:techmart/core/utils/debouncer.dart';
+import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
+import 'package:techmart/features/orders/service/order_service.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
@@ -23,6 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductBloc() : super(ProductInitial()) {
     print(" ProductBloc constructed");
     on<SearchVisually>((event, emit) async {
+      Future.delayed(Duration(seconds: 3));
       emit(VisualSearchLoading());
 
       try {
@@ -34,12 +36,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
                   .trim();
 
           event.controller.text = query;
-
-          add(SearchProduct(productName: query));
+          Logger().d("resutlModel :${result.toString()}");
+          Logger().w(query);
+          // add(SearchProduct(productName: query));
         } else {
-          add(_SearchFailed("Viaual Serach failed"));
+          log("else : failed");
+          // add(_SearchFailed("Viaual Serach failed"));
         }
       } catch (e) {
+        Logger().w(e.toString());
         add(_SearchFailed(e.toString()));
       }
     });
@@ -50,22 +55,32 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       if (varients.isEmpty) {
         emit(ProductSearchError(("No variants available")));
       }
+      final rating = await OrderService().getOrderRatingWIthProduct(
+        event.product.productId,
+        varients.first.varientId!,
+      );
       emit(
         ProductLoadSuccess(
           product: event.product,
           vairents: varients,
           selectedVariant: varients.first,
+          rating: rating,
         ),
       );
     });
-    on<VariantSelected>((event, emit) {
+    on<VariantSelected>((event, emit) async {
       if (state is ProductLoadSuccess) {
         final current = state as ProductLoadSuccess;
+        final rating = await OrderService().getOrderRatingWIthProduct(
+          current.product.productId,
+          event.variant.varientId!,
+        );
         emit(
           ProductLoadSuccess(
             product: current.product,
             vairents: current.vairents,
             selectedVariant: event.variant,
+            rating: rating,
           ),
         );
       }
@@ -143,7 +158,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _searchSubsription?.cancel(); // cancel previous
       emit(ProductInitial());
 
-      _searchSubsription = ProductService.filterProdoct(event.filters).listen(
+      _searchSubsription = ProductService.filterProdoct(
+        event.filters,
+        event.catagory,
+      ).listen(
         (products) {
           if (products.isEmpty) {
             log("No products found.");
@@ -165,12 +183,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       _searchSubsription = ProductService.searchAndFilter(
         query: event.query,
         filter: event.filters,
+        catagoryId: event.catagoryId,
       ).listen(
         (products) {
           Logger().w(" Products fetched in BLoC");
           for (var p in products) {
             Logger().w(" ${p.productId} | ${p.productName} | ₹${p.minPrice}");
           }
+          Logger().w("${event.catagoryId}");
           add(_ProductsFetched(products));
         },
         onError: (error) {

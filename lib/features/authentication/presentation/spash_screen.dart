@@ -4,20 +4,8 @@ import 'package:lottie/lottie.dart';
 import 'package:techmart/core/models/app_routes.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    context.read<AuthBlocBloc>().add(AuthCheckEvent());
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

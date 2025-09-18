@@ -38,7 +38,7 @@ class AccountScreen extends StatelessWidget {
           OptionWidget(
             pushScreenWidget: AddressScreen(),
             name: "Address Book",
-            icon: Icon(Icons.home, size: 25),
+            icon: Icon(Icons.home, size: 25, color: Colors.black),
           ),
           OptionWidget(
             pushScreenWidget: BlocProvider(
@@ -46,7 +46,7 @@ class AccountScreen extends StatelessWidget {
               child: ProfileScreen(),
             ),
             name: "My Details",
-            icon: Icon(Icons.account_circle),
+            icon: Icon(Icons.account_circle, color: Colors.black),
           ),
           OptionWidget(
             pushScreenWidget: FaqScreen(),

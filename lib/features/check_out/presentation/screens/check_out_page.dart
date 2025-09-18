@@ -4,6 +4,7 @@ import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:techmart/core/widgets/animated_price_widget.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/coupen_add_buttom_widget.dart';
@@ -24,6 +25,7 @@ import 'package:techmart/features/check_out/presentation/widgets/add_address_wid
 import 'package:techmart/features/check_out/presentation/widgets/coupen_widget.dart';
 import 'package:techmart/features/check_out/presentation/widgets/delevry_address.dart';
 import 'package:techmart/features/check_out/presentation/widgets/payment_method_widget.dart';
+import 'package:techmart/features/check_out/presentation/widgets/place_order_widget.dart';
 import 'package:techmart/features/check_out/presentation/widgets/sddress_shimmer.dart';
 import 'package:techmart/features/check_out/presentation/widgets/sumary_row_widget.dart';
 import 'package:techmart/features/coupen/cubit/coupen_cubit.dart';
@@ -32,8 +34,8 @@ import 'package:techmart/features/payments/service/payment_service.dart';
 import 'package:techmart/features/placeorder/presentation/widget/order_placed_dialog.dart';
 
 class CheckoutPage extends StatelessWidget {
-  Map<String, double> sellerByMap;
-  int total;
+  final Map<String, double> sellerByMap;
+  final int total;
 
   CheckoutPage({super.key, required this.total, required this.sellerByMap});
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
@@ -46,10 +48,15 @@ class CheckoutPage extends StatelessWidget {
           if (state is LoadingState) {
             showDialog(
               context: context,
-              barrierDismissible: false,
+              barrierDismissible: true,
               builder:
-                  (context) => const Center(
-                    child: CircularProgressIndicator(color: Colors.black),
+                  (context) => Center(
+                    child: Lottie.asset(
+                      "assets/ordering.json",
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
                   ),
             );
           }
@@ -149,59 +156,7 @@ class CheckoutPage extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(15),
-        child: CustemButton(
-          hieght: 55,
-          textSize: 22,
-          label: "Place Order ",
-          onpressed: () {
-            final selectedId = context.read<SelectedAddressCubit>().state;
-            final state = context.read<AdderssBloc>().state;
-
-            final List<AddressModel?>? addressList =
-                (state is AddressLoaded) ? state.addressList : null;
-
-            if (addressList == null) {
-              custemSnakbar(
-                context: context,
-                message: "Add Address First",
-                color: Colors.red,
-              );
-              return;
-            }
-            final selectedModel = getSelectedAddress(
-              selectedId,
-              addressList.whereType<AddressModel>().toList(),
-            );
-            PaymentMode selectedPaymentMethod =
-                context.read<SelectPaymentCubic>().state;
-            List<ProductCartModel> listCart =
-                (context.read<CartBloc>().state as CartLoaded).cartItems;
-            if (selectedPaymentMethod == PaymentMode.cod) {
-              log("selectedpaymentiscod");
-              context.read<OrderBloc>().add(
-                PlaceOrderCod(
-                  address: selectedModel,
-                  cartList: listCart,
-                  total: total,
-                  deliverycharge: "0",
-                ),
-              );
-              return;
-            }
-            context.read<OrderBloc>().add(
-              PlaceOnlineOrder(
-                address: selectedModel,
-                cartList: listCart,
-                total: total,
-                deliverycharge: "0",
-              ),
-            );
-            log(toString(selectedPaymentMethod));
-          },
-        ),
-      ),
+      bottomNavigationBar: PlaceOrderButton(total: total),
     );
   }
 }

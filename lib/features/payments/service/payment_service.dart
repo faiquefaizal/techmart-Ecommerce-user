@@ -4,12 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart';
+import 'package:logger/web.dart';
 import 'package:techmart/features/payments/const/payment.dart';
 import 'package:techmart/features/payments/funtions/support_funtions.dart';
 
 class PaymentService {
   Future<String> makePayment(int amount) async {
+    log("mskr psymrn ttriggerd");
     try {
+      // Logger().w("secretKey : $secretkey");
       var result = await _paymentInit(amount);
       if (result == null) {
         throw Exception("missing payment id so error");
@@ -41,7 +44,7 @@ class PaymentService {
       );
 
       if (respose == null) {
-        log(respose.toString());
+        log("response ${respose.toString()}");
         return null;
       }
 
@@ -66,6 +69,7 @@ class PaymentService {
       await Stripe.instance.presentPaymentSheet();
     } catch (e) {
       log(e.toString());
+      rethrow;
     }
   }
 }

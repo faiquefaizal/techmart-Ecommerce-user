@@ -6,6 +6,7 @@ import 'package:techmart/features/orders/presentation/cubit/select_cubit.dart';
 import 'package:techmart/features/orders/presentation/presentation/screens/completed_screen.dart';
 import 'package:techmart/features/orders/presentation/presentation/screens/empty_orders_screen.dart';
 import 'package:techmart/features/orders/presentation/presentation/screens/ongoing_screen.dart';
+import 'package:techmart/features/orders/presentation/presentation/screens/shimmer_completed_order.dart';
 import 'package:techmart/features/orders/presentation/widgets/tab_bar_widget.dart';
 import 'package:techmart/features/orders/service/order_service.dart';
 
@@ -21,6 +22,9 @@ class OrderScreen extends StatelessWidget {
         padding: const EdgeInsets.all(15),
         child: BlocBuilder<FetchOrderBloc, OrderState>(
           builder: (context, state) {
+            if (state is OrderLoading) {
+              return ShimmerCompletedCard();
+            }
             if (state is EmptyOrders) {
               return EmptyOrdersScreen();
             }

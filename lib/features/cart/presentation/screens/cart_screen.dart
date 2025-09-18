@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:logger/logger.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
@@ -12,6 +13,7 @@ import 'package:techmart/core/widgets/spacing_widget.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 
 import 'package:techmart/features/cart/presentation/screens/empty_cart_screen.dart';
+import 'package:techmart/features/cart/presentation/screens/loaded_screen.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_shemmer.dart';
 import 'package:techmart/features/cart/presentation/widget/cart_product_widget.dart';
 
@@ -68,107 +70,15 @@ class CartScreen extends StatelessWidget {
             shopping: int.parse(subtotal),
             delivery: shippingCharge,
           );
-          final SellerByMap = sellerTotal(state.cartItems);
+          final sellerByMap = sellerTotal(state.cartItems);
 
-          return Scaffold(
-            appBar: custemAppbar(heading: "My Cart", context: context),
-            body: Padding(
-              padding: const EdgeInsets.all(12),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.cartItems.length,
-                      itemBuilder: (context, index) {
-                        final cartItem = state.cartItems[index];
-                        log("buidler is called $cartItem");
-                        return CustomProductCard(cartModel: cartItem);
-                      },
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 12.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          LabelAlignPriceWidget(
-                            value: subtotal,
-                            label: "Subtotal",
-                          ),
-                          const VerticalSpaceWisget(5),
-
-                          LabelAlignPriceWidget(
-                            value: totalDiscount,
-                            label: "Discount",
-                          ),
-                          const VerticalSpaceWisget(5),
-
-                          LabelAlignPriceWidget(
-                            value: shippingCharge.toString(),
-                            label: "Shippin Charge",
-                          ),
-                          const VerticalSpaceWisget(5),
-                          const Divider(),
-                          const VerticalSpaceWisget(5),
-                          HeadLabelAlignPriceWidget(
-                            value: total.toString(),
-                            label: "Total",
-                          ),
-
-                          // CustemButton(
-                          //   Label: "Go to Checkout ",
-                          //   onpressed:
-                          //       () => Navigator.of(context).push(
-                          //         MaterialPageRoute(
-                          //           builder: (context) => CheckOutPage(),
-                          //         ),
-                          //       ),
-                          // ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            bottomNavigationBar: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: CustemButton(
-                hieght: 55,
-                label: "Go to Checkout",
-                onpressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder:
-                          (context) => MultiBlocProvider(
-                            providers: [
-                              BlocProvider(
-                                create: (context) => SelectedAddressCubit(),
-                              ),
-                              BlocProvider(
-                                create: (context) => SelectPaymentCubic(),
-                              ),
-                              BlocProvider(
-                                create:
-                                    (context) => CoupenCubit(CoupenServices()),
-                              ),
-                            ],
-                            child: CheckoutPage(
-                              total: total,
-                              sellerByMap: SellerByMap,
-                            ),
-                          ),
-                    ),
-                  );
-                },
-              ),
-            ),
+          return CartLoadedScreen(
+            subtotal: subtotal,
+            totalDiscount: totalDiscount,
+            shippingCharge: shippingCharge,
+            total: total,
+            sellerByMap: sellerByMap,
+            state: state,
           );
         } else {
           return SizedBox.shrink();

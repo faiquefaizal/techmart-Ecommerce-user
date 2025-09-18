@@ -2,8 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:techmart/features/authentication/model/user_model.dart';
@@ -44,6 +43,7 @@ class AuthService {
       }
     } catch (e) {
       log(e.toString());
+      throw Exception("No user Id as th euser i Snot logged in");
     }
   }
 
@@ -94,6 +94,7 @@ class AuthService {
   void signOut() async {
     try {
       await auth.signOut();
+      await GoogleSignIn().signOut();
     } catch (e) {
       log(e.toString());
       rethrow;
@@ -107,12 +108,29 @@ class AuthService {
         throw "Googel sign in aborted by the user";
       }
       GoogleSignInAuthentication gAuth = await gUser.authentication;
-      final Gcred = GoogleAuthProvider.credential(
+      final OAuthCredential Gcred = GoogleAuthProvider.credential(
         idToken: gAuth.idToken,
         accessToken: gAuth.accessToken,
       );
-      await auth.signInWithCredential(Gcred);
 
+      final userCredential = await auth.signInWithCredential(Gcred);
+      final User? firebaseUser = userCredential.user;
+      if (firebaseUser == null) {
+        throw Exception("Google sign-in failed");
+      }
+      UserModel newUser = UserModel(
+        name: firebaseUser.displayName ?? "",
+        passord: "",
+        dob: "",
+        email: firebaseUser.email ?? "",
+        gender: "",
+        phone: "",
+        uid: firebaseUser.uid,
+      );
+      await db
+          .collection("Users")
+          .doc(newUser.uid)
+          .set(newUser.toMap(), SetOptions(merge: true));
       return auth.currentUser!.uid;
     } on FirebaseAuthException catch (e) {
       log("google sign in error${e.toString()}");

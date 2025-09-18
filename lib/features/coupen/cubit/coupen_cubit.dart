@@ -25,6 +25,7 @@ class CoupenCubit extends Cubit<CoupenState> {
       );
       log(discount.runtimeType.toString());
       log(discount.toInt().runtimeType.toString());
+      log(discount.toInt().toString());
       emit(SuccessState(discount: discount.toInt()));
     } catch (e) {
       log(e.toString());

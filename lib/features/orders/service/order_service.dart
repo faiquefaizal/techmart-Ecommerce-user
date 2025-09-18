@@ -99,4 +99,38 @@ class OrderService {
       "ratingText": ratingText,
     });
   }
+
+  Future<Map<String, dynamic>?> getOrderRatingWIthProduct(
+    String productId,
+    String varientId,
+  ) async {
+    final ratingQuary =
+        await _orderRef
+            .where("productId", isEqualTo: productId)
+            .where("varientId", isEqualTo: varientId)
+            .aggregate(average("rating"))
+            .get();
+    final rating = ratingQuary.getAverage("rating");
+    if (rating == null && rating == 0) {
+      return null;
+    }
+    if (rating != null && rating > 0) {
+      final messageQuary =
+          await _orderRef
+              .where("productId", isEqualTo: productId)
+              .where("varientId", isEqualTo: varientId)
+              .where("ratingText", isNotEqualTo: "")
+              .get();
+      final messages =
+          messageQuary.docs
+              .map(
+                (data) =>
+                    OrderModel.fromJson(data.data() as Map<String, dynamic>),
+              )
+              .toList();
+
+      return {"avg": (rating * 5).toStringAsFixed(2), "orderList": messages};
+    }
+    return null;
+  }
 }

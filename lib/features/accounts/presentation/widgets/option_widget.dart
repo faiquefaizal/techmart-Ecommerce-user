@@ -18,7 +18,7 @@ class OptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         final finalWidget =
             wrapWithCubic
@@ -33,12 +33,15 @@ class OptionWidget extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Row(
-          spacing: 15,
-          children: [
-            icon,
-            Text(name, style: Theme.of(context).textTheme.headlineMedium),
-          ],
+        child: SizedBox(
+          width: double.infinity,
+          child: Row(
+            spacing: 15,
+            children: [
+              icon,
+              Text(name, style: Theme.of(context).textTheme.headlineMedium),
+            ],
+          ),
         ),
       ),
     );

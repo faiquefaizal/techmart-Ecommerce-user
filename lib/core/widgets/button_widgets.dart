@@ -15,14 +15,14 @@ class CustemButton extends StatelessWidget {
   EdgeInsets padding;
   CustemButton({
     super.key,
-    this.hieght = 60,
+    this.hieght = 50,
     required this.label,
     this.onpressed,
     this.child,
     this.radius = 5,
     this.color = Colors.black,
     this.textcolor = Colors.white,
-    this.textSize = 25,
+    this.textSize = 20,
     this.borderColor = Colors.black,
     this.fontWeight = FontWeight.w400,
     this.padding = const EdgeInsets.symmetric(horizontal: 30, vertical: 10),

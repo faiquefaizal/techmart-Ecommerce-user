@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:techmart/core/navigation/cubit/navigation_cubit.dart';
 
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 import 'package:techmart/features/cart/model/product_cart_model.dart';
+import 'package:techmart/features/check_out/presentation/screens/check_out_page.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 
@@ -77,7 +79,10 @@ class AddtoCartBottomSheet extends StatelessWidget {
               imageUrl: effectiveVariant.variantImageUrls!.first,
             );
             context.read<CartBloc>().add(AddToCartEvent(cartModel: cartModel));
+            return;
           }
+          Navigator.of(context).pop();
+          context.read<NavigationCubit>().changePage(2);
         },
         icon: Icon(Icons.shopping_bag_outlined, color: Colors.white),
         label: Text(

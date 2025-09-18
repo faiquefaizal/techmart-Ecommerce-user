@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/presentation/screens/product_detailed_screen.dart';
@@ -10,7 +11,7 @@ import 'package:techmart/features/home_page/presentation/widgets/custem_search_f
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
-import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class CombinedFilterSearchScreen extends StatelessWidget {
   CombinedFilterSearchScreen({super.key});
@@ -38,7 +39,14 @@ class CombinedFilterSearchScreen extends StatelessWidget {
                 onChanged: (query) {
                   final filterState = context.read<FilterCubit>().state;
                   context.read<ProductBloc>().add(
-                    CombinedSearchAndFilter(query: query, filters: filterState),
+                    CombinedSearchAndFilter(
+                      query: query,
+                      filters: filterState,
+                      catagoryId:
+                          (context.read<CatogoryCubicCubit>().state
+                                  as CatagoryCubicLoaded)
+                              .selectedId,
+                    ),
                   );
                 },
               ),

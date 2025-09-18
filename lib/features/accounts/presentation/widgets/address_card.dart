@@ -43,6 +43,10 @@ class AddressCard extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                           height: 1,
                         ),
+                        textHeightBehavior: TextHeightBehavior(
+                          applyHeightToFirstAscent: false,
+                          applyHeightToLastDescent: false,
+                        ),
                       ),
                       if (address.isDefault) ...[
                         SizedBox(width: 10),
@@ -84,12 +88,10 @@ class AddressCard extends StatelessWidget {
                                       log(address.id!);
                                       return BlocProvider(
                                         create:
-                                            (_) =>
-                                                CurrentAddressCubicCubit()
-                                                  ..intializeWithAddress(
-                                                    address,
-                                                  ),
-                                        child: UpdatedBottomSheet(context),
+                                            (_) => CurrentAddressCubicCubit(
+                                              id: address.id,
+                                            )..initializeWithAddress(address),
+                                        child: UpdatedBottomSheet(),
                                       );
                                     },
                                   );
@@ -117,7 +119,7 @@ class AddressCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 8),
+                // SizedBox(height: 8),
                 Text(
                   "${address.houseNo}, ${address.area}, ${address.city}, ${address.state} - ${address.pinCode}",
                   style: TextStyle(
@@ -125,14 +127,22 @@ class AddressCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[700],
                   ),
+                  textHeightBehavior: TextHeightBehavior(
+                    applyHeightToFirstAscent: false,
+                    applyHeightToLastDescent: false,
+                  ),
                 ),
-                SizedBox(height: 8),
+                // SizedBox(height: 8),
                 Text(
                   "Phone: +91 ${address.phoneNumber}",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w300,
                     color: Colors.grey[600],
+                  ),
+                  textHeightBehavior: TextHeightBehavior(
+                    applyHeightToFirstAscent: false,
+                    applyHeightToLastDescent: false,
                   ),
                 ),
               ],

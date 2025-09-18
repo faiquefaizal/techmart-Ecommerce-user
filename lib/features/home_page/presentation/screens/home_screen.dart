@@ -9,6 +9,7 @@ import 'package:logger/web.dart';
 import 'package:techmart/core/utils/price_formater.dart';
 
 import 'package:techmart/features/home_page/bloc/product_bloc.dart';
+import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 
@@ -23,7 +24,7 @@ import 'package:techmart/features/home_page/presentation/widgets/visual_search_l
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/home_page/utils/product_color_util.dart';
 import 'package:techmart/features/home_page/utils/text_util.dart';
-import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -38,7 +39,7 @@ class HomeScreen extends StatelessWidget {
         30.0 + 5.0 + 50.0; // Padding + SizedBox + estimated search field height
     final availableHeight = screenHeight - headerHeight;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(172, 255, 255, 255),
+      backgroundColor: const Color.fromRGBO(255, 255, 255, 0.675),
       body: SingleChildScrollView(
         // Make the entire screen scrollable
         child: Padding(
@@ -53,8 +54,17 @@ class HomeScreen extends StatelessWidget {
                 searchController: searchController,
                 onChanged: (quary) {
                   final filter = context.read<FilterCubit>().state;
+
                   context.read<ProductBloc>().add(
-                    CombinedSearchAndFilter(query: quary, filters: filter),
+                    CombinedSearchAndFilter(
+                      query: quary,
+                      catagoryId:
+                          (
+                            filter,
+                            context.read<CatogoryCubicCubit>().state
+                                as CatagoryCubicLoaded,
+                          ).$2.selectedId,
+                    ),
                   );
                 },
               ),

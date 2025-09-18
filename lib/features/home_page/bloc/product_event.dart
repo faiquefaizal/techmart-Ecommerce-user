@@ -15,7 +15,9 @@ class ProductLoaded extends ProductEvent {
 
 class VariantSelected extends ProductEvent {
   final ProductVarientModel variant;
+
   VariantSelected(this.variant);
+
   @override
   List<Object?> get props => [variant];
 }
@@ -43,7 +45,8 @@ class _SearchFailed extends ProductEvent {
 
 class FileterEvent extends ProductEvent {
   final FilterState filters;
-  FileterEvent({required this.filters});
+  final String catagory;
+  FileterEvent({required this.filters, required this.catagory});
 
   @override
   List<Object?> get props => [filters];
@@ -52,8 +55,9 @@ class FileterEvent extends ProductEvent {
 class CombinedSearchAndFilter extends ProductEvent {
   final String? query;
   final FilterState? filters;
+  final String? catagoryId;
 
-  CombinedSearchAndFilter({this.query, this.filters});
+  CombinedSearchAndFilter({this.query, this.filters, this.catagoryId});
 
   @override
   List<Object?> get props => [query, filters];

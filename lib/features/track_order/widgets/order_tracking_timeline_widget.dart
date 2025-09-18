@@ -105,7 +105,9 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
 import 'package:techmart/features/track_order/model/order_status.dart';
 import 'package:techmart/features/track_order/utils/helper_funtions.dart';
@@ -118,90 +120,105 @@ class OrderTrackingTimeline extends StatelessWidget {
 
   OrderTrackingTimeline({super.key, required this.data});
 
-  final List<String> steps = [
-    "Pending",
-    "proccessing",
-    "shipped",
-    "outfordelivery",
-    "delivery",
-  ];
-
   @override
   Widget build(BuildContext context) {
     int currentIndex = getIndexWithStatus(data.status);
 
-    return ListView.builder(
-      itemCount: steps.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        bool isCompleted = index < currentIndex;
-        bool isCurrent = index == currentIndex;
+    return AnimationLimiter(
+      child: ListView.builder(
+        itemCount: steps.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          bool isCompleted = index < currentIndex;
+          bool isCurrent = index == currentIndex;
 
-        return TimelineTile(
-          alignment: TimelineAlign.start,
-          // lineXY: 0.0,
-          isFirst: index == 0,
-          isLast: index == steps.length - 1,
-          beforeLineStyle: LineStyle(
-            color: index <= currentIndex ? Colors.black : Colors.grey.shade300,
-            thickness: 2,
-          ),
-          afterLineStyle: LineStyle(
-            color: index < currentIndex ? Colors.black : Colors.grey.shade300,
-            thickness: (isCompleted || isCurrent) ? 2 : 1,
-          ),
-          indicatorStyle: IndicatorStyle(
-            drawGap: true,
-            width: 40,
-            indicatorXY: 0,
-            height: 50,
-            indicator: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color:
-                    isCompleted
-                        ? Colors.black
-                        : (isCurrent ? Colors.black : Colors.grey.shade300),
-              ),
-              child:
-                  isCompleted
-                      ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: imageIcons[index],
-                      )
-                      : Icon(
-                        (isCurrent)
-                            ? Icons.radio_button_checked
-                            : Icons.circle_outlined,
-                        color: Colors.white,
-                        size: 18,
+          return AnimationConfiguration.staggeredList(
+            position: index,
+            duration: const Duration(seconds: 1),
+            child: SlideAnimation(
+              verticalOffset: 50,
+              child: FadeInAnimation(
+                child: TimelineTile(
+                  alignment: TimelineAlign.start,
+                  // lineXY: 0.0,
+                  isFirst: index == 0,
+                  isLast: index == steps.length - 1,
+                  beforeLineStyle: LineStyle(
+                    color:
+                        index <= currentIndex
+                            ? Colors.black
+                            : Colors.grey.shade300,
+                    thickness: 2,
+                  ),
+                  afterLineStyle: LineStyle(
+                    color:
+                        index < currentIndex
+                            ? Colors.black
+                            : Colors.grey.shade300,
+                    thickness: (isCompleted || isCurrent) ? 2 : 1,
+                  ),
+                  indicatorStyle: IndicatorStyle(
+                    drawGap: true,
+                    width: 40,
+                    indicatorXY: 0,
+                    height: 50,
+                    indicator: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            isCompleted
+                                ? Colors.black
+                                : (isCurrent
+                                    ? Colors.transparent
+                                    : Colors.grey.shade300),
                       ),
-            ),
-          ),
-          endChild: Container(
-            height: 100,
-            padding: const EdgeInsets.only(left: 10, top: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  displayLabels[index],
-                  style: TextStyle(
-                    fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
-                    fontSize: 16,
+                      child:
+                          isCompleted
+                              ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: imageIcons[index],
+                              )
+                              : (isCurrent)
+                              ? currentWidget[index]
+                              : Icon(
+                                Icons.circle_outlined,
+                                color: Colors.white,
+                                size: 18,
+                              ),
+                    ),
+                  ),
+                  endChild: Container(
+                    height: 100,
+                    padding: const EdgeInsets.only(left: 10, top: 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          displayLabels[index],
+                          style: GoogleFonts.lato(
+                            fontWeight:
+                                isCurrent ? FontWeight.w900 : FontWeight.normal,
+                            fontSize: 21,
+                          ),
+                        ),
+                        if (isCurrent)
+                          Text(
+                            formatTime(data.updateTime ?? data.createTime),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
-                if (isCurrent)
-                  Text(
-                    formatTime(data.updateTime ?? data.createTime),
-                    style: const TextStyle(fontSize: 12, color: Colors.grey),
-                  ),
-              ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

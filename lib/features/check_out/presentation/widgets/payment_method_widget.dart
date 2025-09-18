@@ -4,8 +4,8 @@ import 'package:techmart/features/check_out/cubit/select_payment_cubic.dart';
 import 'package:techmart/features/check_out/models/payment_mode_model.dart';
 
 class PaymentMethodWIdget extends StatelessWidget {
-  SelectPaymentCubic paymentCubic;
-  PaymentMethodWIdget({super.key, required this.paymentCubic});
+  final SelectPaymentCubic paymentCubic;
+  const PaymentMethodWIdget({super.key, required this.paymentCubic});
 
   @override
   Widget build(BuildContext context) {

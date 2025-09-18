@@ -161,9 +161,16 @@ class ProductService {
         .toList();
   }
 
-  static Stream<List<ProductModel>> filterProdoct(FilterState filerState) {
+  static Stream<List<ProductModel>> filterProdoct(
+    FilterState filerState,
+    String? catagoryId,
+  ) {
     Query quary = _productsRef;
     Logger().w(filerState.sortBy);
+    if (catagoryId != null) {
+      quary = quary.where("categoryId", isEqualTo: catagoryId);
+    }
+
     if (filerState.selectedBrandId != "") {
       quary = quary.where("brandId", isEqualTo: filerState.selectedBrandId);
     }
@@ -256,6 +263,7 @@ class ProductService {
   static Stream<List<ProductModel>> searchAndFilter({
     String? query,
     FilterState? filter,
+    String? catagoryId,
   }) async* {
     // Logger().e(" search query: '$query'");
     // Logger().e(" brand filter: '${filter?.selectedBrandId ?? "null"}");
@@ -265,7 +273,7 @@ class ProductService {
     // Logger().e("↕sort: ${filter.sortBy}");
 
     if (query == null && filter != null) {
-      yield* filterProdoct(filter);
+      yield* filterProdoct(filter, catagoryId);
       return;
     }
     if (filter == null && query != null || query == null && filter == null) {
@@ -273,7 +281,7 @@ class ProductService {
       return;
     } else {
       final searchStream = searchWithRx(query!);
-      final filterStream = filterProdoct(filter!);
+      final filterStream = filterProdoct(filter!, catagoryId);
 
       yield* Rx.combineLatest2(searchStream, filterStream, (
         List<ProductModel> searchList,

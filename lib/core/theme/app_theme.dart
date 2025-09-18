@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData appTheme = ThemeData(
+  iconTheme: IconThemeData(color: Colors.white),
   useMaterial3: true,
   inputDecorationTheme: InputDecorationTheme(focusColor: Colors.black),
   // primarySwatch: MaterialColor(, swatch),

@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/models/app_routes.dart';
+import 'package:techmart/core/utils/validators.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/form_field.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
@@ -39,7 +40,10 @@ class _SignupScreenState extends State<SignUpScreen> {
             color: Colors.red,
           );
         } else if (state is AuthBlocLoading) {
-          CustomLoadingIndicator(label: "Registering User.....");
+          showDialog(
+            context: context,
+            builder: (_) => CustomLoadingIndicator(),
+          );
         } else if (state is Authticated) {
           Navigator.of(context).pushReplacementNamed(AppRoutes.home);
         }
@@ -68,68 +72,31 @@ class _SignupScreenState extends State<SignUpScreen> {
                       label: "Full Name",
                       hintText: "Enter your Name",
                       controller: nameController,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          if (value == null || value.trim().isEmpty) {
-                            return "Name is required";
-                          }
-                          return null;
-                        }
-                      },
+                      validator: Validators.name,
                     ),
                     CustemTextFIeld(
                       label: "Email",
                       hintText: "Enter your Email",
                       controller: emailController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Email cannot be empty";
-                        }
-                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                          return "Enter a valid email";
-                        }
-                        return null;
-                      },
+                      validator: Validators.email,
                     ),
                     CustemTextFIeld(
                       label: "Password",
                       hintText: "Enter your password",
                       controller: passwordController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Password cannot be empty";
-                        }
-                        if (value.length < 6) {
-                          return "Password must be at least 6 characters";
-                        }
-                        return null;
-                      },
+                      validator: Validators.password,
                     ),
                     CustemTextFIeld(
                       label: "Confirm Password",
                       hintText: "Enter your password again",
                       controller: conformPassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please confirm your password";
-                        } else if (value != passwordController.text) {
-                          return "Passwords do not match";
-                        }
-                        return null;
-                      },
+                      validator:
+                          (value) => Validators.confirmPassword(
+                            value!,
+                            passwordController.text,
+                          ),
                     ),
-                    DatePickerFormField(
-                      controller: dobController,
-                      label: "Date of Birth",
-                      firstDate: DateTime(1960),
-                      lastDate: DateTime(2007),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select your date of birth';
-                        }
-                        return null;
-                      },
-                    ),
+
                     CustemDropDown(
                       label: "Gender",
                       items: [
@@ -141,26 +108,14 @@ class _SignupScreenState extends State<SignUpScreen> {
                         DropdownMenuItem(value: "other", child: Text("Other")),
                       ],
                       seletedValue: selectedValue,
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return "Please select gender";
-                      //   }
-                      //   return null;
-                      // },
+                      validator: Validators.dob,
                     ),
                     PhoneNumberField(
                       hintText: "9800000000",
                       controller: phoneController,
                       selectedCountryCode: selectedcode,
                       label: "Phone",
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return "Phone number is required";
-                        } else if (!RegExp(r'^[0-9]{10}$').hasMatch(value)) {
-                          return "Enter a valid 10-digit phone number";
-                        }
-                        return null;
-                      },
+                      validator: Validators.phone,
                       onCountryCodeChanged:
                           (selected) => setState(() {
                             selectedcode = selected;
@@ -229,14 +184,6 @@ class _SignupScreenState extends State<SignUpScreen> {
                             ),
                           );
                         }
-                        // AuthService.registerUser(
-                        //   name: nameController.text,
-                        //   passord: passwordController.text,
-                        //   dob: dobController.text,
-                        //   email: emailController.text,
-                        //   gender: genderController.text,
-                        //   phone: phoneController.text,
-                        // );
                       },
                     ),
                   ],

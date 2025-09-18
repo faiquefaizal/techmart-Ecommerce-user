@@ -5,7 +5,8 @@ import 'package:photo_view/photo_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/image_preview/widgets/show_iamge_preview.dart';
-import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
+import 'package:techmart/features/home_page/presentation/widgets/bacnner_shimmers.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class HomeCorosal extends StatelessWidget {
   final List<String>? imageUrls;
@@ -42,6 +43,26 @@ class HomeCorosal extends StatelessWidget {
                     height: double.infinity,
                     fit: BoxFit.fill,
                     width: double.infinity,
+                    frameBuilder: (
+                      context,
+                      child,
+                      frame,
+                      wasSynchronouslyLoaded,
+                    ) {
+                      if (wasSynchronouslyLoaded) return child;
+                      return AnimatedOpacity(
+                        opacity: frame == null ? 0 : 1,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeOut,
+                        child: child,
+                      );
+                    },
+
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+
+                      return bannerShimmerPlaceholder();
+                    },
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
                         height: 200,

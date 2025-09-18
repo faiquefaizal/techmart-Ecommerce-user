@@ -34,6 +34,7 @@ class AddressService {
           .map((e) => AddressModel.fromMap(e.data() as Map<String, dynamic>))
           .toList();
     } catch (e) {
+      log(e.toString());
       rethrow;
     }
   }

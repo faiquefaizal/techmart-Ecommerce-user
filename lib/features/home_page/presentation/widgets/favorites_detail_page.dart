@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
-import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class favorites_detailPage_button extends StatelessWidget {
   const favorites_detailPage_button({

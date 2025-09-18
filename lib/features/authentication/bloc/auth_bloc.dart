@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:techmart/features/authentication/service/Auth_service.dart';
+import 'package:techmart/features/chat_room/bloc/message_bloc.dart';
 
 part 'auth_bloc_event.dart';
 part 'auth_bloc_state.dart';
@@ -26,7 +28,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
     final _isFirst = sharedpref.getBool("_isfirst") ?? false;
     log("auth check created");
     try {
-      await Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 5));
       if (!_isFirst) {
         await sharedpref.setBool("_isfirst", true);
         log("welcome emit");
@@ -45,11 +47,8 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   }
 
   void _login(LogininEvent event, Emitter<AuthBlocState> emit) async {
-    log("_loginAithcreated");
-    await Future.delayed(Duration(seconds: 3));
-    log("_loadingstate");
     emit(AuthBlocLoading());
-
+    await Future.delayed(Duration(seconds: 3));
     try {
       String? user = await authService.signInUser(
         email: event.email,
@@ -95,9 +94,15 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
 
   _googlesignin(GoogleSignInEvent event, Emitter<AuthBlocState> emit) async {
     try {
+      Logger().w("loading state");
       final userid = await authService.googleSignIn();
+
+      emit(AuthBlocLoading());
+      await Future.delayed(Duration(seconds: 5));
+      Logger().w("lAuthenticalte state");
       emit(Authticated(userid));
     } catch (e) {
+      Logger().w("errir state");
       emit(ErrorAuth(e.toString()));
     }
   }
@@ -105,6 +110,7 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
   _logout(Logout event, Emitter<AuthBlocState> emit) {
     try {
       authService.signOut();
+      emit(AuthBlocLoading());
       emit(UnAuthenticated());
     } catch (e) {
       emit(ErrorAuth(e.toString()));

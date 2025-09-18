@@ -1,1 +1,39 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"techmart-ecd96","appId":"1:1021568931129:android:4d622e61e00c75e50e04e8","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"techmart-ecd96","configurations":{"android":"1:1021568931129:android:4d622e61e00c75e50e04e8","ios":"1:1021568931129:ios:316ccaef66b147a30e04e8","macos":"1:1021568931129:ios:316ccaef66b147a30e04e8","web":"1:1021568931129:web:4759d1f565b679370e04e8","windows":"1:1021568931129:web:93fcb46f36627d730e04e8"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "techmart-ecd96",
+          "appId": "1:1021568931129:android:4d622e61e00c75e50e04e8",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "techmart-ecd96",
+          "configurations": {
+            "android": "1:1021568931129:android:4d622e61e00c75e50e04e8",
+            "ios": "1:1021568931129:ios:316ccaef66b147a30e04e8",
+            "macos": "1:1021568931129:ios:316ccaef66b147a30e04e8",
+            "web": "1:1021568931129:web:4759d1f565b679370e04e8",
+            "windows": "1:1021568931129:web:93fcb46f36627d730e04e8"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

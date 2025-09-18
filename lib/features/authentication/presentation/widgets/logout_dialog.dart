@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
+import 'package:techmart/features/check_out/models/payment_mode_model.dart';
 
 logOutDialog(BuildContext context) {
   showDialog(
     barrierDismissible: false,
     context: context,
-    builder:
-        (context) => Dialog(
+    builder: (context) {
+      try {
+        return Dialog(
           backgroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -18,12 +23,14 @@ logOutDialog(BuildContext context) {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CircleAvatar(
-                  backgroundColor: Colors.red.shade100,
-                  radius: 40,
-                  child: Icon(Icons.error_outline, color: Colors.red, size: 50),
+                Lottie.asset(
+                  "assets/logout_alert.json",
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.fill,
                 ),
-                SizedBox(height: 15),
+
+                // SizedBox(height: 15),
                 Text(
                   "Log out",
                   style: Theme.of(context).textTheme.displayMedium,
@@ -56,6 +63,11 @@ logOutDialog(BuildContext context) {
               ],
             ),
           ),
-        ),
+        );
+      } catch (e, stacktrace) {
+        log(e.toString());
+        rethrow;
+      }
+    },
   );
 }

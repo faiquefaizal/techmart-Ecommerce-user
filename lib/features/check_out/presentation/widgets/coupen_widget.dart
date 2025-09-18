@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:techmart/core/widgets/coupen_add_buttom_widget.dart';
@@ -80,6 +82,7 @@ class CoupenWidget extends StatelessWidget {
           child: CustemAddCoupoupenButton(
             label: "Add",
             onpressed: () {
+              log(coupenController.text);
               context.read<CoupenCubit>().addCoupen(
                 couponCode: coupenController.text.toLowerCase(),
                 cartTotal: total.toDouble(),

@@ -14,6 +14,7 @@ Future<ResponseModel?> runVisualSearch() async {
   final image = await pickImageAsByte();
   if (image != null) {
     final respose = await gemini.prompt(
+      model: "gemini-1.5-flash",
       parts: [
         Part.text('''
 From this product image, extract the following fields and return only this JSON format:
@@ -24,7 +25,6 @@ From this product image, extract the following fields and return only this JSON 
   "category": "Product Category"
 }
 '''),
-
         Part.inline(
           InlineData(data: base64Encode(image), mimeType: "image/jpeg"),
         ),
@@ -34,7 +34,7 @@ From this product image, extract the following fields and return only this JSON 
     final output = respose?.output;
     if (output != null) {
       try {
-        log(output);
+        log("output $output");
         final jsonStart = output.indexOf("{");
         final jsonEnd = output.lastIndexOf("}");
         final json = output.substring(jsonStart, jsonEnd + 1);

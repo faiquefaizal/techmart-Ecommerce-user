@@ -8,6 +8,8 @@ abstract class CartEvent extends Equatable {
 
 class FetchCart extends CartEvent {}
 
+class GotoCart extends CartEvent {}
+
 class AddToCartEvent extends CartEvent {
   final ProductCartModel cartModel;
 

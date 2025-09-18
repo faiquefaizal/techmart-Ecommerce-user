@@ -25,7 +25,7 @@ Future<List<OrderCardModel>> getOrderCard(List<OrderModel> orderList) async {
           total: order.total.toString(),
           image: image,
           attibute: attibute,
-          ratingCount: order.ratingCount,
+          ratingCount: order.ratingCount.toDouble(),
           ratingMessage: order.ratingText,
         ),
       );

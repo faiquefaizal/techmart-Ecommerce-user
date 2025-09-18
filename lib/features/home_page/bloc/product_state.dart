@@ -20,11 +20,13 @@ class ProductLoadSuccess extends ProductState {
   final ProductModel product;
   final List<ProductVarientModel> vairents;
   final ProductVarientModel selectedVariant;
+  final Map<String, dynamic>? rating;
 
   ProductLoadSuccess({
     required this.product,
     required this.selectedVariant,
     required this.vairents,
+    this.rating,
   });
   @override
   List<Object?> get props => [product, selectedVariant];

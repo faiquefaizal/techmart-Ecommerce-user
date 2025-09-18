@@ -6,6 +6,7 @@ import 'package:techmart/features/address/models/address_model.dart';
 import 'package:techmart/features/cart/model/product_cart_model.dart';
 
 import 'package:techmart/features/orders/model/order_model.dart';
+import 'package:techmart/features/payments/const/payment.dart';
 import 'package:techmart/features/placeorder/service/place_order_service.dart';
 import 'package:techmart/features/payments/service/payment_service.dart';
 
@@ -21,7 +22,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   _placeOrderOnline(PlaceOnlineOrder event, Emitter<OrderState> emit) async {
     emit(LoadingState());
     try {
+      final neededthing = secretkey ?? "null";
+      log(neededthing);
+      log("place online paymetn called");
       final paymentId = await PaymentService().makePayment(event.total);
+      log("paymentId $paymentId");
       await orderService.placeOrderWithStripe(
         cartList: event.cartList,
         address: event.address,
@@ -33,6 +38,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
       emit(OrderPlacedSuccessfully());
     } catch (e) {
+      log("catch error");
       log(e.toString());
       emit(Errorstate(e.toString()));
     }
@@ -40,6 +46,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   _placeOrderCod(PlaceOrderCod event, Emitter<OrderState> emit) async {
     emit(LoadingState());
+    await Future.delayed(Duration(seconds: 2));
     try {
       await orderService.placeOrderCod(
         cartList: event.cartList,

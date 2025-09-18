@@ -6,6 +6,6 @@ String toString(PaymentMode current) {
       return "Cash on Delivery";
 
     case PaymentMode.razerPay:
-      return "Razor Pay";
+      return "Stripe";
   }
 }

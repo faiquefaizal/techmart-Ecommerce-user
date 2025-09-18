@@ -20,7 +20,7 @@ class OrderModel extends Equatable {
   final String paymentMode;
   final DateTime? updateTime;
   final String? ratingText;
-  final double ratingCount;
+  final num ratingCount;
   OrderModel({
     required this.productId,
     required this.varientId,

@@ -39,64 +39,74 @@ class CoupenServices {
     required double cartTotal,
     required Map<String, double> sellerTotals,
   }) async {
-    final firestore = FirebaseFirestore.instance;
-    if (couponCode.isEmpty) {
-      throw Exception("Code is Empty");
-    }
-    final adminQuery =
-        await firestore
-            .collection("AdminCoupouns")
-            .where("name", isEqualTo: couponCode)
-            .get();
+    try {
+      final firestore = FirebaseFirestore.instance;
+      if (couponCode.isEmpty) {
+        throw Exception("Code is Empty");
+      }
+      final adminQuery =
+          await firestore
+              .collection("AdminCoupouns")
+              .where("name", isEqualTo: couponCode)
+              .get();
 
-    if (adminQuery.docs.isNotEmpty) {
-      log("adminQuery");
-      final data = adminQuery.docs.first.data();
+      if (adminQuery.docs.isNotEmpty) {
+        log("adminQuery");
+        final data = adminQuery.docs.first.data();
 
-      final adminCoupon = AdminCoupon.fromMap(data);
+        final adminCoupon = AdminCoupon.fromMap(data);
 
-      if (await checkIfUsed(adminCoupon.id)) {
-        log("used");
-        throw Exception("Coupon already used");
+        if (await checkIfUsed(adminCoupon.id)) {
+          log("used");
+          throw Exception("Coupon already used");
+        }
+
+        final discount = DiscountService.applyAdminCoupon(
+          coupon: adminCoupon,
+          cartTotal: cartTotal,
+        );
+        log(discount.toString());
+
+        return discount;
       }
 
-      final discount = DiscountService.applyAdminCoupon(
-        coupon: adminCoupon,
-        cartTotal: cartTotal,
-      );
-      log(discount.toString());
+      final sellerQuery =
+          await firestore
+              .collection("seller_coupons")
+              .where("couponName", isEqualTo: couponCode)
+              .get();
 
-      return discount;
-    }
+      if (sellerQuery.docs.isNotEmpty) {
+        log("SEllerQuery");
+        final data = sellerQuery.docs.first.data();
+        log("null checka before seller coupen fetching");
+        log(data.toString());
+        final sellerCoupon = SellerCoupon.fromMap(data);
 
-    final sellerQuery =
-        await firestore
-            .collection("seller_coupons")
-            .where("couponName", isEqualTo: couponCode)
-            .get();
+        if (await checkIfUsed(sellerCoupon.id)) {
+          throw Exception("Coupon already used");
+        }
+        log("null checka before");
+        final sellerId = sellerCoupon.sellerId;
 
-    if (sellerQuery.docs.isNotEmpty) {
-      log("SEllerQuery");
-      final data = sellerQuery.docs.first.data();
-      final sellerCoupon = SellerCoupon.fromMap(data);
+        log(sellerId);
+        log("null check");
+        if (!sellerTotals.containsKey(sellerId)) {
+          throw Exception("No items from this seller in cart");
+        }
 
-      if (await checkIfUsed(sellerCoupon.id)) {
-        throw Exception("Coupon already used");
+        final discount = DiscountService.applySellerCoupon(
+          coupon: sellerCoupon,
+          sellerTotal: sellerTotals[sellerId]!,
+        );
+
+        //  await markCouponAsUsed(userId, sellerCoupon.id, sellerCoupon.couponName);
+        return discount;
       }
-
-      final sellerId = sellerCoupon.sellerId;
-      if (!sellerTotals.containsKey(sellerId)) {
-        throw Exception("No items from this seller in cart");
-      }
-
-      final discount = DiscountService.applySellerCoupon(
-        coupon: sellerCoupon,
-        sellerTotal: sellerTotals[sellerId]!,
-      );
-
-      // await markCouponAsUsed(userId, sellerCoupon.id, sellerCoupon.couponName);
-      return discount;
+      throw Exception("Invalid coupon code");
+    } catch (e) {
+      log(e.toString());
+      rethrow;
     }
-    throw Exception("Invalid coupon code");
   }
 }

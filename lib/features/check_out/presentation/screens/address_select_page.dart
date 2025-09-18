@@ -66,13 +66,9 @@ class AddressSelectPage extends StatelessWidget {
                           isDismissible: true,
                           enableDrag: true,
                           builder: (context) {
-                            return Builder(
-                              builder: (context) {
-                                return BlocProvider(
-                                  create: (_) => CurrentAddressCubicCubit(),
-                                  child: addressBottomSheet(context),
-                                );
-                              },
+                            return BlocProvider(
+                              create: (context) => CurrentAddressCubicCubit(),
+                              child: AddressBottomSheet(),
                             );
                           },
                         );

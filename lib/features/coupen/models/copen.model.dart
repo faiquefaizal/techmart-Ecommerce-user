@@ -30,7 +30,7 @@ class SellerCoupon {
       endTime: (map['endTime'] as Timestamp).toDate(),
       isActive: map['isActive'],
       minimumPrice: map['minimumPrice'],
-      sellerId: map['sellerId'],
+      sellerId: map['sellerid'],
     );
   }
 }

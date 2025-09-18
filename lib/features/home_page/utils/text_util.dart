@@ -98,6 +98,11 @@ class CustomTextStyles {
     fontWeight: FontWeight.w400,
     color: Colors.grey,
   );
+  static final TextStyle ratingTexts = GoogleFonts.lato(
+    fontSize: 22,
+    color: Colors.grey,
+    fontWeight: FontWeight.w300,
+  );
 }
 
 class CustemTextStyles {

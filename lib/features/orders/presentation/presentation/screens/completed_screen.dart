@@ -9,6 +9,7 @@ import 'package:techmart/features/home_page/utils/text_util.dart';
 import 'package:techmart/features/orders/bloc/order_bloc.dart';
 import 'package:techmart/features/orders/model/order_model.dart';
 import 'package:techmart/features/orders/presentation/presentation/screens/empty_orders_screen.dart';
+import 'package:techmart/features/orders/presentation/presentation/screens/shimmer_completed_order.dart';
 import 'package:techmart/features/orders/presentation/widgets/completed_card_widget.dart';
 import 'package:techmart/features/orders/presentation/widgets/ongoing_card_widget.dart';
 import 'package:techmart/features/orders/utils/order_card_util.dart';
@@ -30,7 +31,7 @@ class CompletedScreen extends StatelessWidget {
                 builder: (context, asyncSnapshot) {
                   if (asyncSnapshot.connectionState ==
                       ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return ShimmerCompletedCard();
                   }
                   if (asyncSnapshot.hasError) {
                     return Text(asyncSnapshot.error.toString());

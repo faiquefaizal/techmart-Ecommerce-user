@@ -46,11 +46,6 @@ class OngoingOrderCard extends StatelessWidget {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                       border: Border.all(color: Colors.grey, width: 0.8),
-                      // image: DecorationImage(
-
-                      //   image: NetworkImage(cartModel.imageUrl),
-                      //   fit: BoxFit.cover,
-                      // ),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadiusGeometry.circular(8),
@@ -116,39 +111,47 @@ class OngoingOrderCard extends StatelessWidget {
                                 style: CustomTextStyles.cartCardPrice,
                               ),
                               Spacer(),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder:
-                                          (context) => BlocProvider(
-                                            create:
-                                                (context) => TrackOrderCubit(
-                                                  TrackOrderService(),
-                                                )..getOrderStatus(cartModel.id),
-                                            child: OrderTrack(),
-                                          ),
+                              Material(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.black,
+                                child: InkWell(
+                                  splashColor: Colors.black45,
+                                  borderRadius: BorderRadius.circular(5),
+                                  highlightColor: Colors.grey.shade300,
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => BlocProvider(
+                                              create:
+                                                  (context) => TrackOrderCubit(
+                                                    TrackOrderService(),
+                                                  )..getOrderStatus(
+                                                    cartModel.id,
+                                                  ),
+                                              child: OrderTrack(),
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: 95,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 16,
                                     ),
-                                  );
-                                },
-                                child: Container(
-                                  height: 35,
-                                  width: 95,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 16,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    border: Border.all(color: Colors.black26),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Text(
-                                    "Track Order",
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.white,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.black26),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text(
+                                      "Track Order",
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),

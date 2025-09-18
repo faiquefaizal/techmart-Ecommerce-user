@@ -25,6 +25,7 @@ class AddressModel extends Equatable {
   String get fulladdress => "$houseNo, $area, $city, $state - $pinCode";
   String get fullAddressWithName =>
       "$fullName\n$houseNo,$area,$city,\n$state - $pinCode";
+  String get custemerfullname => fullName;
   factory AddressModel.fromMap(Map<String, dynamic> map) {
     return AddressModel(
       id: map['id'],
@@ -50,6 +51,11 @@ class AddressModel extends Equatable {
     'area': area,
     'isDefault': isDefault,
   };
+  @override
+  toString() {
+    return "AddressModel(  fullName: $fullName,phoneNumber: $phoneNumber, pinCode: $pinCode,state: $state,city: $city,houseNo: $houseNo,area: $area,)";
+  }
+
   AddressModel copyWith({
     String? id,
     String? fullName,

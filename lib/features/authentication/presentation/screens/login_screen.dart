@@ -2,12 +2,15 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:techmart/core/models/app_routes.dart';
+import 'package:techmart/core/utils/validators.dart';
 import 'package:techmart/core/widgets/button_widgets.dart';
 import 'package:techmart/core/widgets/form_field.dart';
 import 'package:techmart/core/widgets/loading_widget.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
+import 'package:techmart/features/authentication/presentation/widgets/reset_button.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -19,6 +22,15 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBlocBloc, AuthBlocState>(
       listener: (context, state) {
+        if (state is AuthBlocLoading) {
+          Logger().w("state is AuthBlocLoading");
+          showDialog(
+            context: context,
+            barrierColor: Colors.transparent,
+            barrierDismissible: false,
+            builder: (_) => CustomLoadingIndicator(),
+          );
+        }
         if (state is ErrorAuth) {
           if (Navigator.canPop(context)) Navigator.pop(context);
           custemSnakbar(
@@ -26,20 +38,9 @@ class LoginScreen extends StatelessWidget {
             message: state.error,
             color: Colors.red,
           );
-          // ScaffoldMessenger.of(
-          //   context,
-          // ).showSnackBar(SnackBar(content: Text(state.error)));
-        } else if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        }
-
-        if (state is AuthBlocLoading) {
-          showDialog(
-            context: context,
-            builder: (_) => CustomLoadingIndicator(label: "Signing In"),
-          );
-          log("hello");
         } else if (state is Authticated) {
+          if (Navigator.canPop(context)) Navigator.pop(context);
+
           Navigator.of(context).pushReplacementNamed(AppRoutes.home);
         }
       },
@@ -54,8 +55,7 @@ class LoginScreen extends StatelessWidget {
               right: 25,
               bottom: MediaQuery.viewInsetsOf(context).bottom,
             ),
-            // padding: EdgeInsets.fromLTRB(25, 70, 25, 30),
-            // padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 70),
+
             child: Form(
               key: _formKey,
               child: Column(
@@ -73,15 +73,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20),
                   CustemTextFIeld(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Email cannot be empty";
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return "Enter a valid email";
-                      }
-                      return null;
-                    },
+                    validator: Validators.email,
                     label: "Email",
                     hintText: "Enter your Email",
                     controller: emailController,
@@ -92,37 +84,12 @@ class LoginScreen extends StatelessWidget {
                     hintText: "Enter your Password",
                     controller: passwordController,
                     password: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Password cannot be empty";
-                      }
-                      if (value.length < 6) {
-                        return "Password must be at least 6 characters";
-                      }
-                      return null;
-                    },
+                    validator: Validators.password,
                   ),
 
                   FittedBox(
                     child: Row(
-                      children: [
-                        Text("Forget your password?"),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.resetPassword,
-                            );
-                          },
-                          child: Text(
-                            "Reset your password",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
+                      children: [Text("Forget your password?"), ResetButton()],
                     ),
                   ),
                   SizedBox(height: 15),

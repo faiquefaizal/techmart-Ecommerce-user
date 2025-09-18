@@ -10,6 +10,7 @@ class CustemTextFIeld extends StatefulWidget {
   String? Function(String?)? validator;
   void Function(String)? onchanged;
   String? intial;
+  String? optionalText;
 
   CustemTextFIeld({
     this.intial,
@@ -20,6 +21,7 @@ class CustemTextFIeld extends StatefulWidget {
     this.readOnly = false,
     this.validator,
     this.onchanged,
+    this.optionalText,
   });
 
   @override
@@ -52,6 +54,7 @@ class _CustemTextFIeldState extends State<CustemTextFIeld> {
           onChanged: widget.onchanged,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            labelText: widget.optionalText,
             filled: true,
             fillColor: const Color.fromARGB(255, 255, 253, 253),
             suffixIcon:
@@ -374,7 +377,7 @@ class NewCustemFormField extends StatelessWidget {
         Text(label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         TextFormField(
-          initialValue: intialValue,
+          initialValue: (controller == null) ? intialValue : null,
           keyboardType: keyboardType,
           controller: controller,
           autofocus: autofocus,

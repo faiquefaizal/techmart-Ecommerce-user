@@ -82,7 +82,7 @@ import 'package:photo_view/photo_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:techmart/features/home_page/features/image_preview/cubit/image_index_cubit.dart';
 import 'package:techmart/features/home_page/features/image_preview/widgets/show_iamge_preview.dart';
-import 'package:techmart/features/wishlist_page/cubit/wishlist_cubit.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class ProductCarouselWidgetUpdated extends StatelessWidget {
   final List<String>? imageUrls;

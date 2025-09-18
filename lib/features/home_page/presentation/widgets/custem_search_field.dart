@@ -54,30 +54,30 @@ class CustemSearchField extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.camera_alt_outlined, color: Colors.grey),
-                      onPressed: () async {
+                      onPressed: () {
                         context.read<ProductBloc>().add(
                           SearchVisually(controller: searchController),
                         );
-                        // visualSearchLoading(context);
-                        final result = await runVisualSearch();
+                        // // visualSearchLoading(context);
+                        // final result = await runVisualSearch();
 
-                        if (result != null) {
-                          final query =
-                              "${result.safeCategory} ${result.safeModel} ${result.brandName}"
-                                  .trim();
+                        // if (result != null) {
+                        //   final query =
+                        //       "${result.safeCategory} ${result.safeModel} ${result.brandName}"
+                        //           .trim();
 
-                          searchController.text = query;
+                        //   searchController.text = query;
 
-                          context.read<ProductBloc>().add(
-                            SearchProduct(productName: query),
-                          );
-                        } else {
-                          custemSnakbar(
-                            context: context,
-                            message: "Viaual Serach failed",
-                            color: Colors.red,
-                          );
-                        }
+                        //   context.read<ProductBloc>().add(
+                        //     SearchProduct(productName: query),
+                        //   );
+                        // } else {
+                        //   custemSnakbar(
+                        //     context: context,
+                        //     message: "Viaual Serach failed",
+                        //     color: Colors.red,
+                        //   );
+                        // }
                       },
                     ),
                   ],

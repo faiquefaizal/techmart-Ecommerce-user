@@ -18,3 +18,28 @@ int getIndexWithStatus(String value) {
       return 0;
   }
 }
+
+final List<String> steps = [
+  "Pending",
+  "proccessing",
+  "shipped",
+  "outfordelivery",
+  "delivery",
+];
+
+String formatStep(String step) {
+  switch (step.toLowerCase()) {
+    case "pending":
+      return "Pending";
+    case "proccessing":
+      return "Processing"; // fixed typo
+    case "shipped":
+      return "Shipped";
+    case "outfordelivery":
+      return "Out for Delivery";
+    case "delivery":
+      return "Delivered";
+    default:
+      return step; // fallback: return as-is
+  }
+}

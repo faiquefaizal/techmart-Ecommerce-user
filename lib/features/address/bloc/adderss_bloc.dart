@@ -21,6 +21,7 @@ class AdderssBloc extends Bloc<AdderssEvent, AdderssState> {
     GetAllAddress event,
     Emitter<AdderssState> emit,
   ) async {
+    log("addressLoading");
     emit(AddressLoading());
     try {
       final addressList = await AddressService.getAllAddressList();
@@ -65,6 +66,7 @@ class AdderssBloc extends Bloc<AdderssEvent, AdderssState> {
     EditAddressEvent event,
     Emitter<AdderssState> emit,
   ) async {
+    log("addressLoadingSTate");
     emit(AddressLoading());
     try {
       if (event.updatedAddress.id == null) {
@@ -77,9 +79,11 @@ class AdderssBloc extends Bloc<AdderssEvent, AdderssState> {
       }
       log(event.updatedAddress.id.toString());
       await AddressService.editAddress(event.updatedAddress);
+
       final addressList = await AddressService.getAllAddressList();
       emit(AddressLoaded(addressList: addressList));
     } catch (e) {
+      log("error: e.toString()");
       emit(AdderessError(error: e.toString()));
     }
   }
