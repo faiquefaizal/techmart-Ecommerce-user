@@ -18,6 +18,7 @@ class FetchOrderBloc extends Bloc<OrderEvent, OrderState> {
   FetchOrderBloc(this.orderService) : super(OrderInitial()) {
     on<FetchOrders>(_onFetchOrders);
     on<AddRating>(_addRating);
+    on<ClearOrders>((event, emit) => emit(OrderInitial()));
   }
 
   _onFetchOrders(FetchOrders event, Emitter<OrderState> emit) async {

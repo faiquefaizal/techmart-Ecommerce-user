@@ -75,9 +75,9 @@ class AuthBlocBloc extends Bloc<AuthBlocEvent, AuthBlocState> {
       String? user = await authService.registerUser(
         name: event.name,
         passord: event.password,
-        dob: event.dob,
+        //    dob: event.dob,
         email: event.email,
-        gender: event.gender,
+        //   gender: event.gender,
         phone: event.phone,
       );
       if (user != null) {

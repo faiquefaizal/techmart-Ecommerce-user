@@ -84,6 +84,8 @@ class _CustemDropDownState<T> extends State<CustemDropDown<T>> {
         Text(widget.label, style: const TextStyle(fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         DropdownButtonFormField<T>(
+          dropdownColor: Colors.white,
+          style: TextStyle(color: Colors.black),
           validator: widget.validator,
           value: widget.seletedValue,
           decoration: InputDecoration(

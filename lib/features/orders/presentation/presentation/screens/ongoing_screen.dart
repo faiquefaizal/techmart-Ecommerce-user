@@ -39,7 +39,7 @@ class OngoingScreen extends StatelessWidget {
 
                   if (asyncSnapshot.hasData) {
                     if (asyncSnapshot.data!.isEmpty) {
-                      return EmptyOrdersScreen();
+                      return EmptyOrdersScreen(status: "Ongoing");
                     }
                     return ListView.builder(
                       itemCount: asyncSnapshot.data?.length,

@@ -46,3 +46,4 @@ app.*.map.json
 
 .env
 /assets/techmart-ecd96-44ba9fae2451.json
+lib/firebase_options.dart

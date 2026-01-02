@@ -39,7 +39,11 @@ class CompletedScreen extends StatelessWidget {
 
                   if (asyncSnapshot.hasData) {
                     if (asyncSnapshot.data!.isEmpty) {
-                      return EmptyOrdersScreen();
+                      log(
+                        "length ${asyncSnapshot.data?.length.toString()}" ??
+                            "no list ot its nulll",
+                      );
+                      return EmptyOrdersScreen(status: "Completed");
                     }
                     return ListView.builder(
                       itemCount: asyncSnapshot.data?.length,

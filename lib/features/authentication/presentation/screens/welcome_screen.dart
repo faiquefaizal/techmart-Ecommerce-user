@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
               Spacer(),
               Flexible(
                 child: SizedBox(
-                  height: 80,
+                  height: 50,
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -69,7 +69,7 @@ class WelcomeScreen extends StatelessWidget {
                           style: GoogleFonts.lato(
                             color: Colors.white,
 
-                            fontSize: 25,
+                            fontSize: 18,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

@@ -19,3 +19,5 @@ final class AddRating extends OrderEvent {
     required this.message,
   });
 }
+
+final class ClearOrders extends OrderEvent {}

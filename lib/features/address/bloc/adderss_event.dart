@@ -26,3 +26,5 @@ final class DeleteAddressEvent extends AdderssEvent {
   final String? id;
   const DeleteAddressEvent({required this.id});
 }
+
+final class ClearEvent extends AdderssEvent {}

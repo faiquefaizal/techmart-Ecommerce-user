@@ -23,25 +23,24 @@ class CompletedCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     log(cartModel.toString());
 
-    double cardSized = 130;
-
-    return GestureDetector(
+    return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder:
-                (context) => BlocProvider(
-                  create:
-                      (context) =>
-                          TrackOrderCubit(TrackOrderService())
-                            ..getOrderDetails(cartModel.id),
-                  child: OrderTrack(),
-                ),
-          ),
-        );
+        context.read<TrackOrderCubit>().getOrderDetails(cartModel.id);
+        // Navigator.of(context).push(
+        //   MaterialPageRoute(
+        //     builder:
+        //         (context) => BlocProvider(
+        //           create:
+        //               (context) =>
+        //                   TrackOrderCubit(TrackOrderService())
+        //                     ..getOrderDetails(cartModel.id),
+        //           child: OrderTrack(),
+        //         ),
+        //   ),
+        // );
       },
       child: SizedBox(
-        height: cardSized,
+        height: 130,
         child: Card(
           shape: RoundedRectangleBorder(
             side: BorderSide(color: Colors.grey.shade100),

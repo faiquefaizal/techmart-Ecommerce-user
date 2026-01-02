@@ -50,7 +50,7 @@ class AuthService {
   Future<String?> registerUser({
     required String name,
     required String passord,
-    required String dob,
+    // required String dob,
     required String email,
     String? gender,
     required String phone,
@@ -61,9 +61,9 @@ class AuthService {
       UserModel newUser = UserModel(
         name: name,
         passord: passord,
-        dob: dob,
+        //   dob: dob,
         email: email,
-        gender: gender,
+        //     gender: gender,
         phone: phone,
         uid: currentuser.user!.uid,
       );
@@ -84,6 +84,7 @@ class AuthService {
         email: email,
         password: password,
       );
+      log("user Id: ${currentUser.user?.uid}");
       return currentUser.user!.uid;
     } catch (e) {
       log(e.toString());
@@ -121,12 +122,13 @@ class AuthService {
       UserModel newUser = UserModel(
         name: firebaseUser.displayName ?? "",
         passord: "",
-        dob: "",
+        //      dob: "",
         email: firebaseUser.email ?? "",
-        gender: "",
+        //      gender: "",
         phone: "",
         uid: firebaseUser.uid,
       );
+      log("user Id: ${newUser.uid}");
       await db
           .collection("Users")
           .doc(newUser.uid)

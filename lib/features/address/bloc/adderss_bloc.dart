@@ -15,6 +15,7 @@ class AdderssBloc extends Bloc<AdderssEvent, AdderssState> {
     on<AddAddressEvent>(_addAddressEvent);
     on<EditAddressEvent>(_editAddressEvent);
     on<DeleteAddressEvent>(_deleteAddressEvent);
+    on<ClearEvent>((event, emit) => emit(AdderssInitial()));
   }
 
   FutureOr<void> _getAllAddress(

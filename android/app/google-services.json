@@ -12,7 +12,28 @@
           "package_name": "com.example.techmart"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1021568931129-ddqnn62tr2ntk3qft110eqjeg3aru7kk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.techmart",
+            "certificate_hash": "933bc28b6d6cd38b09530b169798c525d0b8cc47"
+          }
+        },
+        {
+          "client_id": "1021568931129-n3ughbd2dck44q92193dht3oalo2n097.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.techmart",
+            "certificate_hash": "600f02a2d3b80e8e530b1caa91b95439fc544428"
+          }
+        },
+        {
+          "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBUVTguKYDn67F2itMhBK9gtsEw0TExKUA"
@@ -20,7 +41,91 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1021568931129-2s6hrjnpj5eon4arfpjh1kpbg6a8osdn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.techmartAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021568931129:android:51c81797cf4f85d10e04e8",
+        "android_client_info": {
+          "package_name": "com.example.techmart_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUVTguKYDn67F2itMhBK9gtsEw0TExKUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1021568931129-2s6hrjnpj5eon4arfpjh1kpbg6a8osdn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.techmartAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021568931129:android:73080cba22f9c5720e04e8",
+        "android_client_info": {
+          "package_name": "com.example.techmart_seller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUVTguKYDn67F2itMhBK9gtsEw0TExKUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1021568931129-dmdvckl7719j5co09rctas9hhp1g8q3k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1021568931129-2s6hrjnpj5eon4arfpjh1kpbg6a8osdn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.techmartAdmin"
+              }
+            }
+          ]
         }
       }
     }

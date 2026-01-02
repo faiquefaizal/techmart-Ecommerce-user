@@ -40,3 +40,5 @@ class PlaceOrderCod extends OrderEvent {
 }
 
 class FetchOrders extends OrderEvent {}
+
+class ClearOrder extends OrderEvent {}

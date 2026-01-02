@@ -6,7 +6,7 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:techmart/core/utils/pick_image/image_picker.dart';
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
-import 'package:techmart/features/home_page/features/visual_search/model/response_model.dart';
+import 'package:techmart/features/visual_search/model/response_model.dart';
 
 Future<ResponseModel?> runVisualSearch() async {
   final gemini = Gemini.instance;

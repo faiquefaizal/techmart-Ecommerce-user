@@ -30,3 +30,5 @@ class DecreaseQtyEvent extends CartEvent {
   final ProductCartModel cartModel;
   const DecreaseQtyEvent(this.cartModel);
 }
+
+class ResetCart extends CartEvent {}

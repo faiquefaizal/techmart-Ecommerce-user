@@ -17,6 +17,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<DeleteFromCartEvent>(_onDelete);
     on<IncreaseQtyEvent>(_onIncrease);
     on<DecreaseQtyEvent>(_onDecrease);
+    on<ResetCart>(_reset);
   }
   Future<void> _onFetchCart(FetchCart event, Emitter<CartState> emit) async {
     logg.t("oncartBloc triggered");
@@ -132,5 +133,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     } catch (e) {
       emit(CartErrorState(error: e.toString()));
     }
+  }
+
+  void _reset(ResetCart event, Emitter<CartState> emit) {
+    emit(CartInitial());
   }
 }

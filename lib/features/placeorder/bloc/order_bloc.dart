@@ -18,6 +18,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   OrderBloc(this.orderService) : super(OrderInitial()) {
     on<PlaceOnlineOrder>(_placeOrderOnline);
     on<PlaceOrderCod>(_placeOrderCod);
+    on<ClearOrder>((event, emit) => OrderInitial());
   }
   _placeOrderOnline(PlaceOnlineOrder event, Emitter<OrderState> emit) async {
     emit(LoadingState());

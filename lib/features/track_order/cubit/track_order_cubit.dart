@@ -25,6 +25,7 @@ class TrackOrderCubit extends Cubit<TrackOrderState> {
   getOrderDetails(String id) async {
     try {
       emit(LoadingOrder());
+      await Future.delayed(Duration(seconds: 3));
       final productModel = await trackService.fetchOrderDetailsOnce(id);
       final productDetails = await trackService.fetchPRoductInfo(
         productModel.productId,

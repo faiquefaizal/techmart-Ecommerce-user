@@ -119,20 +119,23 @@ class OngoingOrderCard extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(5),
                                   highlightColor: Colors.grey.shade300,
                                   onTap: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => BlocProvider(
-                                              create:
-                                                  (context) => TrackOrderCubit(
-                                                    TrackOrderService(),
-                                                  )..getOrderStatus(
-                                                    cartModel.id,
-                                                  ),
-                                              child: OrderTrack(),
-                                            ),
-                                      ),
-                                    );
+                                    context
+                                        .read<TrackOrderCubit>()
+                                        .getOrderStatus(cartModel.id);
+                                    // Navigator.of(context).push(
+                                    //   MaterialPageRoute(
+                                    //     builder:
+                                    //         (context) => BlocProvider(
+                                    //           create:
+                                    //               (context) => TrackOrderCubit(
+                                    //                 TrackOrderService(),
+                                    //               )..getOrderStatus(
+                                    //                 cartModel.id,
+                                    //               ),
+                                    //           child: OrderTrack(),
+                                    //         ),
+                                    //   ),
+                                    // );
                                   },
                                   child: Container(
                                     height: 35,

@@ -8,11 +8,12 @@ import 'dart:async';
 import 'package:techmart/core/utils/debouncer.dart';
 import 'package:techmart/features/home_page/cubit/catogory_cubic_cubit.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
-import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
+//  import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
 import 'package:techmart/features/home_page/models/peoduct_model.dart';
 import 'package:techmart/features/home_page/models/product_variet_model.dart';
 import 'package:techmart/features/home_page/service/product_service.dart';
 import 'package:techmart/features/orders/service/order_service.dart';
+import 'package:techmart/features/visual_search/service/viusal_search.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';

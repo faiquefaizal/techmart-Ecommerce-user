@@ -6,7 +6,7 @@ import 'package:techmart/features/home_page/bloc/product_bloc.dart';
 import 'package:techmart/features/home_page/features/product_filter/cubit/filter_cubit.dart';
 
 import 'package:techmart/features/home_page/features/product_filter/widgets/price_sort_chip.dart';
-import 'package:techmart/features/home_page/features/visual_search/service/viusal_search.dart';
+
 import 'package:techmart/core/widgets/snakbar_widgert.dart';
 import 'package:techmart/features/home_page/presentation/widgets/visual_search_loading.dart';
 

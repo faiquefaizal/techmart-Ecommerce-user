@@ -14,16 +14,16 @@ class LogininEvent extends AuthBlocEvent {
 class Register extends AuthBlocEvent {
   final String name;
   final String password;
-  final String dob;
+  // final String dob;
   final String email;
-  final String? gender;
+  //  final String? gender;
   final String phone;
   Register({
     required this.name,
     required this.password,
-    required this.dob,
+    //  required this.dob,
     required this.email,
-    this.gender = "",
+    // this.gender = "",
     required this.phone,
   });
 }

@@ -45,10 +45,10 @@ class HomeScreen extends StatelessWidget {
                     CombinedSearchAndFilter(
                       query: quary,
                       filters: filter,
-                      catagoryId:
-                          (context.read<CatogoryCubicCubit>().state
-                                  as CatagoryCubicLoaded)
-                              .selectedId,
+                      catagoryId: null,
+                      // (context.read<CatogoryCubicCubit>().state
+                      //         as CatagoryCubicLoaded)
+                      //     .selectedId,
                     ),
                   );
                 },

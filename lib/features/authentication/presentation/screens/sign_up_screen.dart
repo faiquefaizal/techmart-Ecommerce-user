@@ -20,8 +20,8 @@ class _SignupScreenState extends State<SignUpScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController dobController = TextEditingController();
-  final TextEditingController genderController = TextEditingController();
+  // final TextEditingController dobController = TextEditingController();
+  // final TextEditingController genderController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController conformPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -97,19 +97,34 @@ class _SignupScreenState extends State<SignUpScreen> {
                           ),
                     ),
 
-                    CustemDropDown(
-                      label: "Gender",
-                      items: [
-                        DropdownMenuItem(value: "Male", child: Text("Male")),
-                        DropdownMenuItem(
-                          value: "Female",
-                          child: Text("Female"),
-                        ),
-                        DropdownMenuItem(value: "other", child: Text("Other")),
-                      ],
-                      seletedValue: selectedValue,
-                      validator: Validators.dob,
-                    ),
+                    // CustemDropDown(
+                    //   label: "Gender",
+                    //   items: [
+                    //     DropdownMenuItem(
+                    //       value: "Male",
+                    //       child: Text(
+                    //         "Male",
+                    //         style: const TextStyle(color: Colors.white),
+                    //       ),
+                    //     ),
+                    //     DropdownMenuItem(
+                    //       value: "Female",
+                    //       child: Text(
+                    //         "Female",
+                    //         style: const TextStyle(color: Colors.white),
+                    //       ),
+                    //     ),
+                    //     DropdownMenuItem(
+                    //       value: "other",
+                    //       child: Text(
+                    //         "Other",
+                    //         style: const TextStyle(color: Colors.white),
+                    //       ),
+                    //     ),
+                    //   ],
+                    //   seletedValue: selectedValue,
+                    //   validator: Validators.dob,
+                    // ),
                     PhoneNumberField(
                       hintText: "9800000000",
                       controller: phoneController,
@@ -168,7 +183,7 @@ class _SignupScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 12),
+                    SizedBox(height: 30),
                     CustemButton(
                       label: "Create an Account",
                       onpressed: () {
@@ -177,9 +192,9 @@ class _SignupScreenState extends State<SignUpScreen> {
                             Register(
                               name: nameController.text,
                               password: passwordController.text,
-                              dob: dobController.text,
+                              // dob: dobController.text,
                               email: emailController.text,
-                              gender: selectedValue,
+                              //   gender: selectedValue,
                               phone: phoneController.text,
                             ),
                           );

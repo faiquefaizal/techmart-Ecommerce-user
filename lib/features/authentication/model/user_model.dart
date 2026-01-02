@@ -2,17 +2,17 @@ class UserModel {
   String name;
   String email;
   String passord;
-  String? dob;
-  String? gender;
+  //  String? dob;
+  //  String? gender;
   String uid;
   String phone;
   UserModel({
     required this.name,
     required this.passord,
-    this.dob,
+    //   this.dob,
     required this.uid,
     required this.email,
-    this.gender,
+    //  this.gender,
     required this.phone,
   });
 
@@ -20,10 +20,10 @@ class UserModel {
     return {
       "id": uid,
       "name": name,
-      "Date of birth": dob,
+      //    "Date of birth": dob,
       "password": passord,
       "email": email,
-      "gender": gender,
+      //     "gender": gender,
       "phone": phone,
     };
   }
@@ -32,10 +32,10 @@ class UserModel {
     return UserModel(
       name: map["name"] ?? "",
       passord: map["password"],
-      dob: map["dob"] ?? "",
+      //   dob: map["dob"] ?? "",
       uid: map["id"] ?? "",
       email: map["email"] ?? "",
-      gender: map["gender"] ?? "",
+      //     gender: map["gender"] ?? "",
       phone: map["phone"] ?? "",
     );
   }
@@ -52,8 +52,8 @@ class UserModel {
       name: name ?? this.name,
       email: email ?? this.email,
       passord: passord ?? this.passord,
-      dob: dob ?? this.dob,
-      gender: gender ?? this.gender,
+      //   dob: dob ?? this.dob,
+      //   gender: gender ?? this.gender,
       uid: uid ?? this.uid,
       phone: phone ?? this.phone,
     );

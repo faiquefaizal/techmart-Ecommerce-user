@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:techmart/features/track_order/cubit/track_order_cubit.dart';
 import 'package:techmart/features/track_order/presentation/screens/order_details_screen.dart';
 import 'package:techmart/features/track_order/presentation/screens/track_screen.dart';
@@ -31,7 +32,15 @@ class OrderTrack extends StatelessWidget {
           log(state.message);
           return Center(child: Text(state.message));
         }
-        return const Center(child: CircularProgressIndicator());
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Center(
+            child: LoadingAnimationWidget.inkDrop(
+              color: Colors.black,
+              size: 50,
+            ),
+          ),
+        );
       },
     );
   }

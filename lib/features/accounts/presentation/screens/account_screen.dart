@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:techmart/core/navigation/cubit/navigation_cubit.dart';
 import 'package:techmart/core/widgets/custem_appbar.dart';
 import 'package:techmart/features/accounts/presentation/screens/faq_screen.dart';
+import 'package:techmart/features/accounts/presentation/widgets/signout_button.dart';
+import 'package:techmart/features/address/bloc/adderss_bloc.dart';
 import 'package:techmart/features/address/presentation/screens/address_screen.dart';
 import 'package:techmart/features/accounts/presentation/widgets/option_widget.dart';
 import 'package:techmart/features/authentication/bloc/auth_bloc.dart';
 import 'package:techmart/features/authentication/presentation/screens/login_screen.dart';
 import 'package:techmart/features/authentication/presentation/widgets/logout_dialog.dart';
+import 'package:techmart/features/cart/bloc/cart_bloc.dart';
 import 'package:techmart/features/orders/bloc/order_bloc.dart';
 import 'package:techmart/features/orders/presentation/cubit/select_cubit.dart';
 import 'package:techmart/features/orders/presentation/presentation/screens/order_screen.dart';
 import 'package:techmart/features/orders/service/order_service.dart';
+import 'package:techmart/features/placeorder/bloc/order_bloc.dart'
+    hide ClearEvent;
 import 'package:techmart/features/profile/cubit/userdetails_cubit.dart';
 import 'package:techmart/features/profile/presentation/screens/profile_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:techmart/features/wishlist/cubit/wishlist_cubit.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -56,6 +63,12 @@ class AccountScreen extends StatelessWidget {
           BlocListener<AuthBlocBloc, AuthBlocState>(
             listener: (context, state) {
               if (state is UnAuthenticated) {
+                // context.read<NavigationCubit>().reset();
+                // context.read<WishlistCubit>().clearWishList();
+                // context.read<CartBloc>().add(ResetCart());
+                // context.read<AdderssBloc>().add(ClearEvent());
+                // context.read<OrderBloc>().add(ClearOrder());
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => LoginScreen()),

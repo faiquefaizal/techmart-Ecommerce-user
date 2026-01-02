@@ -14,9 +14,14 @@ import 'package:techmart/features/address/cubit/current_location_cubit.dart';
 import 'package:techmart/features/address/models/address_model.dart';
 import 'package:techmart/features/address/presentation/widgets/current_location_widget.dart';
 
-class AddressBottomSheet extends StatelessWidget {
+class AddressBottomSheet extends StatefulWidget {
   const AddressBottomSheet({super.key});
 
+  @override
+  State<AddressBottomSheet> createState() => _AddressBottomSheetState();
+}
+
+class _AddressBottomSheetState extends State<AddressBottomSheet> {
   @override
   Widget build(BuildContext context) {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();

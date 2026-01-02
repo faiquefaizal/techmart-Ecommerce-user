@@ -30,8 +30,14 @@ import 'package:techmart/features/address/models/address_model.dart';
 //   );
 // }
 
-class UpdatedBottomSheet extends StatelessWidget {
+class UpdatedBottomSheet extends StatefulWidget {
   const UpdatedBottomSheet({super.key});
+
+  @override
+  State<UpdatedBottomSheet> createState() => _UpdatedBottomSheetState();
+}
+
+class _UpdatedBottomSheetState extends State<UpdatedBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final currentAddressCubic = context.watch<CurrentAddressCubicCubit>();

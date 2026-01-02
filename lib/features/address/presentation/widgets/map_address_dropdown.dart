@@ -13,9 +13,14 @@ import 'package:techmart/features/address/models/address_model.dart';
 import 'package:techmart/features/address/presentation/widgets/address_textfield.dart';
 import 'package:techmart/features/address/presentation/widgets/map_address_card.dart';
 
-class MapAddressDropdown extends StatelessWidget {
+class MapAddressDropdown extends StatefulWidget {
   const MapAddressDropdown({super.key});
 
+  @override
+  State<MapAddressDropdown> createState() => _MapAddressDropdownState();
+}
+
+class _MapAddressDropdownState extends State<MapAddressDropdown> {
   @override
   Widget build(BuildContext context) {
     final currentaddresCubic = context.read<CurrentAddressCubicCubit>();

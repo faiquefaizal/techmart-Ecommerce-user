@@ -45,4 +45,9 @@ class WishlistCubit extends Cubit<WishlistState> {
     _streamSubscription?.cancel();
     return super.close();
   }
+
+  clearWishList() {
+    _streamSubscription?.cancel();
+    emit(WishlistInitial());
+  }
 }
